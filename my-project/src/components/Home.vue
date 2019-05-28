@@ -1,7 +1,7 @@
 <template>
   <div>
-      <app-toolbar class="toolbar"></app-toolbar>
-    <div class="container carousel">
+    <app-toolbar class="toolbar"></app-toolbar>
+    <div class="container">
       <app-slide></app-slide>
     </div>
   </div>
@@ -13,12 +13,9 @@ export default {
   components: { AppToolbar, AppSlide }
 };
 </script>
-<style scoped>
-.carousel{
-  margin-top: 0px;
-}
+<style>
 .toolbar{
-  z-index: 1;
+  z-index: 999;
 }
 </style>
 

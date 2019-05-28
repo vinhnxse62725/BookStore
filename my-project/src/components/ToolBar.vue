@@ -15,13 +15,10 @@
           class="tile"
           v-for="category in categories"
           :key="category.name"
-          router
-          :to="category.router"
-          :exact-active-class="activeRouter"
         >
-          <!-- <router-link :to="category.router" exact class="router"> -->
-          <v-list-tile-title>{{category.name}}</v-list-tile-title>
-          <!-- </router-link> -->
+          <router-link :to="category.router" exact class="activeRouter">
+            <v-list-tile-title>{{category.name}}</v-list-tile-title>
+          </router-link>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -102,16 +99,13 @@ export default {
   background: grey;
 }
 
-.tile .activeRouter {
+.tile .activeRouter:hover {
   color: white;
 }
-a.activeRouter.v-list__tile--active.primary--text.v-list__tile--active.v-list__tile.v-list__tile--link.theme--light {
-  text-decoration: none !important;
+.activeRouter{
+  width: 100%;
 }
 
-a.activeRouter.v-list__tile--active.primary--text.v-list__tile--active.v-list__tile.v-list__tile--link.theme--light:hover {
-  color: white !important;
-}
 /* .menu .v-menu__content.theme--light.menuable__content__active {
     min-width: 400px !important; 
     top: 64px !important;
@@ -124,6 +118,7 @@ a.activeRouter.v-list__tile--active.primary--text.v-list__tile--active.v-list__t
     top: 64px !important;
     left: 0px !important;
     z-index: 999 !important;
+    background: white !important;
   }
 }
 @media screen and (min-width: 648px) and (max-width: 960px) {
@@ -132,6 +127,7 @@ a.activeRouter.v-list__tile--active.primary--text.v-list__tile--active.v-list__t
     top: 49px !important;
     left: 0px !important;
     z-index: 999 !important;
+    background: white !important;
   }
 }
 @media screen and (max-width: 647px) {
@@ -140,6 +136,7 @@ a.activeRouter.v-list__tile--active.primary--text.v-list__tile--active.v-list__t
     top: 56px !important;
     left: 0px !important;
     z-index: 999 !important;
+    background: white !important;
   }
 }
 /* search bar*/
