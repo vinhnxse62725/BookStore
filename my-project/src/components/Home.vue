@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-toolbar></app-toolbar>
+    <app-toolbar class="toolbar"></app-toolbar>
     <div class="container">
       <app-slide></app-slide>
     </div>
@@ -13,4 +13,9 @@ export default {
   components: { AppToolbar, AppSlide }
 };
 </script>
+<style>
+.toolbar{
+  z-index: 999;
+}
+</style>
 
