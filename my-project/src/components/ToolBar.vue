@@ -1,26 +1,28 @@
 <template>
-  <v-toolbar tabs>
+  <v-toolbar>
     <!--Dropdown menu -->
-    <v-menu transition="slide-x-transition" open-on-click offset-y offset-overflow class="menu">
+    <v-menu
+      transition="slide-x-transition"
+      open-on-click
+      offset-y
+      offset-overflow
+      class="menu"
+    >
       <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
       <v-list class="list">
-        <v-list-tile
-          class="tile"
-          v-for="category in categories"
-          :key="category.name"
-          router
-          :to="category.router" :exact-active-class="activeRouter"
-        >
-          <!-- <router-link :to="category.router" exact class="router"> -->
+        <v-list-tile class="tile" v-for="category in categories" :key="category.name">
+          <router-link :to="category.router" exact class="activeRouter">
             <v-list-tile-title>{{category.name}}</v-list-tile-title>
-          <!-- </router-link> -->
+          </router-link>
         </v-list-tile>
       </v-list>
     </v-menu>
 
     <v-toolbar-title class="text-uppercase black--text">
-      <span class="font-weight-light">Book</span>
-      <span>Store</span>
+      <router-link to="/" exact class="activeRouter">
+        <span class="font-weight-light">Book</span>
+        <span>Store</span>
+      </router-link>
     </v-toolbar-title>
     <!-- 
     <v-toolbar-items class="hidden-sm-and-down">
@@ -30,13 +32,19 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn flat>
-        <span>
-          <v-icon>shopping_cart</v-icon>
-        </span>
+        <form action>
+          <input type="search" placeholder="Nhập tên sách bạn cần tìm?">
+          <v-icon class="searchIcon">search</v-icon>
+        </form>
       </v-btn>
-      <v-btn flat>
-        <v-icon>fingerprint</v-icon>Login
-      </v-btn>
+       <router-link to="/" tag="v-btn" class="v-btn--flat toolbar-btn">
+        <div class="iconCart"><v-icon>shopping_cart</v-icon></div>
+        <div class="txtCart">Cart</div>
+      </router-link>
+      <router-link to="/login" tag="v-btn" class="v-btn--flat toolbar-btn">
+        <div class="iconLogin"><v-icon>fingerprint</v-icon></div>
+        <div class="txtLogin">Login</div>
+      </router-link>
     </v-toolbar-items>
   </v-toolbar>
 </template>
@@ -59,11 +67,12 @@ export default {
         { name: "Hồi ký", router: "/" },
         { name: "Kinh dị - Ma quái", router: "/" },
         { name: "Cổ tích - Thần thoại", router: "/" },
-        { name: "Công nghệ", router: "/" },
+        { name: "Khoa học - Công nghệ", router: "/" },
+        { name: "Tiểu thuyết", router: "/" },
         { name: "Triết học", router: "/" },
         { name: "Kiếm hiệp", router: "/" },
         { name: "Truyện ngắn", router: "/" },
-        { name: "Truyện cười", router: "/" }
+        // { name: "Truyện cười", router: "/" }
       ]
     };
   }
@@ -87,16 +96,34 @@ export default {
   background: grey;
 }
 
-.tile .activeRouter {
+.tile .activeRouter:hover {
   color: white;
-
 }
-a.activeRouter.v-list__tile--active.primary--text.v-list__tile--active.v-list__tile.v-list__tile--link.theme--light {
-    text-decoration: none !important;
+.activeRouter {
+  width: 100%;
 }
 
-a.activeRouter.v-list__tile--active.primary--text.v-list__tile--active.v-list__tile.v-list__tile--link.theme--light:hover {
-    color: white !important;
+/*Toolbar btn*/
+.txtLogin {
+  display: none;
+}
+
+.toolbar-btn:hover div.txtLogin {
+  display: block;
+}
+.toolbar-btn:hover div.iconLogin {
+   display: none;
+}
+
+.txtCart {
+  display: none;
+}
+
+.toolbar-btn:hover div.txtCart {
+  display: block;
+}
+.toolbar-btn:hover div.iconCart {
+   display: none;
 }
 /* .menu .v-menu__content.theme--light.menuable__content__active {
     min-width: 400px !important; 
@@ -110,6 +137,7 @@ a.activeRouter.v-list__tile--active.primary--text.v-list__tile--active.v-list__t
     top: 64px !important;
     left: 0px !important;
     z-index: 999 !important;
+    background: white !important;
   }
 }
 @media screen and (min-width: 648px) and (max-width: 960px) {
@@ -118,6 +146,7 @@ a.activeRouter.v-list__tile--active.primary--text.v-list__tile--active.v-list__t
     top: 49px !important;
     left: 0px !important;
     z-index: 999 !important;
+    background: white !important;
   }
 }
 @media screen and (max-width: 647px) {
@@ -126,7 +155,65 @@ a.activeRouter.v-list__tile--active.primary--text.v-list__tile--active.v-list__t
     top: 56px !important;
     left: 0px !important;
     z-index: 999 !important;
+    background: white !important;
   }
+}
+
+/* search bar*/
+form {
+  position: relative;
+  transition: all 1s;
+  width: 50px;
+  height: 50px;
+  background: white;
+  box-sizing: border-box;
+  border-radius: 25px;
+  border: 4px solid white;
+  padding: 5px;
+}
+
+input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 42.5px;
+  line-height: 30px;
+  outline: 0;
+  border: 0;
+  display: none;
+  font-size: 1em;
+  border-radius: 20px;
+  padding: 0 20px;
+}
+
+.searchIcon {
+  box-sizing: border-box;
+  padding: 10px;
+  width: 42.5px;
+  height: 42.5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 50%;
+  color: grey;
+  text-align: center;
+  font-size: 2em;
+  transition: all 1s;
+}
+
+form:hover {
+  width: 300px;
+  cursor: pointer;
+}
+
+form:hover input {
+  display: block;
+}
+
+form:hover .fa {
+  background: grey;
+  color: white;
 }
 </style>
 
