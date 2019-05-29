@@ -4,18 +4,13 @@
     <v-menu
       transition="slide-x-transition"
       open-on-click
-      close-on-click="true"
       offset-y
       offset-overflow
       class="menu"
     >
       <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
       <v-list class="list">
-        <v-list-tile
-          class="tile"
-          v-for="category in categories"
-          :key="category.name"
-        >
+        <v-list-tile class="tile" v-for="category in categories" :key="category.name">
           <router-link :to="category.router" exact class="activeRouter">
             <v-list-tile-title>{{category.name}}</v-list-tile-title>
           </router-link>
@@ -24,8 +19,10 @@
     </v-menu>
 
     <v-toolbar-title class="text-uppercase black--text">
-      <span class="font-weight-light">Book</span>
-      <span>Store</span>
+      <router-link to="/" exact class="activeRouter">
+        <span class="font-weight-light">Book</span>
+        <span>Store</span>
+      </router-link>
     </v-toolbar-title>
     <!-- 
     <v-toolbar-items class="hidden-sm-and-down">
@@ -35,19 +32,19 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn flat>
-      <form action>
-        <input type="search" placeholder="Nhập tên sách bạn cần tìm?">
-         <v-icon class="searchIcon">search</v-icon>
-      </form>
+        <form action>
+          <input type="search" placeholder="Nhập tên sách bạn cần tìm?">
+          <v-icon class="searchIcon">search</v-icon>
+        </form>
       </v-btn>
-      <v-btn flat>
-        <span>
-          <v-icon>shopping_cart</v-icon>
-        </span>
-      </v-btn>
-      <v-btn flat>
-        <v-icon>fingerprint</v-icon>Login
-      </v-btn>
+       <router-link to="/" tag="v-btn" class="v-btn--flat toolbar-btn">
+        <div class="iconCart"><v-icon>shopping_cart</v-icon></div>
+        <div class="txtCart">Cart</div>
+      </router-link>
+      <router-link to="/login" tag="v-btn" class="v-btn--flat toolbar-btn">
+        <div class="iconLogin"><v-icon>fingerprint</v-icon></div>
+        <div class="txtLogin">Login</div>
+      </router-link>
     </v-toolbar-items>
   </v-toolbar>
 </template>
@@ -75,7 +72,7 @@ export default {
         { name: "Triết học", router: "/" },
         { name: "Kiếm hiệp", router: "/" },
         { name: "Truyện ngắn", router: "/" },
-        { name: "Truyện cười", router: "/" }
+        // { name: "Truyện cười", router: "/" }
       ]
     };
   }
@@ -102,10 +99,32 @@ export default {
 .tile .activeRouter:hover {
   color: white;
 }
-.activeRouter{
+.activeRouter {
   width: 100%;
 }
 
+/*Toolbar btn*/
+.txtLogin {
+  display: none;
+}
+
+.toolbar-btn:hover div.txtLogin {
+  display: block;
+}
+.toolbar-btn:hover div.iconLogin {
+   display: none;
+}
+
+.txtCart {
+  display: none;
+}
+
+.toolbar-btn:hover div.txtCart {
+  display: block;
+}
+.toolbar-btn:hover div.iconCart {
+   display: none;
+}
 /* .menu .v-menu__content.theme--light.menuable__content__active {
     min-width: 400px !important; 
     top: 64px !important;
@@ -139,61 +158,62 @@ export default {
     background: white !important;
   }
 }
+
 /* search bar*/
-form{
-    position: relative;
-    transition: all 1s;
-    width: 50px;
-    height: 50px;
-    background: white;
-    box-sizing: border-box;
-    border-radius: 25px;
-    border: 4px solid white;
-    padding: 5px;
+form {
+  position: relative;
+  transition: all 1s;
+  width: 50px;
+  height: 50px;
+  background: white;
+  box-sizing: border-box;
+  border-radius: 25px;
+  border: 4px solid white;
+  padding: 5px;
 }
 
-input{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;;
-    height: 42.5px;
-    line-height: 30px;
-    outline: 0;
-    border: 0;
-    display: none;
-    font-size: 1em;
-    border-radius: 20px;
-    padding: 0 20px;
+input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 42.5px;
+  line-height: 30px;
+  outline: 0;
+  border: 0;
+  display: none;
+  font-size: 1em;
+  border-radius: 20px;
+  padding: 0 20px;
 }
 
-.searchIcon{
-    box-sizing: border-box;
-    padding: 10px;
-    width: 42.5px;
-    height: 42.5px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    border-radius: 50%;
-    color: grey;
-    text-align: center;
-    font-size: 2em;
-    transition: all 1s;
+.searchIcon {
+  box-sizing: border-box;
+  padding: 10px;
+  width: 42.5px;
+  height: 42.5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 50%;
+  color: grey;
+  text-align: center;
+  font-size: 2em;
+  transition: all 1s;
 }
 
-form:hover{
-    width: 300px;
-    cursor: pointer;
+form:hover {
+  width: 300px;
+  cursor: pointer;
 }
 
-form:hover input{
-    display: block;
+form:hover input {
+  display: block;
 }
 
-form:hover .fa{
-    background: grey;
-    color: white;
-} 
+form:hover .fa {
+  background: grey;
+  color: white;
+}
 </style>
 
