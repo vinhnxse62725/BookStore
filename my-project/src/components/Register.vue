@@ -1,61 +1,137 @@
 <template>
   <div class="bg">
-    <div class="login">
-      <form action="/action_page.php">
-        <div class="container">
-          <h2>Tạo tài khoản</h2>
-          <label for="uname">
-            <b>Tên đăng nhập</b>
-          </label>
-          <input type="text" placeholder="Nhập Username" name="uname" required>
+    <div id="register">
+      <div class="register">
+        <form action="/action_page.php">
+          <h2 style="text-align:center">Tạo tài khoản</h2>
+          <div class="container">
+            <div class="d-flex justify-content-center">
+              <div class="col-md-6">
+                <label for="username">
+                  <b>Tên đăng nhập</b>
+                </label>
+                <input type="text" placeholder="Nhập Username" name="username">
+                <label for="password">
+                  <b>Mật khẩu</b>
+                </label>
+                <input type="password" placeholder="Nhập Password" name="password">
 
-          <label for="psw">
-            <b>Mật khẩu</b>
-          </label>
-          <input type="password" placeholder="Nhập Password" name="psw" required>
+                <label for="repeatpassword">
+                  <b>Xác nhận lại mật khẩu</b>
+                </label>
+                <input type="password" placeholder="Nhập lại Password" name="repeatpassword">
 
-          <label for="re-psw">
-            <b>Xác nhận lại mật khẩu</b>
-          </label>
-          <input type="password" placeholder="Nhập lại Password" name="re-psw" required>
+                <label for="fullname">
+                  <b>Họ và tên</b>
+                </label>
+                <input type="text" placeholder="Nhập Họ và tên" name="fullname">
+              </div>
+              <div class="col-md-6">
+                <label for="gender">
+                  <b>Giới tính</b>
+                </label>
+                <select class="form-control" id="gender" name="gender">
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
 
-          <label for="fullname">
-            <b>Họ và tên</b>
-          </label>
-          <input type="text" placeholder="Nhập Họ và tên" name="fullname" required>
+                <label for="dob">
+                  <b>Ngày sinh</b>
+                </label>
+                <!-- <input type="text" placeholder="Nhập Ngày sinh" name="dob" required> -->
+                <input type="date" name="dob" min="1919-01-01" max="2100-01-01">
 
-          <label for="gender">
-            <b>Giới tính</b>
-          </label>
-          <input type="text" placeholder="Nhập Giới tính" name="gender" required>
+                <label for="address">
+                  <b>Địa chỉ</b>
+                </label>
+                <input type="text" placeholder="Nhập Địa chỉ" name="address">
 
-          <label for="dob">
-            <b>Ngày sinh</b>
-          </label>
-          <input type="text" placeholder="Nhập Ngày sinh" name="dob" required>
-
-          <label for="adr">
-            <b>Địa chỉ</b>
-          </label>
-          <input type="text" placeholder="Nhập Địa chỉ" name="adr" required>
-
-          <label for="pn">
-            <b>Số điện thoại</b>
-          </label>
-          <input type="text" placeholder="Nhập Số điện thoại" name="pn" required>
-
-          <button type="submit">Tạo Tài Khoản</button>
-          <div style="text-align:center;">
-            <span class="psw">
-              Bạn đã có tài khoản. 
-              <router-link to="/login">Đăng nhập ngay</router-link>
-            </span>
+                <label for="phone">
+                  <b>Số điện thoại</b>
+                </label>
+                <input type="text" placeholder="Nhập Số điện thoại" name="phone">
+              </div>
+            </div>
+            <div class="container">
+              <label for="email">
+                <b>Địa chỉ Email</b>
+              </label>
+              <input type="text" placeholder="Nhập Email" name="email">
+            </div>
+            <button type="submit">Tạo Tài Khoản</button>
+            <div style="text-align:center;">
+              <span class="psw">
+                Bạn đã có tài khoản.
+                <router-link to="/login">Đăng nhập ngay</router-link>
+              </span>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </template>
+
+<script>
+// import {
+//   required,
+//   email,
+//   minLength,
+//   sameAs
+// } from "vuelidate/lib/validators";
+
+// export default {
+//   data() {
+//     return {
+//       form: {
+//         username: null,
+//         fullname: null,
+//         password: null,
+//         repeatpassword: null,
+//         gender: null,
+//         dob: null,
+//         address: null,
+//         phone: null,
+//         email: null
+//       }
+//     };
+//   },
+//   validations: {
+//     form: {
+//       name: {
+//         required
+//       },
+//       fullname: {
+//         required
+//       },
+//       password: {
+//         required,
+//         minLength: minLength(6)
+//       },
+//       repeatpassword: {
+//         sameAsPassword: sameAs("password")
+//       },
+//       gender: {
+//         required
+//       },
+//       dob: {
+//         required
+//       },
+//       address: {
+//         required
+//       },
+//       phone: {
+//         required
+//       },
+//       email: {
+//         required,
+//         email
+//       }
+//     }
+//   }
+// };
+</script>
 
 <style scoped>
 .bg {
@@ -68,12 +144,12 @@
   position: relative;
 }
 
-.login {
-  width: 310px;
+.register {
+  width: 600px;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -184px 0px 0px -155px;
+  margin: -262px 0px 0px -292px;
   background: rgba(255, 255, 255, 0.897);
   padding: 20px 20px;
   border-radius: 5px;
@@ -96,7 +172,33 @@ input[type="password"] {
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
+input[type="date"] {
+  padding-left: 10px;
+  color: #707478;
+  width: 100%;
+  height: 46px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  background-color: transparent;
+  border-radius: 0px;
+}
+input[type=date]::-webkit-inner-spin-button, /* up */
+input[type=date]::-webkit-outer-spin-button /* down */ {
+  margin: 12px;
+}
 
+select#gender {
+  width: 100%;
+  height: 46px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  background-color: transparent;
+  border-radius: 0px;
+}
 /* Set a style for all buttons */
 button {
   background-color: #4caf50;

@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import BootstrapVue from 'bootstrap-vue'
+import Vuelidate from 'vuelidate'
 
+Vue.use(Vuelidate)
 Vue.use(BootstrapVue)
 Vue.use(Vuetify)
 Vue.config.productionTip = false
