@@ -18,11 +18,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserService {
 
     private final UserRepository userRepository;
-//    private final BCryptPasswordEncoder encoder;
+    private final BCryptPasswordEncoder encoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder encoder) {
         this.userRepository = userRepository;
-//        this.encoder = encoder;
+        this.encoder = encoder;
     }
 
 //    public Page<User> findAllUser(String search, int page, int size) {
@@ -45,7 +45,7 @@ public class UserService {
             user.setGender(user.getGender());
             user.setPhone(user.getPhone());
             user.setAddress(user.getAddress());
-            user.setPassword(user.getPassword());
+            user.setPassword(encoder.encode(user.getPassword()));
             return userRepository.save(user);
         }
     }
@@ -63,7 +63,7 @@ public class UserService {
             user.setGender(user.getGender());
             user.setPhone(user.getPhone());
             user.setAddress(user.getAddress());
-            user.setPassword(user.getPassword());
+            user.setPassword(encoder.encode(user.getPassword()));
             return userRepository.save(user);
         }
     }
@@ -80,7 +80,7 @@ public class UserService {
             if (users.getPassword().equals(user.getPassword())) {
                 user.setPassword(user.getPassword());
             } else {
-                user.setPassword(user.getPassword());
+                user.setPassword(encoder.encode(user.getPassword()));
             }
             return userRepository.save(user);
         })
