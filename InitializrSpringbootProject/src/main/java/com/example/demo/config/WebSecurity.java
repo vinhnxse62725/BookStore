@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
 
 /**
  *
@@ -54,19 +55,20 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         JWTAuthenticationFilter authenticationFilter = new JWTAuthenticationFilter(authenticationManager());
         authenticationFilter.setFilterProcessesUrl("/auth/user/login");
-
+        
+        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/**").permitAll()
                 .antMatchers(HttpMethod.PUT, "/**").permitAll()
-//                .antMatchers(HttpMethod.PUT, "/**").access("hasRole('ADMIN')")
-//                .antMatchers(HttpMethod.DELETE, "/**").access("hasRole('ADMIN')")
-//                .antMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
-//                .antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
-//                .antMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
-//                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
-//                .antMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
+                //                .antMatchers(HttpMethod.PUT, "/**").access("hasRole('ADMIN')")
+                //                .antMatchers(HttpMethod.DELETE, "/**").access("hasRole('ADMIN')")
+                //                .antMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
+                //                .antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
+                //                .antMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
+                //                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
+                //                .antMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/auth/user/**", "/api/user/product/cart").permitAll()
                 .antMatchers("/", "/static/**", "/**.{js,json,css}").permitAll()
                 .anyRequest().authenticated()
