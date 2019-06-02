@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
 
 /**
  *
@@ -54,7 +55,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         JWTAuthenticationFilter authenticationFilter = new JWTAuthenticationFilter(authenticationManager());
         authenticationFilter.setFilterProcessesUrl("/auth/user/login");
-
+        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/**").permitAll()
@@ -67,7 +68,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
 //                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
 //                .antMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/auth/user/**", "/api/user/product/cart").permitAll()
+//                .antMatchers(HttpMethod.POST, "/auth/user/**", "/api/user/product/cart").permitAll()
                 .antMatchers("/", "/static/**", "/**.{js,json,css}").permitAll()
                 .anyRequest().authenticated()
                 //                .anyRequest().permitAll()
