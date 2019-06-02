@@ -2,8 +2,8 @@
   <div class="bg">
     <div id="register">
       <div class="register">
-        <form v-on:summit.prevent="register">
-        <!-- <form> -->
+        <!-- <form v-on:summit.prevent="getuser"> -->
+        <form>
           <h2 style="text-align:center">Tạo tài khoản</h2>
           <div class="container">
             <div class="d-flex justify-content-center">
@@ -26,12 +26,7 @@
                 <label for="repeatpassword">
                   <b>Xác nhận lại mật khẩu</b>
                 </label>
-                <input
-                  type="password"
-                  placeholder="Nhập lại Password"
-                  v-model="repeatpassword"
-                  name="repeatpassword"
-                >
+                <input type="password" placeholder="Nhập lại Password" name="repeatpassword">
 
                 <label for="fullname">
                   <b>Họ và tên</b>
@@ -48,11 +43,11 @@
                   <option>Other</option>
                 </select>
 
-                <label for="dob">
-                  <b>Ngày sinh</b>
+                <label for="age">
+                  <b>Tuổi</b>
                 </label>
                 <!-- <input type="text" placeholder="Nhập Ngày sinh" name="dob" required> -->
-                <input type="date" v-model="dob" name="dob" min="1919-01-01" max="2100-01-01">
+                <input type="number" v-model="age" name="age" min="1" max="100">
 
                 <label for="address">
                   <b>Địa chỉ</b>
@@ -71,7 +66,7 @@
               </label>
               <input type="text" placeholder="Nhập Email" v-model="email" name="email">
             </div>
-            <button type="submit" >Tạo Tài Khoản</button>
+            <button type="button" v-on:click="signup()">Tạo Tài Khoản</button>
             <div style="text-align:center;">
               <span class="psw">
                 Bạn đã có tài khoản.
@@ -93,59 +88,57 @@ export default {
     return {
       username: "",
       password: "",
-      repeatpassword: "",
       fullname: "",
       gender: "",
-      dob: "",
+      age: "",
       address: "",
       phone: "",
       email: ""
     };
   },
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json"
-  },
   methods: {
-    register() {
+    signup() {
+      axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
       axios
-        .post("http://localhost:8090/auth/user/sign-up", {
-          username: this.username,
-          password: this.password,
-          repeatpassword: this.repeatpassword,
+        .post("/api/auth/user/sign-up/", {
+          address: this.address,
+          age: this.age,
+          customerID: this.username,
+          email: this.email,
           fullname: this.fullname,
           gender: this.gender,
-          dob: this.dob,
-          address: this.address,
-          phone: this.phone,
-          email: this.email
+          password: this.password,
+          phone: this.phone
         })
         .then(res => {
-          alert("Registration completed successfully");
+          alert("success");
+          console.log(res);
         })
-        .catch(err => {
-          console.log(err);
+        .catch(er => {
+          console.log(er);
         });
     },
     getuser() {
       // Tạo request lấy thông tin user với ID là 12345
       axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
       axios
-         .get("http://localhost:8090/auth/user/1/"
-        //, {
-        //   withCredentials: false,
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     // Authorization: "Bearer " + localStorage.token,
-        //     "Access-Control-Allow-Origin": "*",
-        //     Accept: "application/json, text/plain, */*",
-        //     "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
-        //     "Access-Control-Allow-Credentials": true
-        //   }
-        // }
+        .get(
+          "/api/auth/user/1/"
+          //, {
+          //   withCredentials: false,
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //     // Authorization: "Bearer " + localStorage.token,
+          //     "Access-Control-Allow-Origin": "*",
+          //     Accept: "application/json, text/plain, */*",
+          //     "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
+          //     "Access-Control-Allow-Credentials": true
+          //   }
+          // }
         )
         .then(function(response) {
           // handle việc lấy dữ liệu thành công
+          alert("success");
           console.log(response);
         })
         .catch(function(error) {
@@ -249,7 +242,8 @@ h2 {
 }
 /* Full-width inputs */
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="number"] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -257,7 +251,7 @@ input[type="password"] {
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
-input[type="date"] {
+/* input[type="date"] {
   padding-left: 10px;
   color: #707478;
   width: 100%;
@@ -269,10 +263,11 @@ input[type="date"] {
   background-color: transparent;
   border-radius: 0px;
 }
-input[type=date]::-webkit-inner-spin-button, /* up */  
-input[type=date]::-webkit-outer-spin-button /* down */ {
+input[type=date]::-webkit-inner-spin-button, up  
+input[type=date]::-webkit-outer-spin-button /* down */
+/* {
   margin: 12px;
-}
+} */
 
 select#gender {
   width: 100%;
