@@ -54,7 +54,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         JWTAuthenticationFilter authenticationFilter = new JWTAuthenticationFilter(authenticationManager());
-        authenticationFilter.setFilterProcessesUrl("/auth/user/login");
+        authenticationFilter.setFilterProcessesUrl("/auth/login");
         
         http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         http.cors().and().csrf().disable().authorizeRequests()

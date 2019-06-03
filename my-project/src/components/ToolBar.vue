@@ -1,13 +1,7 @@
 <template>
   <v-toolbar>
     <!--Dropdown menu -->
-    <v-menu
-      transition="slide-x-transition"
-      open-on-click
-      offset-y
-      offset-overflow
-      class="menu"
-    >
+    <v-menu transition="slide-x-transition" open-on-click offset-y offset-overflow class="menu">
       <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
       <v-list class="list">
         <v-list-tile class="tile" v-for="category in categories" :key="category.name">
@@ -37,14 +31,24 @@
           <v-icon class="searchIcon">search</v-icon>
         </form>
       </v-btn>
-       <router-link to="/" tag="v-btn" class="v-btn--flat toolbar-btn">
-        <div class="iconCart"><v-icon>shopping_cart</v-icon></div>
+      <router-link to="/" tag="v-btn" class="v-btn--flat toolbar-btn">
+        <div class="iconCart">
+          <v-icon>shopping_cart</v-icon>
+        </div>
         <div class="txtCart">Cart</div>
       </router-link>
-      <router-link to="/login" tag="v-btn" class="v-btn--flat toolbar-btn">
-        <div class="iconLogin"><v-icon>fingerprint</v-icon></div>
+      <router-link to="/login" tag="v-btn" class="v-btn--flat toolbar-btn" v-if="!$store.state.isSignIn">
+        <div class="iconLogin">
+          <v-icon>fingerprint</v-icon>
+        </div>
         <div class="txtLogin">Login</div>
       </router-link>
+      <v-btn class="v-btn--flat toolbar-btn"  v-on:click="logout()" v-if="$store.state.isSignIn">
+        <div class="iconLogout">
+          <v-icon>input</v-icon>
+        </div>
+        <div class="txtLogout" v-on:click="logout()">Logout</div>
+      </v-btn>
     </v-toolbar-items>
   </v-toolbar>
 </template>
@@ -71,10 +75,23 @@ export default {
         { name: "Tiểu thuyết", router: "/" },
         { name: "Triết học", router: "/" },
         { name: "Kiếm hiệp", router: "/" },
-        { name: "Truyện ngắn", router: "/" },
+        { name: "Truyện ngắn", router: "/" }
         // { name: "Truyện cười", router: "/" }
-      ]
+      ],
+      isAdmin: null,    
     };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("access-token");
+      localStorage.removeItem("profile");
+      localStorage.removeItem("user-role");
+      localStorage.removeItem("sign-in");
+      this.$store.commit('loginStatus',false);
+      this.$store.commit('logoutStatus',true);
+      this.$store.commit('loginMessageStatus',false);
+      this.$router.push("/");      
+    }
   }
 };
 </script>
@@ -112,7 +129,19 @@ export default {
   display: block;
 }
 .toolbar-btn:hover div.iconLogin {
-   display: none;
+  display: none;
+}
+
+/*Toolbar btn*/
+.txtLogout {
+  display: none;
+}
+
+.toolbar-btn:hover div.txtLogout {
+  display: block;
+}
+.toolbar-btn:hover div.iconLogout {
+  display: none;
 }
 
 .txtCart {
@@ -123,7 +152,7 @@ export default {
   display: block;
 }
 .toolbar-btn:hover div.iconCart {
-   display: none;
+  display: none;
 }
 /* .menu .v-menu__content.theme--light.menuable__content__active {
     min-width: 400px !important; 

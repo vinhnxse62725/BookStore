@@ -6,6 +6,7 @@ import router from './router'
 import Vuetify from 'vuetify'
 import BootstrapVue from 'bootstrap-vue'
 import Vuelidate from 'vuelidate'
+import store from './store/store.js'
 
 Vue.use(Vuelidate)
 Vue.use(BootstrapVue)
@@ -20,6 +21,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

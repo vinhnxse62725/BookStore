@@ -12,7 +12,6 @@
 import AppToolbar from "./components/ToolBar.vue";
 import AppFooter from "./components/Footer.vue";
 export default {
-  name: "App",
   components: { AppToolbar, AppFooter }
 };
 </script>
