@@ -33,6 +33,8 @@ import static com.example.demo.constants.SecurityConstant.HEADER_STRING;
 import static com.example.demo.constants.SecurityConstant.TOKEN_PREFIX;
 import static com.example.demo.constants.SecurityConstant.SECRET;
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -63,6 +65,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
+    
     @Override
     protected void successfulAuthentication(HttpServletRequest req,
             HttpServletResponse res,
@@ -75,6 +78,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
         res.addHeader("Access-Control-Expose-Headers", "Access-Token, Uid");
-
+        res.getWriter().write(TOKEN_PREFIX + token);
     }
+    
 }
