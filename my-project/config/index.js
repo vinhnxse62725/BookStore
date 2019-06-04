@@ -12,7 +12,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://localhost:8090',
+        // target: 'http://localhost:5000',
+        target: 'http://bookstore-env.qvzipcjrze.ap-southeast-1.elasticbeanstalk.com',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

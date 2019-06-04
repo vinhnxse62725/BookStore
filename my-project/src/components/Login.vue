@@ -1,7 +1,7 @@
 <template>
   <div class="bg">
     <div class="login">
-      <form >
+      <form>
         <div class="container" v-on:keydown.enter.prevent="signin()">
           <h2>Đăng Nhập</h2>
           <label for="username">
@@ -23,7 +23,7 @@
             placeholder="Nhập password"
             name="password"
             v-model="password"
-            required           
+            required
           >
           <label>
             <input type="checkbox" checked="checked" name="remember"> Nhớ tài khoản
@@ -59,9 +59,16 @@ export default {
   },
   methods: {
     signin() {
-      axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-      axios
-        .post("/api/auth/login", {
+      // this.$axios({
+      //   method: "post",
+      //   url: "auth/login",
+      //   data: {
+      //     customerID: this.username,
+      //     password: this.password
+      //   }
+      // })
+        axios.post("/api/auth/login", {
+        // axios.post("/auth/login", {
           customerID: this.username,
           password: this.password
         })
@@ -69,37 +76,44 @@ export default {
           console.log(res);
           var token = res.headers.authorization;
           localStorage.setItem("access-token", token);
-          axios
-            .get("/api/auth/user/me", {
-              headers: {
-                authorization: localStorage.getItem("access-token")
-              }
-            })
-            .then(rs => {
-              console.log(rs);
-              let profile = {
-                address: rs.data.address,
-                admin: rs.data.admin,
-                age: rs.data.age,
-                customerID: rs.data.customerID,
-                email: rs.data.email,
-                fullname: rs.data.fullname,
-                gender: rs.data.gender,
-                id: rs.data.id,
-                phone: rs.data.phone
-              };
-              console.log("++++++++++++++++++++++++++++++++++++++++++++");
-              localStorage.setItem("profile", JSON.stringify(profile));
-              localStorage.setItem("user-role", rs.data.admin);
-              localStorage.setItem("sign-in", true);
-              localStorage.removeItem("sign-out");
-              this.$store.commit('loginStatus', true);
-              this.$store.commit('loginMessageStatus', true);
-              this.$store.commit('logoutStatus', false); 
-              // let something = JSON.parse(localStorage.getItem("profile"));
-              // alert(something.email);
-              this.$router.push("/");
-            });
+          // axios;
+          // .get("/api/auth/user/me", {
+          // .get("/auth/user/me", {
+          //   headers: {
+          //     authorization: localStorage.getItem("access-token")
+          //   }
+          // })
+          this.$axios({
+            method: "get",
+            url: "auth/user/me",
+            headers: {
+              authorization: localStorage.getItem("access-token")
+            }
+          }).then(rs => {
+            console.log(rs);
+            let profile = {
+              address: rs.data.address,
+              admin: rs.data.admin,
+              age: rs.data.age,
+              customerID: rs.data.customerID,
+              email: rs.data.email,
+              fullname: rs.data.fullname,
+              gender: rs.data.gender,
+              id: rs.data.id,
+              phone: rs.data.phone
+            };
+            console.log("++++++++++++++++++++++++++++++++++++++++++++");
+            localStorage.setItem("profile", JSON.stringify(profile));
+            localStorage.setItem("user-role", rs.data.admin);
+            localStorage.setItem("sign-in", true);
+            localStorage.removeItem("sign-out");
+            this.$store.commit("loginStatus", true);
+            this.$store.commit("loginMessageStatus", true);
+            this.$store.commit("logoutStatus", false);
+            // let something = JSON.parse(localStorage.getItem("profile"));
+            // alert(something.email);
+            this.$router.push("/");
+          });
         })
         .catch(er => {
           console.log(er);

@@ -38,6 +38,7 @@
                   <b>Giới tính</b>
                 </label>
                 <select class="form-control" id="gender" v-model="gender" name="gender">
+                  <option value disabled selected>Chọn Giới Tính</option>
                   <option>Male</option>
                   <option>Female</option>
                   <option>Other</option>
@@ -47,7 +48,14 @@
                   <b>Tuổi</b>
                 </label>
                 <!-- <input type="text" placeholder="Nhập Ngày sinh" name="dob" required> -->
-                <input type="number" v-model="age" name="age" min="1" max="100">
+                <input
+                  type="number"
+                  v-model="age"
+                  placeholder="Nhập Tuổi"
+                  name="age"
+                  min="1"
+                  max="100"
+                >
 
                 <label for="address">
                   <b>Địa chỉ</b>
@@ -100,7 +108,8 @@ export default {
     signup() {
       axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
       axios
-        .post("/api/auth/user/sign-up/", {
+        // .post("/api/auth/user/sign-up/", {
+        .post("/auth/user/sign-up/", {
           address: this.address,
           age: this.age,
           customerID: this.username,

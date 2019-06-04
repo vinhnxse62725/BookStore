@@ -26,9 +26,9 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn flat>
-        <form action>
+        <form action id="form-search">
           <input type="search" placeholder="Nhập tên sách bạn cần tìm?">
-          <v-icon class="searchIcon">search</v-icon>
+          <v-icon class="searchIcon" @click="changeSearchBar()">search</v-icon>
         </form>
       </v-btn>
       <router-link to="/" tag="v-btn" class="v-btn--flat toolbar-btn">
@@ -91,6 +91,14 @@ export default {
       this.$store.commit('logoutStatus',true);
       this.$store.commit('loginMessageStatus',false);
       this.$router.push("/");      
+    },
+    changeSearchBar(){
+      let searchbar = document.getElementById("form-search");
+      if(searchbar.classList.contains('formclick')) {
+        searchbar.classList.remove('formclick')
+      } else {
+        searchbar.classList.add('formclick')
+      }
     }
   }
 };
@@ -192,8 +200,8 @@ export default {
 form {
   position: relative;
   transition: all 1s;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background: white;
   box-sizing: border-box;
   border-radius: 25px;
@@ -203,7 +211,7 @@ form {
 
 input {
   position: absolute;
-  top: 0;
+  top: -5px;
   left: 0;
   width: 100%;
   height: 42.5px;
@@ -222,8 +230,8 @@ input {
   width: 42.5px;
   height: 42.5px;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -4px;
+  right: -5px;
   border-radius: 50%;
   color: grey;
   text-align: center;
@@ -231,16 +239,14 @@ input {
   transition: all 1s;
 }
 
-form:hover {
+.formclick {
   width: 300px;
   cursor: pointer;
 }
-
-form:hover input {
+.formclick input {
   display: block;
 }
-
-form:hover .fa {
+.formclick .fa {
   background: grey;
   color: white;
 }

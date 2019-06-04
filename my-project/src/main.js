@@ -7,11 +7,13 @@ import Vuetify from 'vuetify'
 import BootstrapVue from 'bootstrap-vue'
 import Vuelidate from 'vuelidate'
 import store from './store/store.js'
+// import axios from './plugins/axios.js'
 
 Vue.use(Vuelidate)
 Vue.use(BootstrapVue)
 Vue.use(Vuetify)
 Vue.config.productionTip = false
+// Vue.use(axios)
 
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 import 'bootstrap/dist/css/bootstrap.css'
