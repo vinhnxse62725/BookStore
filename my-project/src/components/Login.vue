@@ -59,22 +59,22 @@ export default {
   },
   methods: {
     signin() {
-      // this.$axios({
-      //   method: "post",
-      //   url: "auth/login",
-      //   data: {
-      //     customerID: this.username,
-      //     password: this.password
-      //   }
-      // })
-        axios.post("/api/auth/login", {
-        // axios.post("/auth/login", {
+      this.$axios({
+        method: "post",
+        url: "auth/login",
+        data: {
           customerID: this.username,
           password: this.password
-        })
+        }
+      })
+        // axios.post("/api/auth/login", {
+        // axios.post("/auth/login", {
+        //   customerID: this.username,
+        //   password: this.password
+        // })
         .then(res => {
           console.log(res);
-          var token = res.headers.authorization;
+          var token = res.data;
           localStorage.setItem("access-token", token);
           // axios;
           // .get("/api/auth/user/me", {

@@ -11,14 +11,14 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {
-        // target: 'http://localhost:5000',
-        target: 'http://bookstore-env.qvzipcjrze.ap-southeast-1.elasticbeanstalk.com',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': ''
-        }
-      }
+      // '/api': {
+      //   // target: 'http://localhost:5000',
+      //   target: 'http://bookstore-env.qvzipcjrze.ap-southeast-1.elasticbeanstalk.com',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/api': ''
+      //   }
+      // }
     },
 
     // Various Dev Server settings

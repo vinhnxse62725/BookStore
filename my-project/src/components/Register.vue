@@ -106,10 +106,10 @@ export default {
   },
   methods: {
     signup() {
-      axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-      axios
-        // .post("/api/auth/user/sign-up/", {
-        .post("/auth/user/sign-up/", {
+      this.$axios({
+        method :"post",
+        url:"auth/user/sign-up/",
+        data:{
           address: this.address,
           age: this.age,
           customerID: this.username,
@@ -118,7 +118,19 @@ export default {
           gender: this.gender,
           password: this.password,
           phone: this.phone
-        })
+        }
+      })
+        // .post("/api/auth/user/sign-up/", {
+        // .post("/auth/user/sign-up/", {
+        //   address: this.address,
+        //   age: this.age,
+        //   customerID: this.username,
+        //   email: this.email,
+        //   fullname: this.fullname,
+        //   gender: this.gender,
+        //   password: this.password,
+        //   phone: this.phone
+        // })
         .then(res => {
           alert("success");
           console.log(res);
@@ -126,38 +138,38 @@ export default {
         .catch(er => {
           console.log(er);
         });
-    },
-    getuser() {
-      // Tạo request lấy thông tin user với ID là 12345
-      axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-      axios
-        .get(
-          "/api/auth/user/1/"
-          //, {
-          //   withCredentials: false,
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //     // Authorization: "Bearer " + localStorage.token,
-          //     "Access-Control-Allow-Origin": "*",
-          //     Accept: "application/json, text/plain, */*",
-          //     "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
-          //     "Access-Control-Allow-Credentials": true
-          //   }
-          // }
-        )
-        .then(function(response) {
-          // handle việc lấy dữ liệu thành công
-          alert("success");
-          console.log(response);
-        })
-        .catch(function(error) {
-          // handle lỗi
-          console.log(error);
-        })
-        .then(function() {
-          // sau khi handle xong dữ liệu hoặc lỗi thì sẽ chạy tiếp code ở trong này.
-        });
     }
+    // getuser() {
+    //   // Tạo request lấy thông tin user với ID là 12345
+    //   axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+    //   axios
+    //     .get(
+    //       "/api/auth/user/1/"
+    //       //, {
+    //       //   withCredentials: false,
+    //       //   headers: {
+    //       //     "Content-Type": "application/json",
+    //       //     // Authorization: "Bearer " + localStorage.token,
+    //       //     "Access-Control-Allow-Origin": "*",
+    //       //     Accept: "application/json, text/plain, */*",
+    //       //     "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
+    //       //     "Access-Control-Allow-Credentials": true
+    //       //   }
+    //       // }
+    //     )
+    //     .then(function(response) {
+    //       // handle việc lấy dữ liệu thành công
+    //       alert("success");
+    //       console.log(response);
+    //     })
+    //     .catch(function(error) {
+    //       // handle lỗi
+    //       console.log(error);
+    //     })
+    //     .then(function() {
+    //       // sau khi handle xong dữ liệu hoặc lỗi thì sẽ chạy tiếp code ở trong này.
+    //     });
+    // }
   }
 };
 
