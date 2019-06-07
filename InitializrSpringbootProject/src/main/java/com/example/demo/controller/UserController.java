@@ -65,14 +65,14 @@ private UserRepository userRepository;
         return userService.update(id, editedUser);
     }
 
-    @PostMapping("/user/sign-up")
+    @PostMapping("/sign-up")
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<User> signUp(@RequestBody User user) {
         User result = userService.createUser(user);
         return ResponseEntity.ok().body(result);
     }
 
-    @PostMapping("/user/create")
+    @PostMapping("/create")
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<User> createNewUser(@RequestBody User user) {
         User result = userService.createUserManage(user);

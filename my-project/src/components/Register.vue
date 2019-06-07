@@ -8,71 +8,161 @@
           <div class="container">
             <div class="d-flex justify-content-center">
               <div class="col-md-6">
-                <label for="username">
-                  <b>Tên đăng nhập</b>
-                </label>
-                <input type="text" placeholder="Nhập Username" v-model="username" name="username">
+                <div class="form-group">
+                  <label for="username">
+                    <b>Tên đăng nhập</b>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Nhập Username"
+                    v-model="username"
+                    name="username"
+                    v-validate="'required|min:5|alpha_dash'"
+                  >
+                  <p
+                    class="help-block alert alert-danger animated bounceIn"
+                    v-show="errors.has('username')"
+                  >{{errors.first('username')}}</p>
+                </div>
 
-                <label for="password">
-                  <b>Mật khẩu</b>
-                </label>
-                <input
-                  type="password"
-                  placeholder="Nhập Password"
-                  v-model="password"
-                  name="password"
-                >
-
-                <label for="repeatpassword">
-                  <b>Xác nhận lại mật khẩu</b>
-                </label>
-                <input type="password" placeholder="Nhập lại Password" name="repeatpassword">
-
-                <label for="fullname">
-                  <b>Họ và tên</b>
-                </label>
-                <input type="text" placeholder="Nhập Họ và tên" v-model="fullname" name="fullname">
+                <div class="form-group">
+                  <label for="password">
+                    <b>Mật khẩu</b>
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="Nhập Password"
+                    v-model="password"
+                    name="password"
+                    v-validate="'required|min:6'"
+                   ref="password">
+                  <p
+                    class="help-block alert alert-danger animated bounceIn"
+                    v-show="errors.has('password')"
+                  >{{errors.first('password')}}</p>
+                </div>
+                <div class="form-group">
+                  <label for="password_confirmation">
+                    <b>Xác nhận lại mật khẩu</b>
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="Nhập lại Password"
+                    name="password_confirmation"
+                    v-model="password_confirmation"
+                    v-validate="'required|confirmed:password'"
+                    data-vv-as="password"
+                  >
+                  <p
+                    class="help-block alert alert-danger animated bounceIn"
+                    v-show="errors.has('password_confirmation')"
+                  >{{errors.first('password_confirmation')}}</p>
+                </div>
+                <div class="form-group">
+                  <label for="fullname">
+                    <b>Họ và tên</b>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Nhập Họ và tên"
+                    v-model="fullname"
+                    name="fullname"
+                    v-validate="'required|alpha_spaces'"
+                  >
+                  <p
+                    class="help-block alert alert-danger animated bounceIn"
+                    v-show="errors.has('fullname')"
+                  >{{errors.first('fullname')}}</p>
+                </div>
               </div>
               <div class="col-md-6">
-                <label for="gender">
-                  <b>Giới tính</b>
-                </label>
-                <select class="form-control" id="gender" v-model="gender" name="gender">
-                  <option value disabled selected>Chọn Giới Tính</option>
-                  <option>Male</option>
-                  <option>Female</option>
-                  <option>Other</option>
-                </select>
-
-                <label for="age">
-                  <b>Tuổi</b>
-                </label>
-                <!-- <input type="text" placeholder="Nhập Ngày sinh" name="dob" required> -->
-                <input
-                  type="number"
-                  v-model="age"
-                  placeholder="Nhập Tuổi"
-                  name="age"
-                  min="1"
-                  max="100"
-                >
-
-                <label for="address">
-                  <b>Địa chỉ</b>
-                </label>
-                <input type="text" placeholder="Nhập Địa chỉ" v-model="address" name="address">
-
-                <label for="phone">
-                  <b>Số điện thoại</b>
-                </label>
-                <input type="text" placeholder="Nhập Số điện thoại" v-model="phone" name="phone">
+                <div class="form-group">
+                  <label for="gender">
+                    <b>Giới tính</b>
+                  </label>
+                  <select
+                    class="form-control"
+                    id="gender"
+                    v-model="gender"
+                    name="gender"
+                    v-validate="'required'"
+                  >
+                    <option value disabled selected>Chọn Giới Tính</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                  </select>
+                  <p
+                    class="help-block alert alert-danger animated bounceIn"
+                    v-show="errors.has('gender')"
+                  >{{errors.first('gender')}}</p>
+                </div>
+                <div class="form-group">
+                  <label for="age">
+                    <b>Tuổi</b>
+                  </label>
+                  <!-- <input type="text" placeholder="Nhập Ngày sinh" name="dob" required> -->
+                  <input
+                    type="number"
+                    v-model="age"
+                    placeholder="Nhập Tuổi"
+                    name="age"
+                    v-validate="'required|between:1,100'"
+                  >
+                  <p
+                    class="help-block alert alert-danger animated bounceIn"
+                    v-show="errors.has('age')"
+                  >{{errors.first('age')}}</p>
+                </div>
+                <div class="form-group">
+                  <label for="address">
+                    <b>Địa chỉ</b>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Nhập Địa chỉ"
+                    v-model="address"
+                    name="address"
+                    v-validate="'required'"
+                  >
+                  <p
+                    class="help-block alert alert-danger animated bounceIn"
+                    v-show="errors.has('address')"
+                  >{{errors.first('address')}}</p>
+                </div>
+                <div class="form-group">
+                  <label for="phone">
+                    <b>Số điện thoại</b>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Nhập Số điện thoại"
+                    v-model="phone"
+                    name="phone"
+                    v-validate="'required|digits:10'"
+                  >
+                  <p
+                    class="help-block alert alert-danger animated bounceIn"
+                    v-show="errors.has('phone')"
+                  >{{errors.first('phone')}}</p>
+                </div>
               </div>
             </div>
             <div class="container">
               <label for="email">
                 <b>Địa chỉ Email</b>
               </label>
-              <input type="text" placeholder="Nhập Email" v-model="email" name="email">
+              <input
+                type="text"
+                placeholder="Nhập Email"
+                v-model="email"
+                name="email"
+                v-validate="'required|email'"
+              >
+              <p
+                class="help-block alert alert-danger animated bounceIn"
+                v-show="errors.has('email')"
+              >{{errors.first('email')}}</p>
             </div>
             <button type="button" v-on:click="signup()">Tạo Tài Khoản</button>
             <div style="text-align:center;">
@@ -106,38 +196,45 @@ export default {
   },
   methods: {
     signup() {
-      this.$axios({
-        method :"post",
-        url:"auth/user/sign-up/",
-        data:{
-          address: this.address,
-          age: this.age,
-          customerID: this.username,
-          email: this.email,
-          fullname: this.fullname,
-          gender: this.gender,
-          password: this.password,
-          phone: this.phone
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.$axios({
+            method: "post",
+            url: "auth/sign-up/",
+            data: {
+              address: this.address,
+              age: this.age,
+              customerID: this.username,
+              email: this.email,
+              fullname: this.fullname,
+              gender: this.gender,
+              password: this.password,
+              phone: this.phone
+            }
+          })
+            // .post("/api/auth/user/sign-up/", {
+            // .post("/auth/user/sign-up/", {
+            //   address: this.address,
+            //   age: this.age,
+            //   customerID: this.username,
+            //   email: this.email,
+            //   fullname: this.fullname,
+            //   gender: this.gender,
+            //   password: this.password,
+            //   phone: this.phone
+            // })
+            .then(res => {
+              alert("Register Successfully!!");
+              console.log(res);
+              this.$router.push("/login");
+            })
+            .catch(er => {
+              console.log(er);
+            });
+        } else {
+          console.log("Not Valid");
         }
-      })
-        // .post("/api/auth/user/sign-up/", {
-        // .post("/auth/user/sign-up/", {
-        //   address: this.address,
-        //   age: this.age,
-        //   customerID: this.username,
-        //   email: this.email,
-        //   fullname: this.fullname,
-        //   gender: this.gender,
-        //   password: this.password,
-        //   phone: this.phone
-        // })
-        .then(res => {
-          alert("success");
-          console.log(res);
-        })
-        .catch(er => {
-          console.log(er);
-        });
+      });
     }
     // getuser() {
     //   // Tạo request lấy thông tin user với ID là 12345
@@ -235,7 +332,7 @@ export default {
 <style scoped>
 .bg {
   width: 100%;
-  height: 800px;
+  height: 1200px;
   background-image: url("../assets/loginbg.jpg");
   background-repeat: no-repeat;
   background-position: center center;
@@ -244,10 +341,10 @@ export default {
 }
 
 .register {
-  width: 600px;
+  width: 900px;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 32%;
+  left: 45%;
   margin: -262px 0px 0px -292px;
   background: rgba(255, 255, 255, 0.897);
   padding: 20px 20px;

@@ -4,29 +4,38 @@
       <form>
         <div class="container" v-on:keydown.enter.prevent="signin()">
           <h2>Đăng Nhập</h2>
-          <label for="username">
-            <b>Tên đăng nhập</b>
-          </label>
-          <input
-            type="text"
-            placeholder="Nhập Username"
-            name="username"
-            v-model="username"
-            required
-          >
-
-          <label for="password">
-            <b>Mật khẩu</b>
-          </label>
-          <input
-            type="password"
-            placeholder="Nhập password"
-            name="password"
-            v-model="password"
-            required
-          >
+          <div class="form-group">
+            <label for="username">
+              <b>Tên đăng nhập</b>
+            </label>
+            <input
+              type="text"
+              placeholder="Nhập Username"
+              name="username"
+              v-model="username"
+              v-validate="'required|min:5'"
+            >
+            <p class="help-block alert alert-danger animated bounceIn"
+              v-show="errors.has('username')"
+            >{{errors.first('username')}}</p>
+          </div>
+          <div class="form-group">
+            <label for="password">
+              <b>Mật khẩu</b>
+            </label>
+            <input
+              type="password"
+              placeholder="Nhập password"
+              name="password"
+              v-model="password"
+              v-validate="'required'"
+            >
+            <p class="help-block alert alert-danger animated bounceIn"
+              v-show="errors.has('password')"
+            >{{errors.first('password')}}</p>
+          </div>
           <label>
-            <input type="checkbox" checked="checked" name="remember"> Nhớ tài khoản
+            <input type="checkbox" checked="none" name="remember"> Nhớ tài khoản
           </label>
           <button type="button" v-on:click="signin()">Đăng Nhập</button>
           <div style="text-align:center;">
@@ -48,6 +57,7 @@
   </div>
 </template>
 <script>
+
 import axios from "axios";
 
 export default {
@@ -59,65 +69,72 @@ export default {
   },
   methods: {
     signin() {
-      this.$axios({
-        method: "post",
-        url: "auth/login",
-        data: {
-          customerID: this.username,
-          password: this.password
-        }
-      })
-        // axios.post("/api/auth/login", {
-        // axios.post("/auth/login", {
-        //   customerID: this.username,
-        //   password: this.password
-        // })
-        .then(res => {
-          console.log(res);
-          var token = res.data;
-          localStorage.setItem("access-token", token);
-          // axios;
-          // .get("/api/auth/user/me", {
-          // .get("/auth/user/me", {
-          //   headers: {
-          //     authorization: localStorage.getItem("access-token")
-          //   }
-          // })
+      this.$validator.validateAll().then(result => {
+        if (result) {
           this.$axios({
-            method: "get",
-            url: "auth/user/me",
-            headers: {
-              authorization: localStorage.getItem("access-token")
+            method: "post",
+            url: "auth/login",
+            data: {
+              customerID: this.username,
+              password: this.password
             }
-          }).then(rs => {
-            console.log(rs);
-            let profile = {
-              address: rs.data.address,
-              admin: rs.data.admin,
-              age: rs.data.age,
-              customerID: rs.data.customerID,
-              email: rs.data.email,
-              fullname: rs.data.fullname,
-              gender: rs.data.gender,
-              id: rs.data.id,
-              phone: rs.data.phone
-            };
-            console.log("++++++++++++++++++++++++++++++++++++++++++++");
-            localStorage.setItem("profile", JSON.stringify(profile));
-            localStorage.setItem("user-role", rs.data.admin);
-            localStorage.setItem("sign-in", true);
-            localStorage.removeItem("sign-out");
-            this.$store.commit("loginStatus", true);
-            this.$store.commit("loginMessageStatus", true);
-            this.$store.commit("logoutStatus", false);
-            // let something = JSON.parse(localStorage.getItem("profile"));
-            // alert(something.email);
-            this.$router.push("/");
-          });
-        })
-        .catch(er => {
-          console.log(er);
-        });
+          })
+            // axios.post("/api/auth/login", {
+            // axios.post("/auth/login", {
+            //   customerID: this.username,
+            //   password: this.password
+            // })
+            .then(res => {
+              console.log(res);
+              var token = res.data;
+              localStorage.setItem("access-token", token);
+              // axios;
+              // .get("/api/auth/user/me", {
+              // .get("/auth/user/me", {
+              //   headers: {
+              //     authorization: localStorage.getItem("access-token")
+              //   }
+              // })
+              this.$axios({
+                method: "get",
+                url: "auth/user/me",
+                headers: {
+                  authorization: localStorage.getItem("access-token")
+                }
+              }).then(rs => {
+                console.log(rs);
+                let profile = {
+                  address: rs.data.address,
+                  admin: rs.data.admin,
+                  age: rs.data.age,
+                  customerID: rs.data.customerID,
+                  email: rs.data.email,
+                  fullname: rs.data.fullname,
+                  gender: rs.data.gender,
+                  id: rs.data.id,
+                  phone: rs.data.phone
+                };
+                console.log("++++++++++++++++++++++++++++++++++++++++++++");
+                localStorage.setItem("profile", JSON.stringify(profile));
+                localStorage.setItem("user-role", rs.data.admin);
+                localStorage.setItem("sign-in", true);
+                localStorage.removeItem("sign-out");
+                this.$store.commit("loginStatus", true);
+                this.$store.commit("loginMessageStatus", true);
+                this.$store.commit("logoutStatus", false);
+                // let something = JSON.parse(localStorage.getItem("profile"));
+                // alert(something.email);
+                this.$router.push("/");
+              });
+            })
+            .catch(er => {
+              console.log(er);
+              alert("Wrong username or password!")
+            });
+        } else {
+          console.log("Not Valid")
+        }
+      });
     }
   }
 };
@@ -125,9 +142,19 @@ export default {
 
 
 <style scoped>
+@import "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css";
+/* input:valid {
+  border-color: green !important;
+  border: solid 2px;
+}
+
+input:invalid {
+  border-color: red !important;
+  border: solid 2px;
+} */
 .bg {
   width: 100%;
-  height: 800px;
+  height: 1000px;
   background-image: url("../assets/loginbg.jpg");
   background-repeat: no-repeat;
   background-position: center center;
@@ -136,9 +163,9 @@ export default {
 }
 
 .login {
-  width: 310px;
+  width: 450px;
   position: absolute;
-  top: 50%;
+  top: 32%;
   left: 50%;
   margin: -184px 0px 0px -155px;
   background: rgba(255, 255, 255, 0.897);

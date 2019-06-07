@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <app-toolbar class="toolbar fixed-top"></app-toolbar>
+    <app-toolbar id="toolbar" class="fixed-top"></app-toolbar>
     <router-view/>
     <footer>
       <app-footer></app-footer>
@@ -19,5 +19,6 @@ export default {
 <style>
 html {
   overflow: auto;
+  margin-top: 64px;
 }
 </style>
