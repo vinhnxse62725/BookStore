@@ -33,17 +33,32 @@
       </v-btn>
       <router-link to="/" tag="v-btn" class="v-btn--flat toolbar-btn">
         <div class="iconCart">
-          <v-icon>shopping_cart</v-icon>
+          <v-badge
+          color="grey"
+        >
+          <template v-slot:badge>
+            <span>6</span>
+          </template>
+          <v-icon medium color="black">shopping_cart</v-icon>
+        </v-badge>
+          <!-- <v-badge color="purple" left overlap>
+            <v-icon>shopping_cart</v-icon>
+          </v-badge> -->
         </div>
         <div class="txtCart">Cart</div>
       </router-link>
-      <router-link to="/login" tag="v-btn" class="v-btn--flat toolbar-btn" v-if="!$store.state.isSignIn">
+      <router-link
+        to="/login"
+        tag="v-btn"
+        class="v-btn--flat toolbar-btn"
+        v-if="!$store.state.isSignIn"
+      >
         <div class="iconLogin">
           <v-icon>fingerprint</v-icon>
         </div>
         <div class="txtLogin">Login</div>
       </router-link>
-      <v-btn class="v-btn--flat toolbar-btn"  v-on:click="logout()" v-if="$store.state.isSignIn">
+      <v-btn class="v-btn--flat toolbar-btn" v-on:click="logout()" v-if="$store.state.isSignIn">
         <div class="iconLogout">
           <v-icon>input</v-icon>
         </div>
@@ -54,6 +69,7 @@
 </template>
 <script>
 export default {
+  props: ["notification"],
   data() {
     return {
       categories: [
@@ -78,7 +94,7 @@ export default {
         { name: "Truyện ngắn", router: "/" }
         // { name: "Truyện cười", router: "/" }
       ],
-      isAdmin: null,    
+      isAdmin: null
     };
   },
   methods: {
@@ -87,17 +103,17 @@ export default {
       localStorage.removeItem("profile");
       localStorage.removeItem("user-role");
       localStorage.removeItem("sign-in");
-      this.$store.commit('loginStatus',false);
-      this.$store.commit('logoutStatus',true);
-      this.$store.commit('loginMessageStatus',false);
-      this.$router.push("/");      
+      this.$store.commit("loginStatus", false);
+      this.$store.commit("logoutStatus", true);
+      this.$store.commit("loginMessageStatus", false);
+      this.$router.push("/");
     },
-    changeSearchBar(){
+    changeSearchBar() {
       let searchbar = document.getElementById("form-search");
-      if(searchbar.classList.contains('formclick')) {
-        searchbar.classList.remove('formclick')
+      if (searchbar.classList.contains("formclick")) {
+        searchbar.classList.remove("formclick");
       } else {
-        searchbar.classList.add('formclick')
+        searchbar.classList.add("formclick");
       }
     }
   }
@@ -168,6 +184,10 @@ export default {
     left: 0px !important;
     z-index: 8 !important;
 } */
+
+>>>.v-badge__badge{
+right: -18px;
+}
 @media screen and (min-width: 960px) {
   .menu .v-menu__content.theme--light {
     min-width: 400px !important;
