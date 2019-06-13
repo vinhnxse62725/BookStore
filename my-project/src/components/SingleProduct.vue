@@ -15,16 +15,32 @@
               </v-layout>
             </v-container>
           </v-img>
-          <v-card-title style="height: 50px; text-overflow: ellipsis; overflow: hidden;  width: 200px;">
+          <v-card-title
+            style="height: 50px; text-overflow: ellipsis; overflow: hidden;  width: 200px;"
+          >
             <div>
               <h6>{{product.title}}</h6>
             </div>
           </v-card-title>
           <v-card-actions>
-            <v-btn flat disabled>{{product.price}}</v-btn>
-            <v-btn flat v-on:click="addToCard()">
-              Mua ngay 
-            </v-btn>
+            <div class="col-md-5">
+              <span
+                style="text-decoration: line-through;
+                        font-size: 12px;
+                        left: 30px;
+                        position: absolute;
+                        top: 8px;"
+              >{{product.price}}</span>
+              <br>
+              <span style="color: red;
+                        position: absolute;
+                        top: -10px;
+                        right: -2px;">
+                        {{product.price}}</span>
+            </div>
+            <div class="col-md-7">
+              <v-btn flat color="success" v-on:click="addToCard(product)">Mua ngay</v-btn>
+            </div>
           </v-card-actions>
         </v-card>
       </v-badge>
@@ -34,8 +50,42 @@
 <script>
 export default {
   props: ["product"],
+  data() {
+    return {
+      cart: []
+    };
+  },
   methods: {
-    addToCard() {}
+    addToCard(product) {
+      var shoppingCartItems = [];
+
+      if (localStorage.getItem("cart-storage") != null) {
+        shoppingCartItems = JSON.parse(localStorage["cart-storage"].toString());
+      }
+      var id = this.product.id;
+      var title = this.product.title;
+      var img = this.product.img;
+      var price = this.product.price;
+      var quantity = 0;
+
+      var item = {
+        id: id,
+        title: title,
+        img: img,
+        price: price,
+        quantity: quantity
+      };
+
+      let selected = shoppingCartItems.find(cartItem => cartItem.id === item.id);
+      selected = selected != undefined ? selected : item;
+      selected.quantity++;
+
+      shoppingCartItems = shoppingCartItems.filter(cartItem => cartItem.id !== item.id);
+      shoppingCartItems.push(selected);
+
+      localStorage.setItem("cart-storage", JSON.stringify(shoppingCartItems));
+      this.$store.commit("updateCart", shoppingCartItems);
+    }
   }
 };
 </script>
@@ -47,7 +97,8 @@ export default {
   height: 40px;
   width: 40px;
 }
->>> .child-flex>*, .flex{
+>>> .child-flex > *,
+.flex {
   padding-left: 15px;
   margin-bottom: 50px;
 }

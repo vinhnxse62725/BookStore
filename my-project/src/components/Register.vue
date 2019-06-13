@@ -212,17 +212,6 @@ export default {
               phone: this.phone
             }
           })
-            // .post("/api/auth/user/sign-up/", {
-            // .post("/auth/user/sign-up/", {
-            //   address: this.address,
-            //   age: this.age,
-            //   customerID: this.username,
-            //   email: this.email,
-            //   fullname: this.fullname,
-            //   gender: this.gender,
-            //   password: this.password,
-            //   phone: this.phone
-            // })
             .then(res => {
               alert("Register Successfully!!");
               console.log(res);
@@ -236,97 +225,8 @@ export default {
         }
       });
     }
-    // getuser() {
-    //   // Tạo request lấy thông tin user với ID là 12345
-    //   axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-    //   axios
-    //     .get(
-    //       "/api/auth/user/1/"
-    //       //, {
-    //       //   withCredentials: false,
-    //       //   headers: {
-    //       //     "Content-Type": "application/json",
-    //       //     // Authorization: "Bearer " + localStorage.token,
-    //       //     "Access-Control-Allow-Origin": "*",
-    //       //     Accept: "application/json, text/plain, */*",
-    //       //     "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
-    //       //     "Access-Control-Allow-Credentials": true
-    //       //   }
-    //       // }
-    //     )
-    //     .then(function(response) {
-    //       // handle việc lấy dữ liệu thành công
-    //       alert("success");
-    //       console.log(response);
-    //     })
-    //     .catch(function(error) {
-    //       // handle lỗi
-    //       console.log(error);
-    //     })
-    //     .then(function() {
-    //       // sau khi handle xong dữ liệu hoặc lỗi thì sẽ chạy tiếp code ở trong này.
-    //     });
-    // }
   }
 };
-
-// import {
-//   required,
-//   email,
-//   minLength,
-//   sameAs
-// } from "vuelidate/lib/validators";
-
-// export default {
-//   data() {
-//     return {
-//       form: {
-//         username: null,
-//         fullname: null,
-//         password: null,
-//         repeatpassword: null,
-//         gender: null,
-//         dob: null,
-//         address: null,
-//         phone: null,
-//         email: null
-//       }
-//     };
-//   },
-//   validations: {
-//     form: {
-//       name: {
-//         required
-//       },
-//       fullname: {
-//         required
-//       },
-//       password: {
-//         required,
-//         minLength: minLength(6)
-//       },
-//       repeatpassword: {
-//         sameAsPassword: sameAs("password")
-//       },
-//       gender: {
-//         required
-//       },
-//       dob: {
-//         required
-//       },
-//       address: {
-//         required
-//       },
-//       phone: {
-//         required
-//       },
-//       email: {
-//         required,
-//         email
-//       }
-//     }
-//   }
-// };
 </script>  
   
 <style scoped>

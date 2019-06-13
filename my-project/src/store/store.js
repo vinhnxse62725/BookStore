@@ -7,7 +7,8 @@ export default new Vuex.Store({
     state: {
         isSignIn: localStorage.getItem("sign-in") != null,
         isSignOut: false,
-        isSignInMessage: false
+        isSignInMessage: false,
+        cart:[],
     },
     getter: {
 
@@ -22,6 +23,9 @@ export default new Vuex.Store({
         },
         loginMessageStatus(state, payload){
             state.isSignInMessage = payload;
+        },
+        updateCart(state, payload){
+            state.cart = payload;
         }
     },
     action: {

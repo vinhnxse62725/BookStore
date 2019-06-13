@@ -18,11 +18,7 @@
         <span>Store</span>
       </router-link>
     </v-toolbar-title>
-    <!-- 
-    <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn flat>Type 1</v-btn>
-      <v-btn flat>Type 2</v-btn>
-    </v-toolbar-items>-->
+
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn flat>
@@ -31,19 +27,16 @@
           <v-icon class="searchIcon" @click="changeSearchBar()">search</v-icon>
         </form>
       </v-btn>
-      <router-link to="/" tag="v-btn" class="v-btn--flat toolbar-btn">
+      <router-link to="/cart" tag="v-btn" class="v-btn--flat toolbar-btn">
         <div class="iconCart">
           <v-badge
           color="grey"
         >
           <template v-slot:badge>
-            <span>6</span>
+            <span>{{$store.state.cart == undefined ? 0 : $store.state.cart.length}}</span>
           </template>
           <v-icon medium color="black">shopping_cart</v-icon>
         </v-badge>
-          <!-- <v-badge color="purple" left overlap>
-            <v-icon>shopping_cart</v-icon>
-          </v-badge> -->
         </div>
         <div class="txtCart">Cart</div>
       </router-link>
@@ -94,8 +87,12 @@ export default {
         { name: "Truyện ngắn", router: "/" }
         // { name: "Truyện cười", router: "/" }
       ],
-      isAdmin: null
+      isAdmin: null,
+      cart: null
     };
+  },
+  mounted() {
+    this.$store.commit('updateCart',JSON.parse(localStorage.getItem('cart-storage')));
   },
   methods: {
     logout() {
