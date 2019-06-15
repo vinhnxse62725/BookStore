@@ -3,7 +3,7 @@
     <v-flex>
       <v-badge color="orange">
         <template v-slot:badge>
-          <span>-{{product.discount}}</span>
+          <span>-{{product.discount}}%</span>
         </template>
         <v-card>
           <v-img class="white--text" style="max-width:100%; height:auto;" :src="product.img">
@@ -32,11 +32,12 @@
                         top: 8px;"
               >{{product.price}}</span>
               <br>
-              <span style="color: red;
+              <span
+                style="color: red;
                         position: absolute;
                         top: -10px;
-                        right: -2px;">
-                        {{product.price}}</span>
+                        right: -2px;"
+              >{{priceAfterDiscount}} ₫</span>
             </div>
             <div class="col-md-7">
               <v-btn flat color="success" v-on:click="addToCard(product)">Mua ngay</v-btn>
@@ -66,6 +67,7 @@ export default {
       var title = this.product.title;
       var img = this.product.img;
       var price = this.product.price;
+      var discount = this.product.discount;
       var quantity = 0;
 
       var item = {
@@ -73,18 +75,31 @@ export default {
         title: title,
         img: img,
         price: price,
+        discount: discount,
         quantity: quantity
       };
 
-      let selected = shoppingCartItems.find(cartItem => cartItem.id === item.id);
+      let selected = shoppingCartItems.find(
+        cartItem => cartItem.id === item.id
+      );
       selected = selected != undefined ? selected : item;
       selected.quantity++;
 
-      shoppingCartItems = shoppingCartItems.filter(cartItem => cartItem.id !== item.id);
+      shoppingCartItems = shoppingCartItems.filter(
+        cartItem => cartItem.id !== item.id
+      );
       shoppingCartItems.push(selected);
 
       localStorage.setItem("cart-storage", JSON.stringify(shoppingCartItems));
       this.$store.commit("updateCart", shoppingCartItems);
+    }
+  },
+  computed: {
+    priceAfterDiscount() {
+      return (
+        parseInt(this.product.price) -
+        parseInt(this.product.price * (parseInt(this.product.discount) / 100))
+      );
     }
   }
 };

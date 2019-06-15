@@ -70,8 +70,8 @@ export default {
           info:
             "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat.",
           title: "Nhà Giả Kim",
-          price: "48.000 ₫",
-          discount: "30%"
+          price: "48000",
+          discount: "30"
         },
         {
           id: "2",
@@ -80,8 +80,8 @@ export default {
           info:
             "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat.",
           title: "Đắc Nhân Tâm (Khổ Lớn)",
-          price: "53.200 ₫",
-          discount: "25%"
+          price: "53000",
+          discount: "25"
         },
         {
           id: "3",
@@ -89,9 +89,9 @@ export default {
             "https://salt.tikicdn.com/cache/550x550/ts/product/3f/bb/c7/c9c14e9e05b605d40ea29249240264f9.jpg",
           info:
             "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat.",
-          title: "Để Con Được Ốm (Tái Bản 2018)",
-          price: "61.450 ₫",
-          discount: "35%"
+          title: "Để Conược Ốm (Tái Bản 2018)",
+          price: "61000",
+          discount: "35"
         },
         {
           id: "4",
@@ -100,8 +100,8 @@ export default {
           info:
             "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat.",
           title: "Có Hai Con Mèo Ngồi Bên Cửa Sổ",
-          price: "62.895 ₫",
-          discount: "26%"
+          price: "62000",
+          discount: "26"
         },
         {
           id: "5",
@@ -110,8 +110,8 @@ export default {
           info:
             "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat.",
           title: "Đọc Vị Bất Kỳ Ai",
-          price: "69.000 đ",
-          discount: "25%"
+          price: "69000",
+          discount: "25"
         },
         {
           id: "6",
@@ -120,8 +120,8 @@ export default {
           info:
             "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat.",
           title: "Nếu Biết Trăm Năm Là Hữu Hạn (Tái Bản 2018)",
-          price: "70.500 ₫",
-          discount: "25%"
+          price: "70000",
+          discount: "25"
         },
         {
           id: "7",
@@ -130,8 +130,8 @@ export default {
           info:
             "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat.",
           title: "Con Yêu Bố Chừng Nào",
-          price: "69.000 đ",
-          discount: "25%"
+          price: "69000",
+          discount: "25"
         },
         {
           id: "8",
@@ -140,8 +140,8 @@ export default {
           info:
             "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat.",
           title: "Khi Lỗi Thuộc Về Những Vì Sao",
-          price: "71.800 ₫",
-          discount: "32%"
+          price: "70000",
+          discount: "32"
         },
         {
           id: "9",
@@ -150,8 +150,8 @@ export default {
           info:
             "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat.",
           title: " Ai Lấy Miếng Pho Mát Của Tôi (Tái Bản)",
-          price: "26.600 ₫",
-          discount: "30%"
+          price: "30000",
+          discount: "30"
         },
         {
           id: "10",
@@ -160,8 +160,8 @@ export default {
           info:
             "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat.",
           title: "Con Chó Nhỏ Mang Giỏ Hoa Hồng (Bìa Mềm)",
-          price: "64.000 ₫",
-          discount: "29%"
+          price: "64000",
+          discount: "29"
         }
       ]
     };

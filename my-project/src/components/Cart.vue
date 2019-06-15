@@ -14,30 +14,54 @@
         </td>
         <td class="text-md-center">{{ props.item.title }}</td>
         <td class="text-md-center">{{ props.item.price }}</td>
+        <td class="text-md-center">{{ props.item.discount }} %</td>
         <td class="text-md-center">
-          <input
-            type="number"
-            step="1"
-            max="99"
-            min="1"
-            :value="props.item.quantity"
-            title="quantity"
-            class="quantity"
-            size="4"
-          >
+          <div class="cols-md-12">
+            <v-btn flat fab small v-on:click="removeQuantity(props.item)">
+              <v-icon>remove</v-icon>
+            </v-btn>
+            <input
+              type="number"
+              step="1"
+              max="99"
+              min="1"
+              :value="props.item.quantity"
+              title="quantity"
+              class="quantity"
+              style="width: 15px;"
+              :id="props.item.id"
+            >
+            <v-btn flat fab small v-on:click="addQuantity(props.item)">
+              <v-icon>add</v-icon>
+            </v-btn>
+          </div>
         </td>
         <td class="text-md-center">
-          <v-btn flat fab small color="red">
+          <v-btn flat fab small color="red" v-on:click="removeProduct(props.item)">
             <v-icon>remove_shopping_cart</v-icon>
           </v-btn>
         </td>
       </template>
     </v-data-table>
-    <div>
-      <div style="margin:20px; width:100%; text-align: right;">
-        <v-btn flat style="color:white; background-color:red;">Hủy Giỏ Hàng</v-btn>
-        <v-btn flat style="color:white; background-color:green;">Thanh Toán Ngay</v-btn>
+    <div v-if="shoppingCartItems.length > 0">
+      <div style="margin:20px; padding-right:20px; width:100%; text-align: right;">
+        <h5>Total: {{total}} VNĐ</h5>
       </div>
+      <div style="margin:20px; width:100%; text-align: right;">
+        <v-btn
+          flat
+          style="color:white; background-color:red;"
+          v-on:click="cancelCart()"
+        >Hủy Giỏ Hàng</v-btn>
+        <v-btn
+          flat
+          style="color:white; background-color:green;"
+          v-on:click="checkOut()"
+        >Thanh Toán Ngay</v-btn>
+      </div>
+    </div>
+    <div v-if="shoppingCartItems.length == 0" style="height:450px;">
+      <br>
     </div>
   </div>
 </template>
@@ -46,23 +70,184 @@ export default {
   data() {
     return {
       shoppingCartItems: [],
+      //Header of table
       headers: [
         { text: "Id", value: "id", align: "center" },
         { text: "Image", value: "img", align: "center" },
         { text: "Title", value: "title", align: "center" },
         { text: "Price", value: "price", align: "center" },
+        { text: "Discount", value: "discount", align: "center" },
         { text: "Quantity", value: "quantity", align: "center" },
         { text: "Remove", align: "center" }
-      ]
+      ],
+      total: 0,
+      signed_in: false
     };
   },
-  methods: {},
+  methods: {
+    addQuantity(product) {
+      var id = window.document.getElementById(product.id);
+      //set data item
+      var item = {
+        id: product.id,
+        title: product.title,
+        img: product.img,
+        price: product.price,
+        price: product.discount,
+        quantity: product.quantity
+      };
+      //get data item of cart from localStorage
+      if (localStorage.getItem("cart-storage") != null) {
+        this.shoppingCartItems = JSON.parse(
+          localStorage["cart-storage"].toString()
+        );
+      }
+      if (id.value < 99) {
+        id.value = parseInt(id.value) + 1;
+
+        item.quantity = id.value;
+
+        //find item selected in data item
+        let selected = this.shoppingCartItems.find(
+          cartItem => cartItem.id === item.id
+        );
+        //set new quantity
+        selected = selected != undefined ? selected : item;
+        selected.quantity = item.quantity;
+
+        //remove old selected item
+        this.shoppingCartItems = this.shoppingCartItems.filter(
+          cartItem => cartItem.id !== item.id
+        );
+        //update new data item
+        this.shoppingCartItems.push(selected);
+        //update data to localStorage
+        localStorage.setItem(
+          "cart-storage",
+          JSON.stringify(this.shoppingCartItems)
+        );
+        this.$store.commit("updateCart", this.shoppingCartItems);
+        this.total +=
+          parseInt(product.price) -
+          parseInt(product.price) * (parseInt(product.discount) / 100);
+      }
+    },
+    removeQuantity(product) {
+      var id = window.document.getElementById(product.id);
+      //set data item
+      var item = {
+        id: product.id,
+        title: product.title,
+        img: product.img,
+        price: product.price,
+        price: product.discount,
+        quantity: product.quantity
+      };
+      //get data item of cart from localStorage
+      if (localStorage.getItem("cart-storage") != null) {
+        this.shoppingCartItems = JSON.parse(
+          localStorage["cart-storage"].toString()
+        );
+      }
+      if (id.value > 1) {
+        id.value = parseInt(id.value) - 1;
+        item.quantity = id.value;
+        //find item selected in data item
+        let selected = this.shoppingCartItems.find(
+          cartItem => cartItem.id === item.id
+        );
+        //set new quantity
+        selected = selected != undefined ? selected : item;
+        selected.quantity = item.quantity;
+
+        //remove old selected item
+        this.shoppingCartItems = this.shoppingCartItems.filter(
+          cartItem => cartItem.id !== item.id
+        );
+        //update new data item
+        this.shoppingCartItems.push(selected);
+
+        //update data to localStorage
+        localStorage.setItem(
+          "cart-storage",
+          JSON.stringify(this.shoppingCartItems)
+        );
+        this.$store.commit("updateCart", this.shoppingCartItems);
+        this.total -=
+          parseInt(product.price) -
+          parseInt(product.price) * (parseInt(product.discount) / 100);
+      }
+    },
+    removeProduct(product) {
+      var id = window.document.getElementById(product.id);
+      //get data item of cart from localStorage
+      if (localStorage.getItem("cart-storage") != null) {
+        this.shoppingCartItems = JSON.parse(
+          localStorage["cart-storage"].toString()
+        );
+      }
+      //remove old selected item
+      this.shoppingCartItems = this.shoppingCartItems.filter(
+        cartItem => cartItem.id !== product.id
+      );
+      if (this.shoppingCartItems.length > 0) {
+        //update data to localStorage
+        localStorage.setItem(
+          "cart-storage",
+          JSON.stringify(this.shoppingCartItems)
+        );
+      } else {
+        //remove data to localStorage
+        localStorage.removeItem("cart-storage");
+      }
+      this.total -=
+        (parseInt(product.price) -
+          parseInt(product.price) * (parseInt(product.discount) / 100)) *
+        parseInt(product.quantity);
+      this.$store.commit("updateCart", this.shoppingCartItems);
+    },
+    cancelCart() {
+      //remove data to localStorage
+      localStorage.removeItem("cart-storage");
+      this.shoppingCartItems = [];
+      this.total = 0;
+    },
+    checkOut() {
+      //Check Signed In
+      if (!this.signed_in) {
+        alert("Please, login to checkout!");
+        this.$router.push("/login");
+      } else {
+        //API Checkout
+      }
+    }
+  },
   mounted() {
     if (localStorage.getItem("cart-storage") != null) {
       this.shoppingCartItems = JSON.parse(
         localStorage["cart-storage"].toString()
       );
     }
+    for (let index = 0; index < this.shoppingCartItems.length; index++) {
+      var price = parseInt(this.shoppingCartItems[index].price);
+      var discount = parseInt(this.shoppingCartItems[index].discount) / 100;
+      var quantity = parseInt(this.shoppingCartItems[index].quantity);
+      var priceAfterDiscount = price - price * discount;
+      this.total += priceAfterDiscount * quantity;
+    }
+    this.signed_in = localStorage.getItem("sign-in");
   }
 };
 </script>
+<style scoped>
+/* Hide HTML5 Up and Down arrows. */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+</style>
