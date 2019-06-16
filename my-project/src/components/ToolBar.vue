@@ -18,7 +18,6 @@
         <span>Store</span>
       </router-link>
     </v-toolbar-title>
-
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn flat>
@@ -29,16 +28,20 @@
       </v-btn>
       <router-link to="/cart" tag="v-btn" class="v-btn--flat toolbar-btn">
         <div class="iconCart">
-          <v-badge
-          color="grey"
-        >
-          <template v-slot:badge>
-            <span>{{$store.state.cart == undefined ? 0 : $store.state.cart.length}}</span>
-          </template>
-          <v-icon medium color="black">shopping_cart</v-icon>
-        </v-badge>
+          <v-badge color="grey">
+            <template v-slot:badge>
+              <span>{{$store.state.cart == undefined ? 0 : $store.state.cart.length}}</span>
+            </template>
+            <v-icon medium color="black">shopping_cart</v-icon>
+          </v-badge>
         </div>
         <div class="txtCart">Cart</div>
+      </router-link>
+      <router-link to="/history" tag="v-btn" class="v-btn--flat toolbar-btn" v-if="$store.state.isSignIn">
+        <div class="iconHistory">
+          <v-icon medium color="black">history</v-icon>
+        </div>
+        <div class="txtHistory">History</div>
       </router-link>
       <router-link
         to="/login"
@@ -88,11 +91,14 @@ export default {
         // { name: "Truyện cười", router: "/" }
       ],
       isAdmin: null,
-      cart: null
+      cart: null,
     };
   },
   mounted() {
-    this.$store.commit('updateCart',JSON.parse(localStorage.getItem('cart-storage')));
+    this.$store.commit(
+      "updateCart",
+      JSON.parse(localStorage.getItem("cart-storage"))
+    );
   },
   methods: {
     logout() {
@@ -175,6 +181,17 @@ export default {
 .toolbar-btn:hover div.iconCart {
   display: none;
 }
+
+.txtHistory {
+  display: none;
+}
+
+.toolbar-btn:hover div.txtHistory {
+  display: block;
+}
+.toolbar-btn:hover div.iconHistory {
+  display: none;
+}
 /* .menu .v-menu__content.theme--light.menuable__content__active {
     min-width: 400px !important; 
     top: 64px !important;
@@ -182,8 +199,8 @@ export default {
     z-index: 8 !important;
 } */
 
->>>.v-badge__badge{
-right: -18px;
+>>> .v-badge__badge {
+  right: -18px;
 }
 @media screen and (min-width: 960px) {
   .menu .v-menu__content.theme--light {

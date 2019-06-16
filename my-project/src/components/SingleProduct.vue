@@ -30,7 +30,7 @@
                         left: 30px;
                         position: absolute;
                         top: 8px;"
-              >{{product.price}}</span>
+              >{{product.price}}  ₫</span>
               <br>
               <span
                 style="color: red;
@@ -40,7 +40,12 @@
               >{{priceAfterDiscount}} ₫</span>
             </div>
             <div class="col-md-7">
-              <v-btn flat color="success" v-on:click="addToCard(product)">Mua ngay</v-btn>
+              <v-btn
+                flat
+                class="editButton"
+                color="success"
+                v-on:click="addToCard(product)"
+              >Mua ngay</v-btn>
             </div>
           </v-card-actions>
         </v-card>
@@ -116,6 +121,12 @@ export default {
 .flex {
   padding-left: 15px;
   margin-bottom: 50px;
+}
+>>> .v-btn.editButton {
+  min-width: 0px;
+  padding: 0px;
+  /* width: 50px;
+  font-size: 8px; */
 }
 </style>
 
