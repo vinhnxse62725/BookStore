@@ -45,7 +45,7 @@
     </v-data-table>
     <div v-if="shoppingCartItems.length > 0">
       <div style="margin:20px; padding-right:20px; width:100%; text-align: right;">
-        <h5>Total: {{total}} VNĐ</h5>
+        <h5>Tổng Cộng: {{total}} VNĐ</h5>
       </div>
       <div style="margin:20px; width:100%; text-align: right;">
         <v-btn
@@ -70,12 +70,12 @@ export default {
       //Header of table
       headers: [
         { text: "Id", value: "id", align: "center" },
-        { text: "Image", value: "image", align: "center" },
-        { text: "Title", value: "bookName", align: "center" },
-        { text: "Price", value: "price", align: "center" },
-        { text: "Discount", value: "discount", align: "center" },
-        { text: "Quantity", value: "quantity", align: "center" },
-        { text: "Remove", align: "center" }
+        { text: "Hình Ảnh", value: "image", align: "center" },
+        { text: "Tiêu Đề", value: "bookName", align: "center" },
+        { text: "Giá", value: "price", align: "center" },
+        { text: "Giảm Giá", value: "discount", align: "center" },
+        { text: "Số Lượng", value: "quantity", align: "center" },
+        { text: "Xóa", align: "center" }
       ],
       total: 0,
       signed_in: false

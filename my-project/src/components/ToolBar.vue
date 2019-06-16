@@ -35,13 +35,13 @@
             <v-icon medium color="black">shopping_cart</v-icon>
           </v-badge>
         </div>
-        <div class="txtCart">Cart</div>
+        <div class="txtCart">Giỏ Hàng</div>
       </router-link>
       <router-link to="/history" tag="v-btn" class="v-btn--flat toolbar-btn" v-if="$store.state.isSignIn">
         <div class="iconHistory">
           <v-icon medium color="black">history</v-icon>
         </div>
-        <div class="txtHistory">History</div>
+        <div class="txtHistory">Lịch Sử</div>
       </router-link>
       <router-link
         to="/login"
@@ -52,13 +52,13 @@
         <div class="iconLogin">
           <v-icon>fingerprint</v-icon>
         </div>
-        <div class="txtLogin">Login</div>
+        <div class="txtLogin">Đăng Nhập</div>
       </router-link>
       <v-btn class="v-btn--flat toolbar-btn" v-on:click="logout()" v-if="$store.state.isSignIn">
         <div class="iconLogout">
           <v-icon>input</v-icon>
         </div>
-        <div class="txtLogout" v-on:click="logout()">Logout</div>
+        <div class="txtLogout" v-on:click="logout()">Đăng Xuất</div>
       </v-btn>
     </v-toolbar-items>
   </v-toolbar>
