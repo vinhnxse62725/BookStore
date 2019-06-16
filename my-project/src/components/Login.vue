@@ -15,7 +15,8 @@
               v-model="username"
               v-validate="'required|min:5'"
             >
-            <p class="help-block alert alert-danger animated bounceIn"
+            <p
+              class="help-block alert alert-danger animated bounceIn"
               v-show="errors.has('username')"
             >{{errors.first('username')}}</p>
           </div>
@@ -30,7 +31,8 @@
               v-model="password"
               v-validate="'required'"
             >
-            <p class="help-block alert alert-danger animated bounceIn"
+            <p
+              class="help-block alert alert-danger animated bounceIn"
               v-show="errors.has('password')"
             >{{errors.first('password')}}</p>
           </div>
@@ -57,7 +59,6 @@
   </div>
 </template>
 <script>
-
 import axios from "axios";
 
 export default {
@@ -124,15 +125,21 @@ export default {
                 this.$store.commit("logoutStatus", false);
                 // let something = JSON.parse(localStorage.getItem("profile"));
                 // alert(something.email);
-                this.$router.push("/");
+                this.$emit('logined', true);
+                if (rs.data.admin) {
+                  this.$store.commit("adminStatus", true);
+                  this.$router.push("/admin");
+                } else {
+                  this.$router.push("/");
+                }
               });
             })
             .catch(er => {
               console.log(er);
-              alert("Wrong username or password!")
+              alert("Wrong username or password!");
             });
         } else {
-          console.log("Not Valid")
+          console.log("Not Valid");
         }
       });
     }

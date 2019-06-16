@@ -6,7 +6,7 @@
           <span>-{{product.discount}}%</span>
         </template>
         <v-card>
-          <v-img class="white--text" style="max-width:100%; height:auto;" :src="product.img">
+          <v-img class="white--text" style="max-width:100%; height:auto;" :src="product.image">
             <v-container fill-height fluid>
               <v-layout fill-height>
                 <v-flex xs12 align-end flexbox>
@@ -18,25 +18,25 @@
           <v-card-title
             style="height: 50px; text-overflow: ellipsis; overflow: hidden;  width: 200px;"
           >
-            <div>
-              <h6>{{product.title}}</h6>
-            </div>
+            <h6 style="width:100%; text-align:center;">{{product.bookName}}</h6>
           </v-card-title>
-          <v-card-actions>
+          <v-card-actions v-if="product.status">
             <div class="col-md-5">
               <span
                 style="text-decoration: line-through;
                         font-size: 12px;
-                        left: 30px;
+                        left: 22px;
                         position: absolute;
-                        top: 8px;"
-              >{{product.price}}  ₫</span>
+                        top: 8px;
+                        width: 100%;"
+              >{{product.price}} ₫</span>
               <br>
               <span
                 style="color: red;
                         position: absolute;
                         top: -10px;
-                        right: -2px;"
+                        right: -22px;
+                        width: 100%;"
               >{{priceAfterDiscount}} ₫</span>
             </div>
             <div class="col-md-7">
@@ -46,6 +46,29 @@
                 color="success"
                 v-on:click="addToCard(product)"
               >Mua ngay</v-btn>
+            </div>
+          </v-card-actions>
+          <v-card-actions v-if="!product.status">
+            <div class="col-md-5">
+              <span
+                style="text-decoration: line-through;
+                        font-size: 12px;
+                        left: 22px;
+                        position: absolute;
+                        top: 8px;
+                        width: 100%;"
+              >{{product.price}} ₫</span>
+              <br>
+              <span
+                style="color: red;
+                        position: absolute;
+                        top: -10px;
+                        right: -22px;
+                        width: 100%;"
+              >{{priceAfterDiscount}} ₫</span>
+            </div>
+            <div class="col-md-7">
+              <v-btn flat class="editButton" disabled>Hết Hàng</v-btn>
             </div>
           </v-card-actions>
         </v-card>
@@ -69,18 +92,20 @@ export default {
         shoppingCartItems = JSON.parse(localStorage["cart-storage"].toString());
       }
       var id = this.product.id;
-      var title = this.product.title;
-      var img = this.product.img;
+      var bookName = this.product.bookName;
+      var image = this.product.image;
       var price = this.product.price;
       var discount = this.product.discount;
+      var status = this.product.status;
       var quantity = 0;
 
       var item = {
         id: id,
-        title: title,
-        img: img,
+        bookName: bookName,
+        image: image,
         price: price,
         discount: discount,
+        status: status,
         quantity: quantity
       };
 

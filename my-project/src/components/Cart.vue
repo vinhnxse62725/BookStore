@@ -9,10 +9,10 @@
       <template v-slot:items="props">
         <td class="text-md-center">{{ props.item.id }}</td>
         <td class="text-md-center">
-          <img :src="props.item.img" style="margin:10px; width: 100px;
+          <img :src="props.item.image" style="margin:10px; width: 100px;
     height: auto;">
         </td>
-        <td class="text-md-center">{{ props.item.title }}</td>
+        <td class="text-md-center">{{ props.item.bookName }}</td>
         <td class="text-md-center">{{ props.item.price }}</td>
         <td class="text-md-center">{{ props.item.discount }} %</td>
         <td class="text-md-center">
@@ -60,9 +60,6 @@
         >Thanh Toán Ngay</v-btn>
       </div>
     </div>
-    <div v-if="shoppingCartItems.length == 0" style="height:450px;">
-      <br>
-    </div>
   </div>
 </template>
 <script>
@@ -73,8 +70,8 @@ export default {
       //Header of table
       headers: [
         { text: "Id", value: "id", align: "center" },
-        { text: "Image", value: "img", align: "center" },
-        { text: "Title", value: "title", align: "center" },
+        { text: "Image", value: "image", align: "center" },
+        { text: "Title", value: "bookName", align: "center" },
         { text: "Price", value: "price", align: "center" },
         { text: "Discount", value: "discount", align: "center" },
         { text: "Quantity", value: "quantity", align: "center" },
@@ -90,10 +87,10 @@ export default {
       //set data item
       var item = {
         id: product.id,
-        title: product.title,
-        img: product.img,
+        bookName: product.bookName,
+        image: product.image,
         price: product.price,
-        price: product.discount,
+        discount: product.discount,
         quantity: product.quantity
       };
       //get data item of cart from localStorage
@@ -137,10 +134,10 @@ export default {
       //set data item
       var item = {
         id: product.id,
-        title: product.title,
-        img: product.img,
+        bookName: product.bookName,
+        image: product.image,
         price: product.price,
-        price: product.discount,
+        discount: product.discount,
         quantity: product.quantity
       };
       //get data item of cart from localStorage
@@ -211,6 +208,7 @@ export default {
       localStorage.removeItem("cart-storage");
       this.shoppingCartItems = [];
       this.total = 0;
+      this.$store.commit("updateCart", this.shoppingCartItems);
     },
     checkOut() {
       //Check Signed In
@@ -219,6 +217,74 @@ export default {
         this.$router.push("/login");
       } else {
         //API Checkout
+        var customer = JSON.parse(localStorage.getItem("profile"));
+        var id = customer.id;
+        var total = this.total;
+        var status = true;
+
+        //getCurrentTime
+        var dateTime = new Date(
+          new Date().getTime() - new Date().getTimezoneOffset() * 60000
+        ).toISOString();
+
+        this.$axios({
+          method: "post",
+          url: "api/order",
+          headers: {
+            authorization: localStorage.getItem("access-token")
+          },
+          data: {
+            user: { id: id },
+            total: total,
+            status: status,
+            orderdate: dateTime
+          }
+        })
+          .then(rs => {
+            var orderID = rs.data.id;
+            for (
+              let index = 0;
+              index < this.shoppingCartItems.length;
+              index++
+            ) {
+              var discount =
+                parseInt(this.shoppingCartItems[index].discount) / 100;
+              var quantity = parseInt(this.shoppingCartItems[index].quantity);
+              var price = parseInt(this.shoppingCartItems[index].price);
+              var priceAfterDiscount = price - price * discount;
+              this.$axios({
+                method: "post",
+                url: "api/orderdetail",
+                headers: {
+                  authorization: localStorage.getItem("access-token")
+                },
+                data: {
+                  order: {
+                    id: orderID
+                  },
+                  book: {
+                    id: this.shoppingCartItems[index].id
+                  },
+                  quantity: this.shoppingCartItems[index].id,
+                  totalPrice: priceAfterDiscount * quantity,
+                  discount: discount * 100
+                }
+              })
+                .then(rs => {
+                  console.log(rs);
+                })
+                .catch(er => {
+                  console.log(er);
+                });
+            }
+            alert("Checkout successfull!");
+            localStorage.removeItem("cart-storage");
+            this.$store.commit("updateCart", []);
+            this.$router.push("/");
+          })
+          .catch(er => {
+            console.log(er);
+          });
       }
     }
   },

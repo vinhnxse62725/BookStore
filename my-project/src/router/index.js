@@ -5,6 +5,7 @@ import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Cart from '@/components/Cart'
 import History from '@/components/OrderHistory'
+import Admin from '@/components/Admin'
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/history',
       name: 'History',
       component: History
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin
     }
   ],
 })

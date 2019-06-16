@@ -1,48 +1,14 @@
 <template>
-  <v-toolbar>
-    <!--Dropdown menu -->
-    <v-menu transition="slide-x-transition" open-on-click offset-y offset-overflow class="menu">
-      <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
-      <v-list class="list">
-        <v-list-tile class="tile" v-for="category in categories" :key="category.name">
-          <router-link :to="category.router" exact class="activeRouter">
-            <v-list-tile-title>{{category.name}}</v-list-tile-title>
-          </router-link>
-        </v-list-tile>
-      </v-list>
-    </v-menu>
-
+  <v-toolbar dark>
+    <v-spacer></v-spacer>
     <v-toolbar-title class="text-uppercase black--text">
-      <router-link to="/" exact class="activeRouter">
-        <span class="font-weight-light">Book</span>
-        <span>Store</span>
+      <router-link to="/admin" exact class="activeRouter">
+        <span class="font-weight-light">Admin</span>
+        <span>Page</span>
       </router-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-toolbar-items>
-      <v-btn flat>
-        <form action id="form-search">
-          <input type="search" placeholder="Nhập tên sách bạn cần tìm?">
-          <v-icon class="searchIcon" @click="changeSearchBar()">search</v-icon>
-        </form>
-      </v-btn>
-      <router-link to="/cart" tag="v-btn" class="v-btn--flat toolbar-btn">
-        <div class="iconCart">
-          <v-badge color="grey">
-            <template v-slot:badge>
-              <span>{{$store.state.cart == undefined ? 0 : $store.state.cart.length}}</span>
-            </template>
-            <v-icon medium color="black">shopping_cart</v-icon>
-          </v-badge>
-        </div>
-        <div class="txtCart">Cart</div>
-      </router-link>
-      <router-link to="/history" tag="v-btn" class="v-btn--flat toolbar-btn" v-if="$store.state.isSignIn">
-        <div class="iconHistory">
-          <v-icon medium color="black">history</v-icon>
-        </div>
-        <div class="txtHistory">History</div>
-      </router-link>
+    <v-toolbar-items> 
       <router-link
         to="/login"
         tag="v-btn"
@@ -129,10 +95,10 @@ export default {
 .tile {
   float: left;
   width: 50%;
-  background: white;
+  background:#212121;
 }
 .activeRouter {
-  color: black;
+  color: white;
   text-decoration: none;
 }
 
@@ -171,27 +137,6 @@ export default {
   display: none;
 }
 
-.txtCart {
-  display: none;
-}
-
-.toolbar-btn:hover div.txtCart {
-  display: block;
-}
-.toolbar-btn:hover div.iconCart {
-  display: none;
-}
-
-.txtHistory {
-  display: none;
-}
-
-.toolbar-btn:hover div.txtHistory {
-  display: block;
-}
-.toolbar-btn:hover div.iconHistory {
-  display: none;
-}
 /* .menu .v-menu__content.theme--light.menuable__content__active {
     min-width: 400px !important; 
     top: 64px !important;
@@ -208,7 +153,7 @@ export default {
     top: 64px !important;
     left: 0px !important;
     z-index: 999 !important;
-    background: white !important;
+    background: #212121 !important;
   }
 }
 @media screen and (min-width: 648px) and (max-width: 960px) {
@@ -217,7 +162,7 @@ export default {
     top: 49px !important;
     left: 0px !important;
     z-index: 999 !important;
-    background: white !important;
+    background: #212121 !important;
   }
 }
 @media screen and (max-width: 647px) {
@@ -226,63 +171,8 @@ export default {
     top: 56px !important;
     left: 0px !important;
     z-index: 999 !important;
-    background: white !important;
+    background: #212121 !important;
   }
-}
-
-/* search bar*/
-form {
-  position: relative;
-  transition: all 1s;
-  width: 40px;
-  height: 40px;
-  background: white;
-  box-sizing: border-box;
-  border-radius: 25px;
-  border: 4px solid white;
-  padding: 5px;
-}
-
-input {
-  position: absolute;
-  top: -5px;
-  left: 0;
-  width: 100%;
-  height: 42.5px;
-  line-height: 30px;
-  outline: 0;
-  border: 0;
-  display: none;
-  font-size: 1em;
-  border-radius: 20px;
-  padding: 0 20px;
-}
-
-.searchIcon {
-  box-sizing: border-box;
-  padding: 10px;
-  width: 42.5px;
-  height: 42.5px;
-  position: absolute;
-  top: -4px;
-  right: -5px;
-  border-radius: 50%;
-  color: grey;
-  text-align: center;
-  font-size: 2em;
-  transition: all 1s;
-}
-
-.formclick {
-  width: 300px;
-  cursor: pointer;
-}
-.formclick input {
-  display: block;
-}
-.formclick .fa {
-  background: grey;
-  color: white;
 }
 </style>
 

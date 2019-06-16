@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         isSignIn: localStorage.getItem("sign-in") != null,
+        isAdmin: localStorage.getItem("user-role") != null,
         isSignOut: false,
         isSignInMessage: false,
         cart:[],
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     mutations: {
         loginStatus(state, payload) {
             state.isSignIn = payload;
+        },
+        adminStatus(state, payload) {
+            state.isAdmin = payload;
         }
         , logoutStatus(state, payload) {
             state.isSignOut = payload;
