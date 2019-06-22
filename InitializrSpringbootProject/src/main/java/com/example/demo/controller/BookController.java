@@ -7,9 +7,11 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Book;
 import com.example.demo.repository.BookRepository;
-import java.sql.Date;
-import java.time.LocalDate;
+import com.example.demo.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,13 +27,15 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author 84918
  */
-
 @RestController
 @RequestMapping(value = "/api/book")
 public class BookController {
-    
-    @Autowired BookRepository bookRepository;
-    
+
+    @Autowired
+    BookRepository bookRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
+
     @GetMapping("")
     @CrossOrigin(origins = "http://localhost:4200")
     Iterable<Book> readAll() {
@@ -44,6 +48,16 @@ public class BookController {
     Book read(@PathVariable int id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not found"));
+    }
+
+    //GET product by id
+    @GetMapping("/getPaging/{page}/{searchValue}/{cateId}")
+    @CrossOrigin(origins = "http://localhost:4200")
+    Page<Book> getPaging(@PathVariable int page,@PathVariable String searchValue,
+            @PathVariable int cateId) {
+        Pageable pageable = PageRequest.of(page, 2);
+        
+        return bookRepository.findBooks(pageable, searchValue, cateId);
     }
 
     // POST create product
@@ -85,5 +99,5 @@ public class BookController {
     Iterable<Book> findAllBookAdmin(@RequestParam(value = "search", required = false) String search) {
         return bookRepository.findName(search);
     }
-    
+
 }
