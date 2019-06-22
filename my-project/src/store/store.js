@@ -8,8 +8,10 @@ export default new Vuex.Store({
         isSignIn: localStorage.getItem("sign-in") != null,
         isAdmin: localStorage.getItem("user-role") != null,
         isSignOut: false,
-        isSignInMessage: false,
+        search:[],
+        // isSignInMessage: false,
         cart:[],
+        products: []
     },
     getter: {
 
@@ -25,11 +27,15 @@ export default new Vuex.Store({
             state.isSignOut = payload;
 
         },
-        loginMessageStatus(state, payload){
-            state.isSignInMessage = payload;
-        },
+        // loginMessageStatus(state, payload){
+        //     state.isSignInMessage = payload;
+        // },
         updateCart(state, payload){
             state.cart = payload;
+        },
+        updateSearch(state, payload){
+            console.log(payload)
+            state.products = payload;
         }
     },
     action: {

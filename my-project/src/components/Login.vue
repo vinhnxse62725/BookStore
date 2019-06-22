@@ -1,62 +1,64 @@
 <template>
-  <div class="bg">
-    <div class="login">
-      <form>
-        <div class="container" v-on:keydown.enter.prevent="signin()">
-          <h2>Đăng Nhập</h2>
-          <div class="form-group">
-            <label for="username">
-              <b>Tên đăng nhập</b>
+  <v-app>
+    <div class="bg">
+      <div class="login">
+        <form>
+          <div class="container" v-on:keydown.enter.prevent="signin()">
+            <h2>Đăng Nhập</h2>
+            <div class="form-group">
+              <label for="username">
+                <b>Tên đăng nhập</b>
+              </label>
+              <input
+                type="text"
+                placeholder="Nhập Username"
+                name="username"
+                v-model="username"
+                v-validate="'required|min:5'"
+              >
+              <p
+                class="help-block alert alert-danger animated bounceIn"
+                v-show="errors.has('username')"
+              >{{errors.first('username')}}</p>
+            </div>
+            <div class="form-group">
+              <label for="password">
+                <b>Mật khẩu</b>
+              </label>
+              <input
+                type="password"
+                placeholder="Nhập password"
+                name="password"
+                v-model="password"
+                v-validate="'required'"
+              >
+              <p
+                class="help-block alert alert-danger animated bounceIn"
+                v-show="errors.has('password')"
+              >{{errors.first('password')}}</p>
+            </div>
+            <label>
+              <input type="checkbox" checked="none" name="remember"> Nhớ tài khoản
             </label>
-            <input
-              type="text"
-              placeholder="Nhập Username"
-              name="username"
-              v-model="username"
-              v-validate="'required|min:5'"
-            >
-            <p
-              class="help-block alert alert-danger animated bounceIn"
-              v-show="errors.has('username')"
-            >{{errors.first('username')}}</p>
-          </div>
-          <div class="form-group">
-            <label for="password">
-              <b>Mật khẩu</b>
-            </label>
-            <input
-              type="password"
-              placeholder="Nhập password"
-              name="password"
-              v-model="password"
-              v-validate="'required'"
-            >
-            <p
-              class="help-block alert alert-danger animated bounceIn"
-              v-show="errors.has('password')"
-            >{{errors.first('password')}}</p>
-          </div>
-          <label>
-            <input type="checkbox" checked="none" name="remember"> Nhớ tài khoản
-          </label>
-          <button type="button" v-on:click="signin()">Đăng Nhập</button>
-          <div style="text-align:center;">
-            <span class="psw">
-              Bạn quên mật khẩu?
-              <a href="#">Reset</a>
-            </span>
-          </div>
+            <button type="button" v-on:click="signin()">Đăng Nhập</button>
+            <div style="text-align:center;">
+              <span class="psw">
+                Bạn quên mật khẩu?
+                <a href="#">Reset</a>
+              </span>
+            </div>
 
-          <div style="text-align:center;">
-            <span class="psw">
-              Chưa có tài khoản
-              <router-link to="/register">Đăng ký ngay</router-link>
-            </span>
+            <div style="text-align:center;">
+              <span class="psw">
+                Chưa có tài khoản
+                <router-link to="/register">Đăng ký ngay</router-link>
+              </span>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
+  </v-app>
 </template>
 <script>
 import axios from "axios";
@@ -121,11 +123,17 @@ export default {
                 localStorage.setItem("sign-in", true);
                 localStorage.removeItem("sign-out");
                 this.$store.commit("loginStatus", true);
-                this.$store.commit("loginMessageStatus", true);
+                // this.$store.commit("loginMessageStatus", true);
                 this.$store.commit("logoutStatus", false);
                 // let something = JSON.parse(localStorage.getItem("profile"));
                 // alert(something.email);
-                this.$emit('logined', true);
+                this.$emit("logined", true);
+                this.$swal({
+                  title: "Đăng nhập thành công!",
+                  type: "success",
+                  confirmButtonText: "OK",
+                  timer: 3000
+                });
                 if (rs.data.admin) {
                   this.$store.commit("adminStatus", true);
                   this.$router.push("/admin");
@@ -136,7 +144,13 @@ export default {
             })
             .catch(er => {
               console.log(er);
-              alert("Wrong username or password!");
+              // alert("Wrong username or password!");
+              this.$swal({
+                title: "Đăng nhập thất bại!",
+                type: "error",
+                confirmButtonText: "OK",
+                timer: 3000
+              });
             });
         } else {
           console.log("Not Valid");
@@ -172,9 +186,9 @@ input:invalid {
 .login {
   width: 450px;
   position: absolute;
-  top: 32%;
+  top: 50%;
   left: 50%;
-  margin: -184px 0px 0px -155px;
+  transform: translate(-50%, -70%);
   background: rgba(255, 255, 255, 0.897);
   padding: 20px 20px;
   border-radius: 5px;

@@ -1,66 +1,66 @@
 <template>
-  <div class="container">
-    <v-layout>
-      <div style="margin:20px; width:100%; text-align: center;">
-        <h2 class="font-weight-light">GIỎ HÀNG</h2>
-      </div>
-    </v-layout>
-    <v-data-table :headers="headers" :items="shoppingCartItems" class="elevation-1">
-      <template v-slot:items="props">
-        <td class="text-md-center">{{ props.item.id }}</td>
-        <td class="text-md-center">
-          <img :src="props.item.image" style="margin:10px; width: 100px;
+    <div class="container">
+      <v-layout>
+        <div style="margin:20px; width:100%; text-align: center;">
+          <h2 class="font-weight-light">GIỎ HÀNG</h2>
+        </div>
+      </v-layout>
+      <v-data-table :headers="headers" :items="shoppingCartItems" class="elevation-1">
+        <template v-slot:items="props">
+          <td class="text-md-center">{{ props.item.id }}</td>
+          <td class="text-md-center">
+            <img :src="props.item.image" style="margin:10px; width: 100px;
     height: auto;">
-        </td>
-        <td class="text-md-center">{{ props.item.bookName }}</td>
-        <td class="text-md-center">{{ props.item.price }}</td>
-        <td class="text-md-center">{{ props.item.discount }} %</td>
-        <td class="text-md-center">
-          <div class="cols-md-12">
-            <v-btn flat fab small v-on:click="removeQuantity(props.item)">
-              <v-icon>remove</v-icon>
+          </td>
+          <td class="text-md-center">{{ props.item.bookName }}</td>
+          <td class="text-md-center">{{ props.item.price }}</td>
+          <td class="text-md-center">{{ props.item.discount }} %</td>
+          <td class="text-md-center">
+            <div class="cols-md-12">
+              <v-btn flat fab small v-on:click="removeQuantity(props.item)">
+                <v-icon>remove</v-icon>
+              </v-btn>
+              <input
+                type="number"
+                step="1"
+                max="99"
+                min="1"
+                :value="props.item.quantity"
+                title="quantity"
+                class="quantity"
+                style="width: 15px;"
+                :id="props.item.id"
+              >
+              <v-btn flat fab small v-on:click="addQuantity(props.item)">
+                <v-icon>add</v-icon>
+              </v-btn>
+            </div>
+          </td>
+          <td class="text-md-center">
+            <v-btn flat fab small color="red" v-on:click="removeProduct(props.item)">
+              <v-icon>remove_shopping_cart</v-icon>
             </v-btn>
-            <input
-              type="number"
-              step="1"
-              max="99"
-              min="1"
-              :value="props.item.quantity"
-              title="quantity"
-              class="quantity"
-              style="width: 15px;"
-              :id="props.item.id"
-            >
-            <v-btn flat fab small v-on:click="addQuantity(props.item)">
-              <v-icon>add</v-icon>
-            </v-btn>
-          </div>
-        </td>
-        <td class="text-md-center">
-          <v-btn flat fab small color="red" v-on:click="removeProduct(props.item)">
-            <v-icon>remove_shopping_cart</v-icon>
-          </v-btn>
-        </td>
-      </template>
-    </v-data-table>
-    <div v-if="shoppingCartItems.length > 0">
-      <div style="margin:20px; padding-right:20px; width:100%; text-align: right;">
-        <h5>Tổng Cộng: {{total}} VNĐ</h5>
-      </div>
-      <div style="margin:20px; width:100%; text-align: right;">
-        <v-btn
-          flat
-          style="color:white; background-color:red;"
-          v-on:click="cancelCart()"
-        >Hủy Giỏ Hàng</v-btn>
-        <v-btn
-          flat
-          style="color:white; background-color:green;"
-          v-on:click="checkOut()"
-        >Thanh Toán Ngay</v-btn>
+          </td>
+        </template>
+      </v-data-table>
+      <div v-if="shoppingCartItems.length > 0">
+        <div style="margin:20px; padding-right:20px; width:100%; text-align: right;">
+          <h5>Tổng Cộng: {{total}} VNĐ</h5>
+        </div>
+        <div style="margin:20px; width:100%; text-align: right;">
+          <v-btn
+            flat
+            style="color:white; background-color:red;"
+            v-on:click="cancelCart()"
+          >Hủy Giỏ Hàng</v-btn>
+          <v-btn
+            flat
+            style="color:white; background-color:green;"
+            v-on:click="checkOut()"
+          >Thanh Toán Ngay</v-btn>
+        </div>
       </div>
     </div>
-  </div>
 </template>
 <script>
 export default {
@@ -213,7 +213,12 @@ export default {
     checkOut() {
       //Check Signed In
       if (!this.signed_in) {
-        alert("Please, login to checkout!");
+        this.$swal({
+          title: "Bạn cần đăng nhập để thanh toán!",
+          type: "warning",
+          confirmButtonText: "OK",
+          timer: 3000
+        });
         this.$router.push("/login");
       } else {
         //API Checkout
@@ -277,7 +282,12 @@ export default {
                   console.log(er);
                 });
             }
-            alert("Checkout successfull!");
+            this.$swal({
+              title: "Thanh toán thành công!",
+              type: "success",
+              confirmButtonText: "OK",
+              timer: 3000
+            });
             localStorage.removeItem("cart-storage");
             this.$store.commit("updateCart", []);
             this.$router.push("/");

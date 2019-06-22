@@ -1,4 +1,5 @@
 <template>
+<v-app>
   <div class="container">
     <v-layout>
       <div style="margin:20px; width:100%; text-align: center;">
@@ -68,6 +69,7 @@
       </v-list>
     </v-bottom-sheet>
   </div>
+  </v-app>
 </template>
 <script>
 export default {

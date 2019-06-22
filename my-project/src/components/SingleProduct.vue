@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex>
-      <v-badge color="orange">
+      <v-badge color="orange" class="tool-tip">
         <template v-slot:badge>
           <span>-{{product.discount}}%</span>
         </template>
@@ -18,7 +18,18 @@
           <v-card-title
             style="height: 50px; text-overflow: ellipsis; overflow: hidden;  width: 200px;"
           >
-            <h6 style="width:100%; text-align:center;">{{product.bookName}}</h6>
+            <div>
+              <h6 style="width:100%; text-align:center;">{{product.bookName}}</h6>
+              <div class="tool-tip-text">
+                <v-card style="min-width:200px;">
+                  <v-card-title>
+                    <h6 style="width:100%; text-align:center">{{product.bookName}}</h6>
+                    <br>
+                    <p style="width:100%; text-align:center">{{product.description}}</p>
+                  </v-card-title>
+                </v-card>
+              </div>
+            </div>
           </v-card-title>
           <v-card-actions v-if="product.status">
             <div class="col-md-5">
@@ -149,9 +160,30 @@ export default {
 }
 >>> .v-btn.editButton {
   min-width: 0px;
-  padding: 0px;
+  padding: 5px;
   /* width: 50px;
   font-size: 8px; */
+}
+.tool-tip {
+  position: relative;
+  display: inline-block;
+}
+
+.tool-tip .tool-tip-text {
+  visibility: hidden;
+  width: 120px;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 10;
+  top: -5px;
+  left: 105%;
+}
+
+.tool-tip:hover .tool-tip-text {
+  visibility: visible;
 }
 </style>
 

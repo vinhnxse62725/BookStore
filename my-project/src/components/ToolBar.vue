@@ -1,5 +1,6 @@
 <template>
-  <v-toolbar>
+  <v-app>
+    <v-toolbar>
     <!--Dropdown menu -->
     <v-menu transition="slide-x-transition" open-on-click offset-y offset-overflow class="menu">
       <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
@@ -21,8 +22,13 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn flat>
-        <form action id="form-search">
-          <input type="search" placeholder="Nhập tên sách bạn cần tìm?">
+        <form id="form-search">
+          <input
+            type="search"
+            placeholder="Nhập tên sách bạn cần tìm?"
+            v-model="searchValue"
+            v-on:keydown.enter.prevent="search()"
+          >
           <v-icon class="searchIcon" @click="changeSearchBar()">search</v-icon>
         </form>
       </v-btn>
@@ -37,7 +43,12 @@
         </div>
         <div class="txtCart">Giỏ Hàng</div>
       </router-link>
-      <router-link to="/history" tag="v-btn" class="v-btn--flat toolbar-btn" v-if="$store.state.isSignIn">
+      <router-link
+        to="/history"
+        tag="v-btn"
+        class="v-btn--flat toolbar-btn"
+        v-if="$store.state.isSignIn"
+      >
         <div class="iconHistory">
           <v-icon medium color="black">history</v-icon>
         </div>
@@ -62,8 +73,10 @@
       </v-btn>
     </v-toolbar-items>
   </v-toolbar>
+  </v-app>
 </template>
 <script>
+import { eventBus } from "../main";
 export default {
   props: ["notification"],
   data() {
@@ -89,8 +102,9 @@ export default {
         { name: "Kiếm hiệp", router: "/" },
         { name: "Truyện ngắn", router: "/" }
       ],
+      searchValue: null,
       // isAdmin: null,
-      cart: null,
+      cart: null
     };
   },
   mounted() {
@@ -118,6 +132,21 @@ export default {
       } else {
         searchbar.classList.add("formclick");
       }
+    },
+    search() {
+      this.$axios({
+        method: "get",
+        url: "api/book/searching",
+        params: {
+          search: this.searchValue
+        }
+      })
+        .then(res => {
+          this.$store.commit("updateSearch", res.data);
+        })
+        .catch(er => {
+          console.log(er);
+        });
     }
   }
 };

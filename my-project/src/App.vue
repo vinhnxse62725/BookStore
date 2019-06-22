@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <app-popup style="z-index:999;"></app-popup>
     <app-toolbar id="toolbar" class="fixed-top" v-if="!$store.state.isAdmin"></app-toolbar>
     <app-admin-toolbar id="toolbar" class="fixed-top" v-if="$store.state.isAdmin"></app-admin-toolbar>
 
@@ -15,9 +14,8 @@
 import AppToolbar from "./components/ToolBar.vue";
 import AppAdminToolbar from "./components/AdminToolBar.vue";
 import AppFooter from "./components/Footer.vue";
-import AppPopup from "./components/Popup.vue";
 export default {
-  components: { AppToolbar, AppFooter, AppAdminToolbar, AppPopup },
+  components: { AppToolbar, AppFooter, AppAdminToolbar },
   mounted() {
     if (localStorage.getItem("user-role") === "true") {
       this.$store.commit("adminStatus", true);
