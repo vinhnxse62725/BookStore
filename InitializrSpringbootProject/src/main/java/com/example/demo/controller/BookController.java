@@ -42,6 +42,17 @@ public class BookController {
         return bookRepository.findAll();
     }
 
+    @GetMapping("/searchByCategoryId")
+    @CrossOrigin(origins = "http://localhost:4200")
+    Iterable<Book> getBookByCateId(@RequestParam(value = "searchValue", required = false) String searchValue,
+            @RequestParam(value = "cateId", required = false) Integer cateId) {
+        if (cateId == null) {
+            return bookRepository.findByName(searchValue);
+        } else {
+            return bookRepository.findByCategoryId(searchValue, cateId);
+        }
+    }
+
     //GET product by id
     @GetMapping("/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
@@ -56,16 +67,16 @@ public class BookController {
     Page<Book> getPaging(@RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "searchValue", required = false) String searchValue,
             @RequestParam(value = "cateId", required = false) Integer cateId) {
-        
+
         Pageable pageable = PageRequest.of(page, 2);
-        System.out.println(searchValue + "         "  + cateId);
-        
-        if(cateId == null) {
+        System.out.println(searchValue + "         " + cateId);
+
+        if (cateId == null) {
             return bookRepository.findAll(pageable);
         } else {
             return bookRepository.findBooks(pageable, searchValue, cateId);
         }
-        
+
     }
 
     // POST create product
@@ -107,5 +118,4 @@ public class BookController {
 //    Iterable<Book> findAllBookAdmin(@RequestParam(value = "search", required = false) String search) {
 //        return bookRepository.findName(search);
 //    }
-
 }
