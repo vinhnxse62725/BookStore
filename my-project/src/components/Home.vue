@@ -1,19 +1,28 @@
 <template>
-<v-app>
-  <div>
-    <div class="container">
-      <app-slide></app-slide>
-      <v-layout wrap style="margin-top:50px;">
-        <!-- <div class="col-md-3" v-for="n  in 20 " :key="n"> -->
-        <div class="col-md-3" v-for="product in $store.state.products">
-          <single-product :product="product"></single-product>
-        </div>
-      </v-layout>
+  <v-app>
+    <div>
+      <div class="container">
+        <app-slide></app-slide>
+        <v-layout wrap style="margin-top:50px;">
+          <!-- <div class="col-md-3" v-for="n  in 20 " :key="n"> -->
+          <div class="col-md-3" v-for="product in $store.getters.getPaginationProducts">
+            <single-product :product="product"></single-product>
+          </div>
+        </v-layout>
+      </div>
+      <div class="text-xs-center" style="margin-bottom: 50px">
+        <v-pagination
+          v-model="$store.state.currentPage"
+          :length="$store.state.totalPages"
+          :total-visible="7"
+          @input="onClickPage"
+          @next="onClickNextPage"
+          @previous="onClickPreviousPage"
+          next=":disabled='isInLastPage'"
+          previous=":disabled='isInFirstPage'"
+        ></v-pagination>
+      </div>
     </div>
-    <div class="text-xs-center" style="margin-bottom: 50px">
-      <v-pagination :length="6"></v-pagination>
-    </div>
-  </div>
   </v-app>
 </template>
 <script>
@@ -30,9 +39,30 @@ export default {
         authorization: localStorage.getItem("access-token")
       }
     }).then(rs => {
-      this.$store.state.products = rs.data;
-      console.table(rs.data);
+      this.$store.commit('setPaginationData', rs.data)
     });
+  },
+  computed: {
+    isInFirstPage() {
+      return this.$store.state.currentPage === 1;
+    },
+    isInLastPage() {
+      return this.$store.state.currentPage === this.$store.state.totalPages;
+    }
+  },
+  methods: {
+    onClickPreviousPage() {
+      // this.$emit('pagechanged', this.currentPage - 1);
+      this.$store.commit('setPrevSelectedPage', null)
+    },
+    onClickPage(selectedPage) {
+      // this.$emit('pagechanged', currentPage);
+      this.$store.commit('setCurrentSelectedPage', selectedPage)
+    },
+    onClickNextPage() {
+      // this.$emit('pagechanged', this.currentPage + 1);
+      this.$store.commit('setNextSelectedPage', null)
+    }
   }
 };
 </script>

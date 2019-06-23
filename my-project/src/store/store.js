@@ -8,13 +8,21 @@ export default new Vuex.Store({
         isSignIn: localStorage.getItem("sign-in") != null,
         isAdmin: localStorage.getItem("user-role") != null,
         isSignOut: false,
-        search:[],
+        search: [],
         // isSignInMessage: false,
-        cart:[],
-        products: []
+        cart: [],
+        products: [],
+        currentPage: 1,
+        itemsPerPage: 4,
+        totalPages: 0
     },
-    getter: {
-
+    getters: {
+        getPaginationProducts(state) {
+            return state.products.slice(
+                (state.currentPage - 1) * state.itemsPerPage,
+                (state.currentPage - 1) * state.itemsPerPage + state.itemsPerPage
+              );
+        }
     },
     mutations: {
         loginStatus(state, payload) {
@@ -30,12 +38,23 @@ export default new Vuex.Store({
         // loginMessageStatus(state, payload){
         //     state.isSignInMessage = payload;
         // },
-        updateCart(state, payload){
+        updateCart(state, payload) {
             state.cart = payload;
         },
-        updateSearch(state, payload){
-            console.log(payload)
+        setCurrentSelectedPage(state, payload) {
+            state.currentPage = payload
+        },
+        setNextSelectedPage(state) {
+            state.currentPage = state.currentPage + 1
+        },
+        setPrevSelectedPage(state, payload) {
+            state.currentPage = state.currentPage - 1
+        },
+        setPaginationData(state, payload) {
             state.products = payload;
+            state.totalPages = Math.ceil(
+                state.products.length / state.itemsPerPage
+            );
         }
     },
     action: {

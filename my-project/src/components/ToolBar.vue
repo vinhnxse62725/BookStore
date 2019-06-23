@@ -1,5 +1,4 @@
 <template>
-  <v-app>
     <v-toolbar>
     <!--Dropdown menu -->
     <v-menu transition="slide-x-transition" open-on-click offset-y offset-overflow class="menu">
@@ -73,7 +72,6 @@
       </v-btn>
     </v-toolbar-items>
   </v-toolbar>
-  </v-app>
 </template>
 <script>
 import { eventBus } from "../main";
@@ -142,7 +140,7 @@ export default {
         }
       })
         .then(res => {
-          this.$store.commit("updateSearch", res.data);
+          this.$store.commit("setPaginationData", res.data);
         })
         .catch(er => {
           console.log(er);
