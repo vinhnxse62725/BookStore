@@ -14,8 +14,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
-    @Query("SELECT p FROM Book p WHERE LOWER(p.bookName) LIKE  CONCAT ('%',LOWER(:name),'%')")
-    public Iterable<Book> findName(@Param("name") String name);
+    @Query("SELECT p FROM Book p WHERE LOWER(p.bookName) LIKE  CONCAT ('%',LOWER(:searchValue),'%')")
+    Page<Book> findName(Pageable pageable,@Param("searchValue") String searchValue);
 
     @Query("SELECT e FROM Book e WHERE LOWER(e.bookName) LIKE CONCAT ('%',LOWER(:searchValue),'%') AND LOWER(e.category.id) = :cateId")
     Page<Book> findBooks(Pageable pageable,@Param("searchValue") String searchValue,@Param("cateId") int cateId);
