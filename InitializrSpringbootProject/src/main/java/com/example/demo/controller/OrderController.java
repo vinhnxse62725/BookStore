@@ -7,10 +7,13 @@ package com.example.demo.controller;
 
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.entity.Order;
+import com.example.demo.entity.OrderDetail;
+import com.example.demo.repository.OrderDetailRepository;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +32,9 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
+
     // GET list orders
     @GetMapping("")
     @CrossOrigin(origins = "http://localhost:4200")
@@ -40,17 +46,17 @@ public class OrderController {
     @GetMapping("/userid/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
     Iterable<Order> getOrderByUserID(@PathVariable int id) {
-        
+
         List<Order> list = orderRepository.findAll();
         List<Order> result = new ArrayList<>();
         for (Order order : list) {
-            if(order.getUser().getId() == id) {
+            if (order.getUser().getId() == id) {
                 result.add(order);
             }
         }
         return result;
     }
-    
+
     //GET order by id
     @GetMapping("/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
@@ -63,6 +69,15 @@ public class OrderController {
     @PostMapping("")
     @CrossOrigin(origins = "http://localhost:4200")
     Order create(@RequestBody Order newOrder) {
+//            ,@RequestBody Map list) {
+//        orderRepository.save(newOrder);
+//        List<Order> listOrder = orderRepository.findAll();
+//        Order dto = listOrder.get(listOrder.size() - 1);
+//        System.out.println( list.isEmpty());
+//        for (OrderDetail orderDetail : list) {
+//            orderDetail.setOrder(dto);
+//            orderDetailRepository.save(orderDetail);
+//        }
         return orderRepository.save(newOrder);
     }
 
