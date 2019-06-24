@@ -1,13 +1,13 @@
 <template>
-    <v-toolbar>
+  <v-toolbar>
     <!--Dropdown menu -->
     <v-menu transition="slide-x-transition" open-on-click offset-y offset-overflow class="menu">
       <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
       <v-list class="list">
         <v-list-tile class="tile" v-for="category in categories" :key="category.name">
-          <router-link :to="category.router" exact class="activeRouter">
-            <v-list-tile-title>{{category.name}}</v-list-tile-title>
-          </router-link>
+          <v-btn @click="categorySelected(category.id)" class="activeRouter">
+            <v-list-tile-title>{{category.categoryName}}</v-list-tile-title>
+          </v-btn>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -21,12 +21,12 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn flat>
-        <form id="form-search">
+        <form id="form-search" @submit.prevent="" >
           <input
-            type="search"
+            type="text"
             placeholder="Nhập tên sách bạn cần tìm?"
             v-model="searchValue"
-            v-on:keydown.enter.prevent="search()"
+            v-on:keydown.enter="search()"
           >
           <v-icon class="searchIcon" @click="changeSearchBar()">search</v-icon>
         </form>
@@ -79,27 +79,7 @@ export default {
   props: ["notification"],
   data() {
     return {
-      categories: [
-        { name: "Tất cả", router: "/" },
-        { name: "Ẩm thực", router: "/" },
-        { name: "Kỹ năng sống", router: "/" },
-        { name: "Y học - Sức khỏe", router: "/" },
-        { name: "Thể thao - Nghệ thuật", router: "/" },
-        { name: "Trinh thám - Hình sự", router: "/" },
-        { name: "Văn hóa - Tôn giáo", router: "/" },
-        { name: "Tử vi - Phong thủy", router: "/" },
-        { name: "Lịch sử - Chính trị", router: "/" },
-        { name: "Văn học Việt Nam", router: "/" },
-        { name: "Văn học nước ngoài", router: "/" },
-        { name: "Hồi ký", router: "/" },
-        { name: "Kinh dị - Ma quái", router: "/" },
-        { name: "Cổ tích - Thần thoại", router: "/" },
-        { name: "Khoa học - Công nghệ", router: "/" },
-        { name: "Tiểu thuyết", router: "/" },
-        { name: "Triết học", router: "/" },
-        { name: "Kiếm hiệp", router: "/" },
-        { name: "Truyện ngắn", router: "/" }
-      ],
+      categories: [],
       searchValue: null,
       // isAdmin: null,
       cart: null
@@ -112,6 +92,23 @@ export default {
     );
   },
   methods: {
+    categorySelected(id) {
+      this.$axios({
+        method: "get",
+        url: "api/book/searchByCategoryId",
+        params: {
+          searchValue: this.$store.state.searchValue,
+          cateId: id,
+        }
+      })
+        .then(res => {
+          this.$store.commit("setCateId", id);
+          this.$store.commit("setPaginationData", res.data);
+        })
+        .catch(er => {
+          console.log(er);
+        });
+    },
     logout() {
       localStorage.removeItem("access-token");
       localStorage.removeItem("profile");
@@ -134,18 +131,32 @@ export default {
     search() {
       this.$axios({
         method: "get",
-        url: "api/book/searching",
+        url: "api/book/searchByCategoryId",
         params: {
-          search: this.searchValue
+          searchValue: this.$store.state.searchValue,
+          cateId: this.$store.state.cateId,
         }
       })
         .then(res => {
+          this.$store.commit("setSearchValue", this.searchValue);
           this.$store.commit("setPaginationData", res.data);
         })
         .catch(er => {
           console.log(er);
         });
     }
+  },
+  mounted() {
+    this.$axios({
+      method: "get",
+      url: "api/category"
+    })
+      .then(res => {
+        this.categories = res.data;
+      })
+      .catch(er => {
+        console.log(er);
+      });
   }
 };
 </script>

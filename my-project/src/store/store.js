@@ -14,7 +14,9 @@ export default new Vuex.Store({
         products: [],
         currentPage: 1,
         itemsPerPage: 4,
-        totalPages: 0
+        totalPages: 0,
+        searchValue: "",
+        cateId: "",
     },
     getters: {
         getPaginationProducts(state) {
@@ -47,7 +49,7 @@ export default new Vuex.Store({
         setNextSelectedPage(state) {
             state.currentPage = state.currentPage + 1
         },
-        setPrevSelectedPage(state, payload) {
+        setPrevSelectedPage(state) {
             state.currentPage = state.currentPage - 1
         },
         setPaginationData(state, payload) {
@@ -55,6 +57,12 @@ export default new Vuex.Store({
             state.totalPages = Math.ceil(
                 state.products.length / state.itemsPerPage
             );
+        },
+        setSearchValue(state, payload){
+            state.searchValue = payload
+        },
+        setCateId(state, payload){
+            state.cateId = payload
         }
     },
     action: {

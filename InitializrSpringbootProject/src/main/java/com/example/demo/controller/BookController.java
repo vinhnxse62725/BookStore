@@ -46,7 +46,7 @@ public class BookController {
     @CrossOrigin(origins = "http://localhost:4200")
     Iterable<Book> getBookByCateId(@RequestParam(value = "searchValue", required = false) String searchValue,
             @RequestParam(value = "cateId", required = false) Integer cateId) {
-        if (cateId == null) {
+        if (cateId == null || cateId == 1) {
             return bookRepository.findByName(searchValue);
         } else {
             return bookRepository.findByCategoryId(searchValue, cateId);
