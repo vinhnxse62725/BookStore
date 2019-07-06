@@ -221,14 +221,17 @@ export default {
                 title: "Đăng ký thành công !",
                 type: "success",
                 confirmButtonText: "OK",
-                timer: 3000
+                timer: 3000,
+                allowOutsideClick: false
+              }).then(result => {
+                this.$router.push("/login");
               });
               console.log(res);
-              this.$router.push("/login");
             })
             .catch(er => {
               this.$swal({
                 title: "Đăng ký thất bại!",
+                text:"Tài khoản trên đã tồn tại!",
                 type: "error",
                 confirmButtonText: "OK"
               });

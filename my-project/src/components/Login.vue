@@ -120,10 +120,10 @@ export default {
                 console.log("++++++++++++++++++++++++++++++++++++++++++++");
                 localStorage.setItem("profile", JSON.stringify(profile));
                 localStorage.setItem("user-role", rs.data.admin);
+                let isAdmin = rs.data.admin;
                 localStorage.setItem("sign-in", true);
                 localStorage.removeItem("sign-out");
                 this.$store.commit("loginStatus", true);
-                // this.$store.commit("loginMessageStatus", true);
                 this.$store.commit("logoutStatus", false);
                 // let something = JSON.parse(localStorage.getItem("profile"));
                 // alert(something.email);
@@ -132,14 +132,16 @@ export default {
                   title: "Đăng nhập thành công!",
                   type: "success",
                   confirmButtonText: "OK",
-                  timer: 3000
+                  timer: 3000,
+                  allowOutsideClick: false
+                }).then(result => {
+                    if (isAdmin) {
+                      this.$store.commit("adminStatus", true);
+                      this.$router.push("/admin");
+                    } else {
+                      this.$router.push("/");
+                    }
                 });
-                if (rs.data.admin) {
-                  this.$store.commit("adminStatus", true);
-                  this.$router.push("/admin");
-                } else {
-                  this.$router.push("/");
-                }
               });
             })
             .catch(er => {

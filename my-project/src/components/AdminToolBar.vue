@@ -74,7 +74,6 @@ export default {
       this.$store.commit("loginStatus", false);
       this.$store.commit("adminStatus", false);
       this.$store.commit("logoutStatus", true);
-      // this.$store.commit("loginMessageStatus", false);
       this.$router.push("/");
     },
     changeSearchBar() {

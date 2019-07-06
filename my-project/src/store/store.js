@@ -37,9 +37,6 @@ export default new Vuex.Store({
             state.isSignOut = payload;
 
         },
-        // loginMessageStatus(state, payload){
-        //     state.isSignInMessage = payload;
-        // },
         updateCart(state, payload) {
             state.cart = payload;
         },
