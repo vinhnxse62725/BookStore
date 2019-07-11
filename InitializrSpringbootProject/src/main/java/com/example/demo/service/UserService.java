@@ -31,7 +31,6 @@ public class UserService {
 //        Page<User> result = userRepository.findAll(where(UserRepository.filterByCustomerID(search)), sortedByCreatedDateDesc);
 //        return result;
 //    }
-
     public User createUser(User user) {
         Optional<User> duplicateUser = userRepository.findByCustomerID(user.getCustomerID());
         if (duplicateUser.isPresent()) {
@@ -105,6 +104,10 @@ public class UserService {
     public Optional<User> findUserById(int id) {
 //         Optional<User> user = userRepository.findById(id).get();
         return userRepository.findById(id);
+    }
+
+    public Iterable<User> findAllUser() {
+        return userRepository.findAll();
     }
 
     public void deleteUser(int id) {

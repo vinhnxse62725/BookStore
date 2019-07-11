@@ -31,7 +31,6 @@ public class OrderController {
 
     @Autowired
     private OrderRepository orderRepository;
-
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
@@ -102,6 +101,10 @@ public class OrderController {
     @DeleteMapping("/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
     void delete(@PathVariable int id) {
+        List<OrderDetail> list = orderDetailRepository.search(id);
+        for (OrderDetail orderDetail : list) {
+            orderDetailRepository.deleteById(orderDetail.getId());
+        }
         orderRepository.deleteById(id);
     }
 

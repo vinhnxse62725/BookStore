@@ -23,7 +23,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
     
     @Column(name = "customerID")
@@ -52,6 +53,9 @@ public class User implements Serializable {
     
     @Column(name = "address")
     private String address;
+    
+    @Column(name = "isActive")
+    private boolean isActive;
     
     public User() {
     }
