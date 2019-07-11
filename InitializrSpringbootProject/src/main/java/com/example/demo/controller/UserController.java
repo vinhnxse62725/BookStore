@@ -96,7 +96,9 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:4200")
     void delete(@PathVariable int id) {
         try {
-            userService.deleteUser(id);
+            User user = userService.findUserById(id).get();
+            user.setActive(false);
+            userService.update(id, user);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
