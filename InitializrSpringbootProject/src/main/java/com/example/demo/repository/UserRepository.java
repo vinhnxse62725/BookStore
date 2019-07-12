@@ -7,12 +7,8 @@ package com.example.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.entity.User;
-import java.util.List;
 import java.util.Optional;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 /**
  *
@@ -26,8 +22,8 @@ public interface UserRepository extends JpaRepository<User, Integer> , JpaSpecif
 //            return cb.like(root.get("customerID"),"%"+customerID+"%" );
 //        };
 //    }
-//    
-//    @Query("SELECT p FROM User p WHERE LOWER(p.customerID) LIKE  CONCAT ('%',LOWER(:customerID),'%')")
+//  
+//    @Query("SELECT u FROM Users u WHERE LOWER(u.customerID) LIKE  CONCAT ('%',LOWER(:customerID),'%')")
 //    public List<User> findCustomerID(@Param("customerID") String customerID);
 
 }
