@@ -6,6 +6,8 @@ import Register from '@/components/Register'
 import Cart from '@/components/Cart'
 import History from '@/components/OrderHistory'
 import Admin from '@/components/Admin'
+import UsersManager from '@/components/UsersManager'
+import BooksManager from '@/components/BooksManager'
 
 Vue.use(Router)
 
@@ -15,7 +17,7 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Admin
     },
     {
       path: '/login',
@@ -41,6 +43,16 @@ export default new Router({
       path: '/admin',
       name: 'Admin',
       component: Admin
-    }
+    },
+    {
+      path: '/usersmanager',
+      name: 'UsersManager',
+      component: UsersManager
+    },
+    {
+      path: '/booksmanager',
+      name: 'BooksManager',
+      component: BooksManager
+    },
   ],
 })

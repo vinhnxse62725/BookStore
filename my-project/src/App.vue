@@ -1,9 +1,12 @@
 <template>
   <div id="app">
-    <app-toolbar id="toolbar" class="fixed-top" v-if="!$store.state.isAdmin"></app-toolbar>
-    <app-admin-toolbar id="toolbar" class="fixed-top" v-if="$store.state.isAdmin"></app-admin-toolbar>
+    <v-content>
+      <!-- <app-toolbar id="toolbar" class="fixed-top" v-if="!$store.state.isAdmin"></app-toolbar>
+      <app-admin-toolbar id="toolbar" class="fixed-top" v-if="$store.state.isAdmin"></app-admin-toolbar>-->
+      <app-admin-toolbar></app-admin-toolbar>
+      <router-view />
+    </v-content>
 
-    <router-view/>
     <footer>
       <app-footer></app-footer>
     </footer>
@@ -29,10 +32,15 @@ export default {
 <style>
 html {
   overflow: auto;
-  margin-top: 64px;
-  height:100%;
+  /* margin-top: 64px; */
+  height: 100%;
 }
-body{ min-height:100%; padding:0; margin:0; position:relative; }
+body {
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
 
 /* Trick: */
 body {
@@ -40,7 +48,7 @@ body {
 }
 
 body::after {
-  content: '';
+  content: "";
   display: block;
   height: 150px; /* Set same as footer's height */
 }
