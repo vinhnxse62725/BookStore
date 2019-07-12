@@ -110,14 +110,13 @@ public class OrderController {
     @DeleteMapping("/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
     void delete(@PathVariable int id) {
-        List<OrderDetail> list = orderDetailRepository.search(id);
-        for (OrderDetail orderDetail : list) {
-            orderDetailRepository.deleteById(orderDetail.getId());
-        }
-        orderRepository.deleteById(id);
+        Order order = orderRepository.findById(id).get();
+        order.setStatus(false);
+        orderRepository.save(order);
     }
 
-    @GetMapping("/oderbyMonth")
+    // get top 3 book in month
+    @GetMapping("/orderbyMonth")
     @CrossOrigin(origins = "http://localhost:4200")
     List<Book> getOrderbyMonth() {
         LocalDateTime time = LocalDateTime.now();
@@ -133,7 +132,8 @@ public class OrderController {
         return getBookByDate(fromDate, toDate);
     }
 
-    @GetMapping("/oderbyDay")
+    // get top 3 book in day
+    @GetMapping("/orderbyDay")
     @CrossOrigin(origins = "http://localhost:4200")
     List<Book> getOrderbyDay() {
         LocalDateTime time = LocalDateTime.now();
@@ -148,6 +148,8 @@ public class OrderController {
         return getBookByDate(Date, Date);
     }
 
+    
+    
     private List<Book> getBookByDate(Date fromDate, Date toDate) {
 
         List<Order> orders = orderRepository.getOrderOrderBy(fromDate, toDate);
