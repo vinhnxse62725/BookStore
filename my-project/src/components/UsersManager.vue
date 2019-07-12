@@ -1,5 +1,4 @@
 <template>
-  <v-app>
     <v-card>
       <v-card-title>
         Users Manager
@@ -39,7 +38,6 @@
         </template>
       </v-data-table>
     </v-card>
-  </v-app>
 </template>
 
 <script>

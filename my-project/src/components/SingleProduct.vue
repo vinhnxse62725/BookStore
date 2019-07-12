@@ -6,11 +6,11 @@
           <span>-{{product.discount}}%</span>
         </template>
         <v-card>
-          <v-img class="white--text" style="max-width:100%; height:auto;" :src="product.image">
+          <v-img class="white--text" :aspect-ratio="20/32" :src="product.image">
             <v-container fill-height fluid>
               <v-layout fill-height>
                 <v-flex xs12 align-end flexbox>
-                  <input type="hidden" id="product.id" value="product.id">
+                  <input type="hidden" id="product.id" value="product.id" />
                 </v-flex>
               </v-layout>
             </v-container>
@@ -21,11 +21,13 @@
             <div>
               <h6 style="width:100%; text-align:center;">{{product.bookName}}</h6>
               <div class="tool-tip-text">
-                <v-card style="min-width:200px;">
+                <v-card style="min-width:200px; max-height:320px;">
                   <v-card-title>
-                    <h6 style="width:100%; text-align:center">{{product.bookName}}</h6>
-                    <br>
-                    <p style="width:100%; text-align:center">{{product.description}}</p>
+                    <vue-custom-scrollbar class="scroll-area" :settings="settings">
+                      <h6 style="width:100%; text-align:center">{{product.bookName}}</h6>
+                      <br />
+                      <p style="width:100%; text-align:initial;">{{product.description}}</p>
+                    </vue-custom-scrollbar>
                   </v-card-title>
                 </v-card>
               </div>
@@ -41,7 +43,7 @@
                         top: 8px;
                         width: 100%;"
               >{{product.price}} ₫</span>
-              <br>
+              <br />
               <span
                 style="color: red;
                         position: absolute;
@@ -69,7 +71,7 @@
                         top: 8px;
                         width: 100%;"
               >{{product.price}} ₫</span>
-              <br>
+              <br />
               <span
                 style="color: red;
                         position: absolute;
@@ -88,11 +90,16 @@
   </v-layout>
 </template>
 <script>
+import VueCustomScrollbar from "vue-custom-scrollbar";
 export default {
   props: ["product"],
+  components: { VueCustomScrollbar },
   data() {
     return {
-      cart: []
+      cart: [],
+      settings: {
+        maxScrollbarLength: 60
+      }
     };
   },
   methods: {
@@ -146,6 +153,12 @@ export default {
 };
 </script>
 <style scoped>
+.scroll-area {
+  position: relative;
+  margin: auto;
+  min-width: 180px;
+  max-height: 300px;
+}
 >>> .v-badge__badge {
   font-size: 16px;
   top: 10px;

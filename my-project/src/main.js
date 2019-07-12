@@ -10,9 +10,11 @@ import store from './store/store.js'
 import axios from './plugins/axios.js'
 import VeeValidate from 'vee-validate';
 import VueSweetalert2 from 'vue-sweetalert2';
- 
-Vue.use(VueSweetalert2);
-Vue.use(VeeValidate);
+import VueCustomScrollbar from "vue-custom-scrollbar";
+
+Vue.use(VueCustomScrollbar)
+Vue.use(VueSweetalert2)
+Vue.use(VeeValidate)
 Vue.use(Vuelidate)
 Vue.use(BootstrapVue)
 Vue.use(Vuetify)

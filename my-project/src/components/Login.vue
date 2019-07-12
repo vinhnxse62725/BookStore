@@ -1,9 +1,8 @@
 <template>
-  <v-app>
     <div class="bg">
       <div class="login">
         <form>
-          <div class="container" v-on:keydown.enter.prevent="signin()">
+          <v-container v-on:keydown.enter.prevent="signin()">
             <h2>Đăng Nhập</h2>
             <div class="form-group">
               <label for="username">
@@ -54,11 +53,10 @@
                 <router-link to="/register">Đăng ký ngay</router-link>
               </span>
             </div>
-          </div>
+          </v-container>
         </form>
       </div>
     </div>
-  </v-app>
 </template>
 <script>
 import axios from "axios";

@@ -4,7 +4,7 @@
     app
     v-model="drawer"
     :mini-variant.sync="mini"
-    hide-overlay="true"
+    :hide-overlay="true"
     stateless
   >
     <!-- <v-toolbar flat class="transparent"> -->

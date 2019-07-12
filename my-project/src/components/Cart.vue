@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <v-container>
     <v-layout>
       <div style="margin:20px; width:100%; text-align: center;">
         <h2 class="font-weight-light">GIỎ HÀNG</h2>
@@ -60,7 +60,7 @@
         >Thanh Toán Ngay</v-btn>
       </div>
     </div>
-  </div>
+  </v-container>
 </template>
 <script>
 export default {

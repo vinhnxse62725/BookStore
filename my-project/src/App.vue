@@ -1,16 +1,13 @@
 <template>
-  <div id="app">
-    <v-content>
-      <!-- <app-toolbar id="toolbar" class="fixed-top" v-if="!$store.state.isAdmin"></app-toolbar>
-      <app-admin-toolbar id="toolbar" class="fixed-top" v-if="$store.state.isAdmin"></app-admin-toolbar>-->
-      <app-admin-toolbar></app-admin-toolbar>
-      <router-view />
-    </v-content>
-
-    <footer>
-      <app-footer></app-footer>
-    </footer>
-  </div>
+  <v-app>
+      <app-toolbar id="toolbar" v-if="!$store.state.isAdmin"></app-toolbar>
+      <!-- <app-admin-toolbar id="toolbar" class="fixed-top" v-if="$store.state.isAdmin"></app-admin-toolbar> -->
+      <app-admin-toolbar v-if="$store.state.isAdmin"></app-admin-toolbar>
+    <router-view />
+    <br />
+    <br />
+    <app-footer></app-footer>
+  </v-app>
 </template>
 
 <script>
@@ -28,35 +25,3 @@ export default {
   }
 };
 </script>
-
-<style>
-html {
-  overflow: auto;
-  /* margin-top: 64px; */
-  height: 100%;
-}
-body {
-  min-height: 100%;
-  padding: 0;
-  margin: 0;
-  position: relative;
-}
-
-/* Trick: */
-body {
-  position: relative;
-}
-
-body::after {
-  content: "";
-  display: block;
-  height: 150px; /* Set same as footer's height */
-}
-
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 150px;
-}
-</style>

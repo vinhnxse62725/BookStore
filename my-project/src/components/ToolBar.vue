@@ -1,11 +1,11 @@
 <template>
-  <v-toolbar>
+  <v-toolbar app fixed>
     <!--Dropdown menu -->
     <v-menu transition="slide-x-transition" open-on-click offset-y offset-overflow class="menu">
       <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
       <v-list class="list">
         <v-list-tile class="tile" v-for="category in categories" :key="category.name">
-          <v-btn @click="categorySelected(category.id)" class="activeRouter">
+          <v-btn @click="categorySelected(category.id)" flat class="activeRouter">
             <v-list-tile-title>{{category.categoryName}}</v-list-tile-title>
           </v-btn>
         </v-list-tile>
@@ -26,7 +26,7 @@
             type="text"
             placeholder="Nhập tên sách bạn cần tìm?"
             v-model="searchValue"
-            v-on:keydown.enter="search()"
+            v-on:keyup.enter="search()"
           >
           <v-icon class="searchIcon" @click="changeSearchBar()">search</v-icon>
         </form>
@@ -89,7 +89,18 @@ export default {
     this.$store.commit(
       "updateCart",
       JSON.parse(localStorage.getItem("cart-storage"))
-    );
+    ),
+        this.$axios({
+      method: "get",
+      url: "api/category"
+    })
+      .then(res => {
+        console.log(res);
+        this.categories = res.data;
+      })
+      .catch(er => {
+        console.log(er);
+      });
   },
   methods: {
     categorySelected(id) {
@@ -128,6 +139,7 @@ export default {
       }
     },
     search() {
+      console.log("lan 1")
       this.$axios({
         method: "get",
         url: "api/book/searchByCategoryId",
@@ -144,22 +156,13 @@ export default {
           console.log(er);
         });
     }
-  },
-  mounted() {
-    this.$axios({
-      method: "get",
-      url: "api/category"
-    })
-      .then(res => {
-        this.categories = res.data;
-      })
-      .catch(er => {
-        console.log(er);
-      });
   }
 };
 </script>
 <style scoped>
+.activeRouter.v-btn:hover::before{
+  background-color: transparent;
+}
 .list {
   width: 400px;
 }

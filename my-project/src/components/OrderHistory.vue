@@ -1,6 +1,5 @@
 <template>
-<v-app>
-  <div class="container">
+  <v-container>
     <v-layout>
       <div style="margin:20px; width:100%; text-align: center;">
         <h2 class="font-weight-light">LỊCH SỬ ĐẶT HÀNG</h2>
@@ -50,8 +49,7 @@
                 <td class="text-md-center">
                   <img
                     :src="ods.item.book.image"
-                    style="margin:10px; width: 100px;
-    height: auto;"
+                    style="margin:10px; height: 70px;"
                   >
                 </td>
                 <td class="text-md-center">{{ ods.item.book.bookName }}</td>
@@ -68,8 +66,7 @@
         </v-layout>
       </v-list>
     </v-bottom-sheet>
-  </div>
-  </v-app>
+  </v-container>
 </template>
 <script>
 export default {

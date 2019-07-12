@@ -1,12 +1,11 @@
 <template>
-  <v-app>
     <div class="bg">
       <div id="register">
         <div class="register">
           <!-- <form v-on:summit.prevent="getuser"> -->
           <form>
             <h2 style="text-align:center">Tạo tài khoản</h2>
-            <div class="container">
+            <v-container>
               <div class="d-flex justify-content-center">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -150,7 +149,7 @@
                   </div>
                 </div>
               </div>
-              <div class="container">
+              <v-container>
                 <label for="email">
                   <b>Địa chỉ Email</b>
                 </label>
@@ -165,7 +164,7 @@
                   class="help-block alert alert-danger animated bounceIn"
                   v-show="errors.has('email')"
                 >{{errors.first('email')}}</p>
-              </div>
+              </v-container>
               <button type="button" v-on:click="signup()">Tạo Tài Khoản</button>
               <div style="text-align:center;">
                 <span class="psw">
@@ -173,12 +172,11 @@
                   <router-link to="/login">Đăng nhập ngay</router-link>
                 </span>
               </div>
-            </div>
+            </v-container>
           </form>
         </div>
       </div>
     </div>
-  </v-app>
 </template>  
   
 <script>
