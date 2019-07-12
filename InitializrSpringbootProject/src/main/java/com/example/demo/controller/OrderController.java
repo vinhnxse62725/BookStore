@@ -5,16 +5,23 @@
  */
 package com.example.demo.controller;
 
+import com.example.demo.entity.Book;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.entity.Order;
 import com.example.demo.entity.OrderDetail;
+import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.OrderDetailRepository;
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.joda.DateTimeParser;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +40,8 @@ public class OrderController {
     private OrderRepository orderRepository;
     @Autowired
     private OrderDetailRepository orderDetailRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
     // GET list orders
     @GetMapping("")
@@ -108,4 +117,69 @@ public class OrderController {
         orderRepository.deleteById(id);
     }
 
+    @GetMapping("/oderbyMonth")
+    @CrossOrigin(origins = "http://localhost:4200")
+    List<Book> getOrderbyMonth() {
+        LocalDateTime time = LocalDateTime.now();
+        Date fromDate = new Date();
+        Date toDate = new Date();
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            fromDate = format.parse(time.getYear() + "-" + time.getMonthValue() + "-" + 1);
+            toDate = format.parse(time.getYear() + "-" + time.getMonthValue() + "-" + time.getDayOfMonth());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return getBookByDate(fromDate, toDate);
+    }
+
+    @GetMapping("/oderbyDay")
+    @CrossOrigin(origins = "http://localhost:4200")
+    List<Book> getOrderbyDay() {
+        LocalDateTime time = LocalDateTime.now();
+        Date Date = new Date();
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date = format.parse(time.getYear() + "-" + time.getMonthValue() + "-" + time.getDayOfMonth());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Date);
+        return getBookByDate(Date, Date);
+    }
+
+    private List<Book> getBookByDate(Date fromDate, Date toDate) {
+
+        List<Order> orders = orderRepository.getOrderOrderBy(fromDate, toDate);
+        List<OrderDetail> details = new ArrayList<OrderDetail>();
+        for (Order order : orders) {
+            System.out.println(order.getId() + "   orderID");
+            details.addAll(orderDetailRepository.search(order.getId()));
+        }
+        int[] count = new int[10000];
+
+        for (OrderDetail detail : details) {
+            System.out.println("orderDetail " + detail.getId());
+            count[detail.getBook().getId()] += detail.getQuantity();
+        }
+        List<Book> books = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            int max = 0;
+            int index = 0;
+            for (int j = 0; j < count.length; j++) {
+                if (count[j] > max) {
+                    max = count[j];
+                    index = j;
+                }
+            }
+            if (max != 0) {
+                System.out.println(index + "   " + max);
+                books.add(bookRepository.findById(index).get());
+                count[index] = 0;
+            } else {
+                break;
+            }
+        }
+        return books;
+    }
 }

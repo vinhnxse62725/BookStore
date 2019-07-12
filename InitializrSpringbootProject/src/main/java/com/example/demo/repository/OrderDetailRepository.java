@@ -27,7 +27,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
     //public List<OrderDetail> findAndPaging(String orderid, Pageable pageable);
     
     // Searching
-    @Query("SELECT od FROM OrderDetail od WHERE LOWER(od.order.id) = LOWER(:orderid)")
+    @Query("SELECT od FROM OrderDetail od WHERE od.order.id = :orderid")
     public List<OrderDetail> search(@Param("orderid") int orderid);
     //delete
 //    @Query("DELETE FROM OrderDetail od WHERE od.order.id = :orderid")
