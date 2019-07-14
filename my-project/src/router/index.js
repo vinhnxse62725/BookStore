@@ -8,6 +8,7 @@ import History from '@/components/OrderHistory'
 import Admin from '@/components/Admin'
 import UsersManager from '@/components/UsersManager'
 import BooksManager from '@/components/BooksManager'
+import UserProfile from '@/components/UserProfile'
 
 Vue.use(Router)
 
@@ -38,6 +39,11 @@ export default new Router({
       path: '/history',
       name: 'History',
       component: History
+    },
+    {
+      path: '/userprofile',
+      name: 'UserProfile',
+      component: UserProfile
     },
     {
       path: '/admin',

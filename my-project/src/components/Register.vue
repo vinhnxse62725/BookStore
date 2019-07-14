@@ -4,17 +4,17 @@
         <div class="register">
           <!-- <form v-on:summit.prevent="getuser"> -->
           <form>
-            <h2 style="text-align:center">Tạo tài khoản</h2>
             <v-container>
+            <h2 style="text-align:center">Register</h2>
               <div class="d-flex justify-content-center">
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="username">
-                      <b>Tên đăng nhập</b>
+                      <b>Username</b>
                     </label>
                     <input
                       type="text"
-                      placeholder="Nhập Username"
+                      placeholder="Type your Username"
                       v-model="username"
                       name="username"
                       v-validate="'required|min:5|alpha_dash'"
@@ -27,11 +27,11 @@
 
                   <div class="form-group">
                     <label for="password">
-                      <b>Mật khẩu</b>
+                      <b>Password</b>
                     </label>
                     <input
                       type="password"
-                      placeholder="Nhập Password"
+                      placeholder="Type your Password"
                       v-model="password"
                       name="password"
                       v-validate="'required|min:6'"
@@ -44,13 +44,12 @@
                   </div>
                   <div class="form-group">
                     <label for="password_confirmation">
-                      <b>Xác nhận lại mật khẩu</b>
+                      <b>Confirm Password</b>
                     </label>
                     <input
                       type="password"
-                      placeholder="Nhập lại Password"
+                      placeholder="Type your Confirm Password"
                       name="password_confirmation"
-                      v-model="password_confirmation"
                       v-validate="'required|confirmed:password'"
                       data-vv-as="password"
                     >
@@ -61,11 +60,11 @@
                   </div>
                   <div class="form-group">
                     <label for="fullname">
-                      <b>Họ và tên</b>
+                      <b>Fullname</b>
                     </label>
                     <input
                       type="text"
-                      placeholder="Nhập Họ và tên"
+                      placeholder="Type your Fullname"
                       v-model="fullname"
                       name="fullname"
                       v-validate="'required|alpha_spaces'"
@@ -79,7 +78,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="gender">
-                      <b>Giới tính</b>
+                      <b>Gender</b>
                     </label>
                     <select
                       class="form-control"
@@ -88,7 +87,7 @@
                       name="gender"
                       v-validate="'required'"
                     >
-                      <option value disabled selected>Chọn Giới Tính</option>
+                      <option value disabled selected>Select your Gender</option>
                       <option>Male</option>
                       <option>Female</option>
                       <option>Other</option>
@@ -100,13 +99,12 @@
                   </div>
                   <div class="form-group">
                     <label for="age">
-                      <b>Tuổi</b>
+                      <b>Age</b>
                     </label>
-                    <!-- <input type="text" placeholder="Nhập Ngày sinh" name="dob" required> -->
                     <input
                       type="number"
                       v-model="age"
-                      placeholder="Nhập Tuổi"
+                      placeholder="Type your Age"
                       name="age"
                       v-validate="'required|between:1,100'"
                     >
@@ -117,11 +115,11 @@
                   </div>
                   <div class="form-group">
                     <label for="address">
-                      <b>Địa chỉ</b>
+                      <b>Address (Shipping address)</b>
                     </label>
                     <input
                       type="text"
-                      placeholder="Nhập Địa chỉ"
+                      placeholder="Type your Address"
                       v-model="address"
                       name="address"
                       v-validate="'required'"
@@ -133,11 +131,11 @@
                   </div>
                   <div class="form-group">
                     <label for="phone">
-                      <b>Số điện thoại</b>
+                      <b>Phone</b>
                     </label>
                     <input
                       type="text"
-                      placeholder="Nhập Số điện thoại"
+                      placeholder="Type your Phone"
                       v-model="phone"
                       name="phone"
                       v-validate="'required|digits:10'"
@@ -151,11 +149,11 @@
               </div>
               <v-container>
                 <label for="email">
-                  <b>Địa chỉ Email</b>
+                  <b>Email</b>
                 </label>
                 <input
                   type="text"
-                  placeholder="Nhập Email"
+                  placeholder="Type your Email"
                   v-model="email"
                   name="email"
                   v-validate="'required|email'"
@@ -165,13 +163,13 @@
                   v-show="errors.has('email')"
                 >{{errors.first('email')}}</p>
               </v-container>
-              <button type="button" v-on:click="signup()">Tạo Tài Khoản</button>
-              <div style="text-align:center;">
-                <span class="psw">
-                  Bạn đã có tài khoản.
-                  <router-link to="/login">Đăng nhập ngay</router-link>
-                </span>
-              </div>
+              <button type="button" v-on:click="signup()">Register</button>
+            <div style="text-align:center;">
+              <span class="psw">
+                You have an account. 
+                <router-link to="/login">Login now</router-link>
+              </span>
+            </div>
             </v-container>
           </form>
         </div>
@@ -216,7 +214,8 @@ export default {
             .then(res => {
               // alert("Register Successfully!!");
               this.$swal({
-                title: "Đăng ký thành công !",
+                title: "Success",
+                text:"Sign up successful !",
                 type: "success",
                 confirmButtonText: "OK",
                 timer: 3000,
@@ -224,16 +223,15 @@ export default {
               }).then(result => {
                 this.$router.push("/login");
               });
-              console.log(res);
             })
             .catch(er => {
+              console.log(er);
               this.$swal({
-                title: "Đăng ký thất bại!",
-                text:"Tài khoản trên đã tồn tại!",
+                title: "Error!",
+                text:"Account already exists!",
                 type: "error",
                 confirmButtonText: "OK"
               });
-              console.log(er);
             });
         } else {
           console.log("Not Valid");

@@ -3,14 +3,14 @@
       <div class="login">
         <form>
           <v-container v-on:keydown.enter.prevent="signin()">
-            <h2>Đăng Nhập</h2>
+            <h2>Login</h2>
             <div class="form-group">
               <label for="username">
-                <b>Tên đăng nhập</b>
+                <b>Username</b>
               </label>
               <input
                 type="text"
-                placeholder="Nhập Username"
+                placeholder="Type your Username"
                 name="username"
                 v-model="username"
                 v-validate="'required|min:5'"
@@ -22,11 +22,11 @@
             </div>
             <div class="form-group">
               <label for="password">
-                <b>Mật khẩu</b>
+                <b>Password</b>
               </label>
               <input
                 type="password"
-                placeholder="Nhập password"
+                placeholder="Type your password"
                 name="password"
                 v-model="password"
                 v-validate="'required'"
@@ -36,21 +36,12 @@
                 v-show="errors.has('password')"
               >{{errors.first('password')}}</p>
             </div>
-            <label>
-              <input type="checkbox" checked="none" name="remember"> Nhớ tài khoản
-            </label>
-            <button type="button" v-on:click="signin()">Đăng Nhập</button>
-            <div style="text-align:center;">
-              <span class="psw">
-                Bạn quên mật khẩu?
-                <a href="#">Reset</a>
-              </span>
-            </div>
+            <button type="button" v-on:click="signin()">Login</button>
 
             <div style="text-align:center;">
               <span class="psw">
-                Chưa có tài khoản
-                <router-link to="/register">Đăng ký ngay</router-link>
+                You don't have an account. 
+                <router-link to="/register">Register now</router-link>
               </span>
             </div>
           </v-container>
@@ -80,22 +71,10 @@ export default {
               password: this.password
             }
           })
-            // axios.post("/api/auth/login", {
-            // axios.post("/auth/login", {
-            //   customerID: this.username,
-            //   password: this.password
-            // })
             .then(res => {
               console.log(res);
               var token = res.data;
               localStorage.setItem("access-token", token);
-              // axios;
-              // .get("/api/auth/user/me", {
-              // .get("/auth/user/me", {
-              //   headers: {
-              //     authorization: localStorage.getItem("access-token")
-              //   }
-              // })
               this.$axios({
                 method: "get",
                 url: "auth/user/me",
@@ -127,7 +106,8 @@ export default {
                 // alert(something.email);
                 this.$emit("logined", true);
                 this.$swal({
-                  title: "Đăng nhập thành công!",
+                  title: "Success",
+                  text:"Login successfully !",
                   type: "success",
                   confirmButtonText: "OK",
                   timer: 3000,
@@ -146,7 +126,8 @@ export default {
               console.log(er);
               // alert("Wrong username or password!");
               this.$swal({
-                title: "Đăng nhập thất bại!",
+                title: "Error",
+                text:"Wrong username or password !",
                 type: "error",
                 confirmButtonText: "OK",
                 timer: 3000
