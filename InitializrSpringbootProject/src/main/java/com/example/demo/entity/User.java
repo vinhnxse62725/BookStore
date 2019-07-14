@@ -36,8 +36,8 @@ public class User implements Serializable {
     @Column(name = "email")
     private String email;
     
-    @Column(name = "isAdmin")
-    private boolean isAdmin;
+    @Column(name = "role")
+    private String role;
     
     @Column(name = "fullname")
     private String fullname;

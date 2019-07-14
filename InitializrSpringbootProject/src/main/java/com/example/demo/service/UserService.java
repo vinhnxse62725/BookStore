@@ -37,7 +37,7 @@ public class UserService {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "This account exist!");
         } else {
-            user.setAdmin(user.isAdmin());
+            user.setRole("ROLE_USER");
             user.setFullname(user.getFullname());
             user.setEmail((user.getEmail()));
             user.setAge(user.getAge());
@@ -55,7 +55,7 @@ public class UserService {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "This account exist!");
         } else {
-            user.setAdmin(user.isAdmin());
+            user.setRole(user.getRole());
             user.setFullname(user.getFullname());
             user.setEmail((user.getEmail()));
             user.setAge(user.getAge());
@@ -71,7 +71,7 @@ public class UserService {
         return userRepository.findById(id).map(users -> {
             user.setFullname(user.getFullname());
             user.setEmail((user.getEmail()));
-            user.setAdmin(user.isAdmin());
+            user.setRole(user.getRole());
             user.setAge(user.getAge());
             user.setGender(user.getGender());
             user.setPhone(user.getPhone());
