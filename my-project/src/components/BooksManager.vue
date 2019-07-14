@@ -258,9 +258,9 @@ export default {
           this.$axios({
             method: "post",
             url: "api/book/",
-            headers: {
-              authorization: localStorage.getItem("access-token")
-            },
+            // headers: {
+            //   authorization: localStorage.getItem("access-token")
+            // },
             data: {
               bookName: this.booktitle,
               description: this.description,
@@ -285,10 +285,10 @@ export default {
               }).then(result => {
                 this.$axios({
                   method: "get",
-                  url: "api/book",
-                  headers: {
-                    authorization: localStorage.getItem("access-token")
-                  }
+                  url: "api/book"
+                  // headers: {
+                  //   authorization: localStorage.getItem("access-token")
+                  // }
                 })
                   .then(rs => {
                     console.table(rs.data);
@@ -317,11 +317,8 @@ export default {
     removeBook(id) {
       this.$axios({
         method: "delete",
-        url: "api/book/",
-        headers: {
-          authorization: localStorage.getItem("access-token")
-        },
-        params: { id: id }
+        url: "api/book/delete/",
+        data: { id: id }
       })
         .then(res => {
           this.$swal({
@@ -332,12 +329,14 @@ export default {
             timer: 3000,
             allowOutsideClick: false
           }).then(result => {
+            this.$axios.setHeader(
+              "Authorization",
+              localStorage.getItem("access-token"),
+              ["delete"]
+            );
             this.$axios({
               method: "get",
-              url: "api/book",
-              headers: {
-                authorization: localStorage.getItem("access-token")
-              }
+              url: "api/book"
             })
               .then(rs => {
                 console.table(rs.data);
@@ -367,10 +366,10 @@ export default {
   mounted() {
     this.$axios({
       method: "get",
-      url: "api/book",
-      headers: {
-        authorization: localStorage.getItem("access-token")
-      }
+      url: "api/book"
+      // headers: {
+      //   authorization: localStorage.getItem("access-token")
+      // }
     })
       .then(rs => {
         this.desserts = rs.data;

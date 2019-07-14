@@ -87,7 +87,7 @@ public class BookController {
     }
 
     // PUT edit item
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
     Book update(@RequestBody Book editedBook, @PathVariable int id) {
         return bookRepository.findById(id)
@@ -106,10 +106,10 @@ public class BookController {
                 });
     }
 
-    // DELETE remove item
-    @DeleteMapping("/{id}")
+// DELETE remove item
+    @DeleteMapping("/delete/")
     @CrossOrigin(origins = "http://localhost:4200")
-    void delete(@PathVariable int id) {
+    void delete(@RequestParam(value = "id", required = false) Integer id) {
         bookRepository.deleteById(id);
     }
 

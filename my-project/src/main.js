@@ -11,6 +11,7 @@ import axios from './plugins/axios.js'
 import VeeValidate from 'vee-validate';
 import VueSweetalert2 from 'vue-sweetalert2';
 import VueCustomScrollbar from "vue-custom-scrollbar";
+import CORS from "cors";
 
 Vue.use(VueCustomScrollbar)
 Vue.use(VueSweetalert2)
@@ -21,10 +22,12 @@ Vue.use(Vuetify)
 Vue.config.productionTip = false
 Vue.use(axios)
 
+
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
+
 
 Vue.use(VeeValidate, {
   classes: true,

@@ -1,53 +1,53 @@
 <template>
-    <div class="bg">
-      <div class="login">
-        <form>
-          <v-container v-on:keydown.enter.prevent="signin()">
-            <h2>Login</h2>
-            <div class="form-group">
-              <label for="username">
-                <b>Username</b>
-              </label>
-              <input
-                type="text"
-                placeholder="Type your Username"
-                name="username"
-                v-model="username"
-                v-validate="'required|min:5'"
-              >
-              <p
-                class="help-block alert alert-danger animated bounceIn"
-                v-show="errors.has('username')"
-              >{{errors.first('username')}}</p>
-            </div>
-            <div class="form-group">
-              <label for="password">
-                <b>Password</b>
-              </label>
-              <input
-                type="password"
-                placeholder="Type your password"
-                name="password"
-                v-model="password"
-                v-validate="'required'"
-              >
-              <p
-                class="help-block alert alert-danger animated bounceIn"
-                v-show="errors.has('password')"
-              >{{errors.first('password')}}</p>
-            </div>
-            <button type="button" v-on:click="signin()">Login</button>
+  <div class="bg">
+    <div class="login">
+      <form>
+        <v-container v-on:keydown.enter.prevent="signin()">
+          <h2>Login</h2>
+          <div class="form-group">
+            <label for="username">
+              <b>Username</b>
+            </label>
+            <input
+              type="text"
+              placeholder="Type your Username"
+              name="username"
+              v-model="username"
+              v-validate="'required|min:5'"
+            />
+            <p
+              class="help-block alert alert-danger animated bounceIn"
+              v-show="errors.has('username')"
+            >{{errors.first('username')}}</p>
+          </div>
+          <div class="form-group">
+            <label for="password">
+              <b>Password</b>
+            </label>
+            <input
+              type="password"
+              placeholder="Type your password"
+              name="password"
+              v-model="password"
+              v-validate="'required'"
+            />
+            <p
+              class="help-block alert alert-danger animated bounceIn"
+              v-show="errors.has('password')"
+            >{{errors.first('password')}}</p>
+          </div>
+          <button type="button" v-on:click="signin()">Login</button>
 
-            <div style="text-align:center;">
-              <span class="psw">
-                You don't have an account. 
-                <router-link to="/register">Register now</router-link>
-              </span>
-            </div>
-          </v-container>
-        </form>
-      </div>
+          <div style="text-align:center;">
+            <span class="psw">
+              You don't have an account.
+              <router-link to="/register">Register now</router-link>
+            </span>
+          </div>
+        </v-container>
+      </form>
     </div>
+  </div>
 </template>
 <script>
 import axios from "axios";
@@ -75,12 +75,15 @@ export default {
               console.log(res);
               var token = res.data;
               localStorage.setItem("access-token", token);
+              this.$axios.defaults.headers.common[
+                "Authorization"
+              ] = localStorage.getItem("access-token");
               this.$axios({
                 method: "get",
-                url: "auth/user/me",
-                headers: {
-                  authorization: localStorage.getItem("access-token")
-                }
+                url: "auth/user/me"
+                // headers: {
+                //   authorization: localStorage.getItem("access-token")
+                // }
               }).then(rs => {
                 console.log(rs);
                 let profile = {
@@ -107,18 +110,18 @@ export default {
                 this.$emit("logined", true);
                 this.$swal({
                   title: "Success",
-                  text:"Login successfully !",
+                  text: "Login successfully !",
                   type: "success",
                   confirmButtonText: "OK",
                   timer: 3000,
                   allowOutsideClick: false
                 }).then(result => {
-                    if (isAdmin) {
-                      this.$store.commit("adminStatus", true);
-                      this.$router.push("/admin");
-                    } else {
-                      this.$router.push("/");
-                    }
+                  if (isAdmin) {
+                    this.$store.commit("adminStatus", true);
+                    this.$router.push("/admin");
+                  } else {
+                    this.$router.push("/");
+                  }
                 });
               });
             })
@@ -127,7 +130,7 @@ export default {
               // alert("Wrong username or password!");
               this.$swal({
                 title: "Error",
-                text:"Wrong username or password !",
+                text: "Wrong username or password !",
                 type: "error",
                 confirmButtonText: "OK",
                 timer: 3000

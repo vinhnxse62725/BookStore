@@ -35,9 +35,9 @@ export default {
     this.$axios({
       method: "get",
       url: "api/book",
-      headers: {
-        authorization: localStorage.getItem("access-token"),
-      }
+      // headers: {
+      //   authorization: localStorage.getItem("access-token"),
+      // }
     }).then(rs => {
       this.$store.commit("setPaginationData", rs.data);
     });
