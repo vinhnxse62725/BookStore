@@ -54,9 +54,9 @@ public class BookController {
     }
 
     //GET product by id
-    @GetMapping("/{id}")
+    @GetMapping("/getById")
     @CrossOrigin(origins = "http://localhost:4200")
-    Book read(@PathVariable int id) {
+    Book read(@RequestParam(value = "id", required = false) int id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not found"));
     }

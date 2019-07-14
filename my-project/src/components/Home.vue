@@ -1,5 +1,5 @@
 <template>
-<div>
+  <div>
     <v-container style="width:70% !important;">
       <br />
       <app-slide></app-slide>
@@ -23,7 +23,7 @@
       ></v-pagination>
     </div>
     <br />
-</div>
+  </div>
 </template>
 <script>
 import AppSlide from "./Slide.vue";
@@ -36,7 +36,7 @@ export default {
       method: "get",
       url: "api/book",
       headers: {
-        authorization: localStorage.getItem("access-token")
+        authorization: localStorage.getItem("access-token"),
       }
     }).then(rs => {
       this.$store.commit("setPaginationData", rs.data);

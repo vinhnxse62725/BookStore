@@ -1,9 +1,10 @@
 <template>
   <v-app>
-      <app-toolbar id="toolbar" v-if="!$store.state.isAdmin"></app-toolbar>
-      <!-- <app-admin-toolbar id="toolbar" class="fixed-top" v-if="$store.state.isAdmin"></app-admin-toolbar> -->
+    <v-content>
+      <app-toolbar v-if="!$store.state.isAdmin"></app-toolbar>
       <app-admin-toolbar v-if="$store.state.isAdmin"></app-admin-toolbar>
-    <router-view />
+      <router-view />
+    </v-content>
     <br />
     <br />
     <app-footer></app-footer>

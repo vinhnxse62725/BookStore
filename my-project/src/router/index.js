@@ -9,6 +9,7 @@ import Admin from '@/components/Admin'
 import UsersManager from '@/components/UsersManager'
 import BooksManager from '@/components/BooksManager'
 import UserProfile from '@/components/UserProfile'
+import EditBook from '@/components/EditBook'
 
 Vue.use(Router)
 
@@ -59,6 +60,11 @@ export default new Router({
       path: '/booksmanager',
       name: 'BooksManager',
       component: BooksManager
+    },
+    {
+      path: '/editbook',
+      name: 'EditBook',
+      component: EditBook
     },
   ],
 })

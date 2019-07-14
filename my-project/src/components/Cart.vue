@@ -2,7 +2,7 @@
   <v-container>
     <v-layout>
       <div style="margin:20px; width:100%; text-align: center;">
-        <h2 class="font-weight-light">GIỎ HÀNG</h2>
+        <h2 class="font-weight-light">SHOPPING CART</h2>
       </div>
     </v-layout>
     <v-data-table :headers="headers" :items="shoppingCartItems" class="elevation-1">
@@ -30,6 +30,7 @@
               class="quantity"
               style="width: 15px;"
               :id="props.item.id"
+              disabled 
             >
             <v-btn flat fab small v-on:click="addQuantity(props.item)">
               <v-icon>add</v-icon>
@@ -44,20 +45,21 @@
       </template>
     </v-data-table>
     <div v-if="shoppingCartItems.length > 0">
-      <div style="margin:20px; padding-right:20px; width:100%; text-align: right;">
-        <h5>Tổng Cộng: {{total}} VNĐ</h5>
+      <div>
+        <div style="width:70%; float:left"><b>Note</b> The product will be shipped to the default address in your profile. You can change this in your profile.</div>
+         <div style="width:30%; float:left; text-align:right"><h5>Total: {{total}} VNĐ</h5></div>
       </div>
       <div style="margin:20px; width:100%; text-align: right;">
         <v-btn
           flat
           style="color:white; background-color:red;"
           v-on:click="cancelCart()"
-        >Hủy Giỏ Hàng</v-btn>
+        >Cancel</v-btn>
         <v-btn
           flat
           style="color:white; background-color:green;"
           v-on:click="checkOut()"
-        >Thanh Toán Ngay</v-btn>
+        >Checkout</v-btn>
       </div>
     </div>
   </v-container>
@@ -70,12 +72,12 @@ export default {
       //Header of table
       headers: [
         { text: "Id", value: "id", align: "center" },
-        { text: "Hình Ảnh", value: "image", align: "center" },
-        { text: "Tiêu Đề", value: "bookName", align: "center" },
-        { text: "Giá", value: "price", align: "center" },
-        { text: "Giảm Giá", value: "discount", align: "center" },
-        { text: "Số Lượng", value: "quantity", align: "center" },
-        { text: "Xóa", align: "center" }
+        { text: "Image", value: "image", align: "center" },
+        { text: "Book Title", value: "bookName", align: "center" },
+        { text: "Price", value: "price", align: "center" },
+        { text: "Discount", value: "discount", align: "center" },
+        { text: "Quantity", value: "quantity", align: "center" },
+        { text: "Action", align: "center" }
       ],
       total: 0,
       signed_in: false
@@ -214,7 +216,8 @@ export default {
       //Check Signed In
       if (!this.signed_in) {
         this.$swal({
-          title: "Bạn cần đăng nhập để thanh toán!",
+          title: "Warning",
+          text: "You must be logged in to perform checkout !",
           type: "warning",
           confirmButtonText: "OK",
           timer: 3000,
@@ -285,7 +288,8 @@ export default {
                 });
             }
             this.$swal({
-              title: "Thanh toán thành công!",
+              title: "Success",
+              text: "Checkout completed !",
               type: "success",
               confirmButtonText: "OK",
               timer: 3000,

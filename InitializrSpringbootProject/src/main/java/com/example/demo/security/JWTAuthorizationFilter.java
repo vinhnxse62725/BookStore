@@ -64,13 +64,15 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             User u = userRepository.findByCustomerID(user).get();
             if (u == null) {
                 return null;
-            }
-            if (user != null) {
-                List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority((u.isAdmin()+"")));
+            }else {
+                final List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+                if(u.isAdmin()){
+                     authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                }else{
+                     authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+                }               
                 return new UsernamePasswordAuthenticationToken(user, null, authorities);
             }
-            return null;
         }
         return null;
     }

@@ -46,7 +46,7 @@ export default {
       items: [
         { title: "Home", icon: "dashboard", router: "Login" },
         { title: "Users", icon: "supervisor_account", router: "UsersManager" },
-        { title: "Books", icon: "book", router: "Cart" },
+        { title: "Books", icon: "book", router: "BooksManager" },
         { title: "Orders", icon: "view_list", router: "Admin" },
         { title: "Reports", icon: "trending_up", router: "Orders" }
       ],

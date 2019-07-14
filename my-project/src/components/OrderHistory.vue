@@ -2,7 +2,7 @@
   <v-container>
     <v-layout>
       <div style="margin:20px; width:100%; text-align: center;">
-        <h2 class="font-weight-light">LỊCH SỬ ĐẶT HÀNG</h2>
+        <h2 class="font-weight-light">ORDER HISTORY</h2>
       </div>
     </v-layout>
     <v-data-table :headers="headers" :items="orderHistory" class="elevation-1">
@@ -33,7 +33,7 @@
         <v-layout>
           <v-container>
             <div style="margin:20px; width:100%; text-align: center;">
-              <h4>Thông Tin Đơn Hàng (#{{orderID}})</h4>
+              <h4>ORDER DETAIL (#{{orderID}})</h4>
             </div>
             <!-- <v-list-tile v-for="tile in tiles" :key="tile.title" @click="sheet = false"> -->
             <v-data-table
@@ -60,7 +60,7 @@
               </template>
             </v-data-table>
             <div style="margin:20px; padding-right:20px; width:100%; text-align: right;">
-              <h5>Tổng Cộng: {{total}} VNĐ</h5>
+              <h5>Total: {{total}} VNĐ</h5>
             </div>
           </v-container>
         </v-layout>
@@ -80,19 +80,19 @@ export default {
       //Header of table
       headers: [
         { text: "Id", value: "id", align: "center" },
-        { text: "Ngày Đặt", value: "orderdate", align: "center" },
-        { text: "Trạng Thái", value: "status", align: "center" },
-        { text: "Tổng Tiền", value: "total", align: "center" },
-        { text: "Chi Tiết", value: "", align: "center" }
+        { text: "Order date", value: "orderdate", align: "center" },
+        { text: "Status", value: "status", align: "center" },
+        { text: "Total", value: "total", align: "center" },
+        { text: "Detail", value: "", align: "center" }
       ],
       headersOrderDetails: [
         { text: "Id", value: "id", align: "center" },
-        { text: "Hình Ảnh", value: "image", align: "center" },
-        { text: "Tiêu Đề", value: "bookName", align: "center" },
-        { text: "Giá", value: "price", align: "center" },
-        { text: "Giảm Giá", value: "discount", align: "center" },
-        { text: "Số Lượng", value: "quantity", align: "center" },
-        { text: "Tổng Tiền", value: "totalPrice", align: "center" }
+        { text: "Image", value: "image", align: "center" },
+        { text: "Book Title", value: "bookName", align: "center" },
+        { text: "Price", value: "price", align: "center" },
+        { text: "Discount", value: "discount", align: "center" },
+        { text: "Quantity", value: "quantity", align: "center" },
+        { text: "Total", value: "totalPrice", align: "center" }
       ],
       total: 0,
       orderID: null,

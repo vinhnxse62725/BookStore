@@ -26,7 +26,7 @@
             type="text"
             placeholder="Nhập tên sách bạn cần tìm?"
             v-model="searchValue"
-            v-on:keyup.enter="search()"
+            v-on:keyup.enter.prevent="search()"
           >
           <v-icon class="searchIcon" @click="changeSearchBar()">search</v-icon>
         </form>
