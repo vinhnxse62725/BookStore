@@ -1,45 +1,162 @@
 <template>
-  <div class="bg">
-    <div class="login">
-      <form action="/">
-        <div class="container">
-          <h2>Đăng Nhập</h2>
-          <label for="uname">
-            <b>Tên đăng nhập</b>
-          </label>
-          <input type="text" placeholder="Nhập Username" name="uname" required>
+    <div class="bg">
+      <div class="login">
+        <form>
+          <v-container v-on:keydown.enter.prevent="signin()">
+            <h2>Login</h2>
+            <div class="form-group">
+              <label for="username">
+                <b>Username</b>
+              </label>
+              <input
+                type="text"
+                placeholder="Type your Username"
+                name="username"
+                v-model="username"
+                v-validate="'required|min:5'"
+              >
+              <p
+                class="help-block alert alert-danger animated bounceIn"
+                v-show="errors.has('username')"
+              >{{errors.first('username')}}</p>
+            </div>
+            <div class="form-group">
+              <label for="password">
+                <b>Password</b>
+              </label>
+              <input
+                type="password"
+                placeholder="Type your password"
+                name="password"
+                v-model="password"
+                v-validate="'required'"
+              >
+              <p
+                class="help-block alert alert-danger animated bounceIn"
+                v-show="errors.has('password')"
+              >{{errors.first('password')}}</p>
+            </div>
+            <button type="button" v-on:click="signin()">Login</button>
 
-          <label for="psw">
-            <b>Mật khẩu</b>
-          </label>
-          <input type="password" placeholder="Nhập password" name="psw" required>
-          <label>
-            <input type="checkbox" checked="checked" name="remember"> Nhớ tài khoản
-          </label>
-          <button type="submit">Đăng Nhập</button>
-          <div style="text-align:center;">
-            <span class="psw">
-              Bạn quên mật khẩu?
-              <a href="#">Reset</a>
-            </span>
-          </div>
-
-          <div style="text-align:center;">
-            <span class="psw">
-              Chưa có tài khoản 
-              <router-link to="/register">Đăng ký ngay</router-link>
-            </span>
-          </div>
-        </div>
-      </form>
+            <div style="text-align:center;">
+              <span class="psw">
+                You don't have an account. 
+                <router-link to="/register">Register now</router-link>
+              </span>
+            </div>
+          </v-container>
+        </form>
+      </div>
     </div>
-  </div>
 </template>
+<script>
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      username: "",
+      password: ""
+    };
+  },
+  methods: {
+    signin() {
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.$axios({
+            method: "post",
+            url: "auth/login",
+            data: {
+              customerID: this.username,
+              password: this.password
+            }
+          })
+            .then(res => {
+              console.log(res);
+              var token = res.data;
+              localStorage.setItem("access-token", token);
+              this.$axios({
+                method: "get",
+                url: "auth/user/me",
+                headers: {
+                  authorization: localStorage.getItem("access-token")
+                }
+              }).then(rs => {
+                console.log(rs);
+                let profile = {
+                  address: rs.data.address,
+                  admin: rs.data.admin,
+                  age: rs.data.age,
+                  customerID: rs.data.customerID,
+                  email: rs.data.email,
+                  fullname: rs.data.fullname,
+                  gender: rs.data.gender,
+                  id: rs.data.id,
+                  phone: rs.data.phone
+                };
+                console.log("++++++++++++++++++++++++++++++++++++++++++++");
+                localStorage.setItem("profile", JSON.stringify(profile));
+                localStorage.setItem("user-role", rs.data.admin);
+                let isAdmin = rs.data.admin;
+                localStorage.setItem("sign-in", true);
+                localStorage.removeItem("sign-out");
+                this.$store.commit("loginStatus", true);
+                this.$store.commit("logoutStatus", false);
+                // let something = JSON.parse(localStorage.getItem("profile"));
+                // alert(something.email);
+                this.$emit("logined", true);
+                this.$swal({
+                  title: "Success",
+                  text:"Login successfully !",
+                  type: "success",
+                  confirmButtonText: "OK",
+                  timer: 3000,
+                  allowOutsideClick: false
+                }).then(result => {
+                    if (isAdmin) {
+                      this.$store.commit("adminStatus", true);
+                      this.$router.push("/admin");
+                    } else {
+                      this.$router.push("/");
+                    }
+                });
+              });
+            })
+            .catch(er => {
+              console.log(er);
+              // alert("Wrong username or password!");
+              this.$swal({
+                title: "Error",
+                text:"Wrong username or password !",
+                type: "error",
+                confirmButtonText: "OK",
+                timer: 3000
+              });
+            });
+        } else {
+          console.log("Not Valid");
+        }
+      });
+    }
+  }
+};
+</script>
+
 
 <style scoped>
+@import "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css";
+/* input:valid {
+  border-color: green !important;
+  border: solid 2px;
+}
+
+input:invalid {
+  border-color: red !important;
+  border: solid 2px;
+} */
 .bg {
   width: 100%;
-  height: 800px;
+  height: 1000px;
   background-image: url("../assets/loginbg.jpg");
   background-repeat: no-repeat;
   background-position: center center;
@@ -48,11 +165,11 @@
 }
 
 .login {
-  width: 310px;
+  width: 450px;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -184px 0px 0px -155px;
+  transform: translate(-50%, -70%);
   background: rgba(255, 255, 255, 0.897);
   padding: 20px 20px;
   border-radius: 5px;

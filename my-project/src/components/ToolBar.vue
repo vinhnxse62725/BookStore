@@ -1,19 +1,13 @@
 <template>
-  <v-toolbar>
+  <v-toolbar app fixed>
     <!--Dropdown menu -->
-    <v-menu
-      transition="slide-x-transition"
-      open-on-click
-      offset-y
-      offset-overflow
-      class="menu"
-    >
+    <v-menu transition="slide-x-transition" open-on-click offset-y offset-overflow class="menu">
       <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
       <v-list class="list">
         <v-list-tile class="tile" v-for="category in categories" :key="category.name">
-          <router-link :to="category.router" exact class="activeRouter">
-            <v-list-tile-title>{{category.name}}</v-list-tile-title>
-          </router-link>
+          <v-btn @click="categorySelected(category.id)" flat class="activeRouter">
+            <v-list-tile-title>{{category.categoryName}}</v-list-tile-title>
+          </v-btn>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -24,61 +18,162 @@
         <span>Store</span>
       </router-link>
     </v-toolbar-title>
-    <!-- 
-    <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn flat>Type 1</v-btn>
-      <v-btn flat>Type 2</v-btn>
-    </v-toolbar-items>-->
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn flat>
-        <form action>
-          <input type="search" placeholder="Nhập tên sách bạn cần tìm?">
-          <v-icon class="searchIcon">search</v-icon>
+        <form id="form-search" @submit.prevent>
+          <input
+            type="text"
+            placeholder="Nhập tên sách bạn cần tìm?"
+            v-model="searchValue"
+            v-on:keyup.enter.prevent="search()"
+          >
+          <v-icon class="searchIcon" @click="changeSearchBar()">search</v-icon>
         </form>
       </v-btn>
-       <router-link to="/" tag="v-btn" class="v-btn--flat toolbar-btn">
-        <div class="iconCart"><v-icon>shopping_cart</v-icon></div>
-        <div class="txtCart">Cart</div>
+      <router-link to="/cart" tag="v-btn" class="v-btn--flat toolbar-btn">
+        <div class="icon">
+          <v-badge color="grey">
+            <template v-slot:badge>
+              <span>{{$store.state.cart == undefined ? 0 : $store.state.cart.length}}</span>
+            </template>
+            <v-icon medium color="black">shopping_cart</v-icon>
+          </v-badge>
+        </div>
+        <div class="txt">Cart</div>
       </router-link>
-      <router-link to="/login" tag="v-btn" class="v-btn--flat toolbar-btn">
-        <div class="iconLogin"><v-icon>fingerprint</v-icon></div>
-        <div class="txtLogin">Login</div>
+      <router-link
+        to="/history"
+        tag="v-btn"
+        class="v-btn--flat toolbar-btn"
+        v-if="$store.state.isSignIn"
+      >
+        <div class="icon">
+          <v-icon medium color="black">history</v-icon>
+        </div>
+        <div class="txt">History</div>
       </router-link>
+      <router-link
+        to="/login"
+        tag="v-btn"
+        class="v-btn--flat toolbar-btn"
+        v-if="!$store.state.isSignIn"
+      >
+        <div class="icon">
+          <v-icon>fingerprint</v-icon>
+        </div>
+        <div class="txt">Login</div>
+      </router-link>
+      <router-link
+        to="/userprofile"
+        tag="v-btn"
+        class="v-btn--flat toolbar-btn"
+        v-if="$store.state.isSignIn"
+      >
+        <div class="icon">
+          <v-icon medium color="black">person</v-icon>
+        </div>
+        <div class="txt">Profile</div>
+      </router-link>
+      <v-btn class="v-btn--flat toolbar-btn" v-on:click="logout()" v-if="$store.state.isSignIn">
+        <div class="icon">
+          <v-icon>input</v-icon>
+        </div>
+        <div class="txt" v-on:click="logout()">Logout</div>
+      </v-btn>
     </v-toolbar-items>
   </v-toolbar>
 </template>
 <script>
+import { eventBus } from "../main";
 export default {
+  props: ["notification"],
   data() {
     return {
-      categories: [
-        { name: "Tất cả", router: "/" },
-        { name: "Ẩm thực", router: "/" },
-        { name: "Kỹ năng sống", router: "/" },
-        { name: "Y học - Sức khỏe", router: "/" },
-        { name: "Thể thao - Nghệ thuật", router: "/" },
-        { name: "Trinh thám - Hình sự", router: "/" },
-        { name: "Văn hóa - Tôn giáo", router: "/" },
-        { name: "Tử vi - Phong thủy", router: "/" },
-        { name: "Lịch sử - Chính trị", router: "/" },
-        { name: "Văn học Việt Nam", router: "/" },
-        { name: "Văn học nước ngoài", router: "/" },
-        { name: "Hồi ký", router: "/" },
-        { name: "Kinh dị - Ma quái", router: "/" },
-        { name: "Cổ tích - Thần thoại", router: "/" },
-        { name: "Khoa học - Công nghệ", router: "/" },
-        { name: "Tiểu thuyết", router: "/" },
-        { name: "Triết học", router: "/" },
-        { name: "Kiếm hiệp", router: "/" },
-        { name: "Truyện ngắn", router: "/" },
-        // { name: "Truyện cười", router: "/" }
-      ]
+      categories: [],
+      searchValue: null,
+      // isAdmin: null,
+      cart: null
     };
+  },
+  mounted() {
+    this.$store.commit(
+      "updateCart",
+      JSON.parse(localStorage.getItem("cart-storage"))
+    ),
+      this.$axios({
+        method: "get",
+        url: "api/category"
+      })
+        .then(res => {
+          console.log(res);
+          this.categories = res.data;
+        })
+        .catch(er => {
+          console.log(er);
+        });
+  },
+  methods: {
+    categorySelected(id) {
+      this.$axios({
+        method: "get",
+        url: "api/book/searchByCategoryId",
+        params: {
+          searchValue: this.$store.state.searchValue,
+          cateId: id
+        }
+      })
+        .then(res => {
+          this.$store.commit("setCateId", id);
+          this.$store.commit("setPaginationData", res.data);
+        })
+        .catch(er => {
+          console.log(er);
+        });
+    },
+    logout() {
+      localStorage.removeItem("access-token");
+      localStorage.removeItem("profile");
+      localStorage.removeItem("user-role");
+      localStorage.removeItem("sign-in");
+      this.$store.commit("loginStatus", false);
+      this.$store.commit("adminStatus", false);
+      this.$store.commit("logoutStatus", true);
+      this.$router.push("/");
+    },
+    changeSearchBar() {
+      let searchbar = document.getElementById("form-search");
+      if (searchbar.classList.contains("formclick")) {
+        searchbar.classList.remove("formclick");
+      } else {
+        searchbar.classList.add("formclick");
+      }
+    },
+    search() {
+      console.log("lan 1");
+      this.$axios({
+        method: "get",
+        url: "api/book/searchByCategoryId",
+        params: {
+          searchValue: this.$store.state.searchValue,
+          cateId: this.$store.state.cateId
+        }
+      })
+        .then(res => {
+          this.$store.commit("setSearchValue", this.searchValue);
+          this.$store.commit("setPaginationData", res.data);
+        })
+        .catch(er => {
+          console.log(er);
+        });
+    }
   }
 };
 </script>
 <style scoped>
+.activeRouter.v-btn:hover::before {
+  background-color: transparent;
+}
 .list {
   width: 400px;
 }
@@ -104,33 +199,27 @@ export default {
 }
 
 /*Toolbar btn*/
-.txtLogin {
+.txt {
   display: none;
 }
 
-.toolbar-btn:hover div.txtLogin {
+.toolbar-btn:hover div.txt {
   display: block;
 }
-.toolbar-btn:hover div.iconLogin {
-   display: none;
-}
-
-.txtCart {
+.toolbar-btn:hover div.icon {
   display: none;
 }
 
-.toolbar-btn:hover div.txtCart {
-  display: block;
-}
-.toolbar-btn:hover div.iconCart {
-   display: none;
-}
 /* .menu .v-menu__content.theme--light.menuable__content__active {
     min-width: 400px !important; 
     top: 64px !important;
     left: 0px !important;
     z-index: 8 !important;
 } */
+
+>>> .v-badge__badge {
+  right: -18px;
+}
 @media screen and (min-width: 960px) {
   .menu .v-menu__content.theme--light {
     min-width: 400px !important;
@@ -163,8 +252,8 @@ export default {
 form {
   position: relative;
   transition: all 1s;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background: white;
   box-sizing: border-box;
   border-radius: 25px;
@@ -174,7 +263,7 @@ form {
 
 input {
   position: absolute;
-  top: 0;
+  top: -5px;
   left: 0;
   width: 100%;
   height: 42.5px;
@@ -193,8 +282,8 @@ input {
   width: 42.5px;
   height: 42.5px;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -4px;
+  right: -5px;
   border-radius: 50%;
   color: grey;
   text-align: center;
@@ -202,16 +291,14 @@ input {
   transition: all 1s;
 }
 
-form:hover {
+.formclick {
   width: 300px;
   cursor: pointer;
 }
-
-form:hover input {
+.formclick input {
   display: block;
 }
-
-form:hover .fa {
+.formclick .fa {
   background: grey;
   color: white;
 }

@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -37,7 +38,7 @@ public class Book implements Serializable {
     @Column(name = "bookName")
     private String bookName;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "longtext")
     private String description;
 
     @Column(name = "status")

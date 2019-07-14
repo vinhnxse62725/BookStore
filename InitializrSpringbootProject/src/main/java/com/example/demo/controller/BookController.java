@@ -46,7 +46,7 @@ public class BookController {
     @CrossOrigin(origins = "http://localhost:4200")
     Iterable<Book> getBookByCateId(@RequestParam(value = "searchValue", required = false) String searchValue,
             @RequestParam(value = "cateId", required = false) Integer cateId) {
-        if (cateId == null) {
+        if (cateId == null || cateId == 1) {
             return bookRepository.findByName(searchValue);
         } else {
             return bookRepository.findByCategoryId(searchValue, cateId);
@@ -54,9 +54,9 @@ public class BookController {
     }
 
     //GET product by id
-    @GetMapping("/{id}")
+    @GetMapping("/getById")
     @CrossOrigin(origins = "http://localhost:4200")
-    Book read(@PathVariable int id) {
+    Book read(@RequestParam(value = "id", required = false) int id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not found"));
     }

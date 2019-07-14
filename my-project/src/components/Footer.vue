@@ -1,6 +1,7 @@
 <template>
-  <div class="footer">
-    <div class="container">
+<v-footer height="auto">
+  <div class="footer" style="padding-top: 24px;">
+    <v-container style="padding: 0px;">
       <div class="d-flex justify-content-center">
         <div class="col-md-3">
           <div class="line text-uppercase white--text" style="text-align:center">
@@ -24,8 +25,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </v-container>
   </div>
+</v-footer>
 </template>
 
 <style scoped>

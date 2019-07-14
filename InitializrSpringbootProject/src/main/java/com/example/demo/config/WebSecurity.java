@@ -54,14 +54,28 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         JWTAuthenticationFilter authenticationFilter = new JWTAuthenticationFilter(authenticationManager());
-        authenticationFilter.setFilterProcessesUrl("/auth/user/login");
-        
+        authenticationFilter.setFilterProcessesUrl("/auth/login");
+
         http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/book/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/book/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/book/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/book/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/category/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/order/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/order/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/order/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/order/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/orderdetail/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/orderdetail/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/orderdetail/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/orderdetail/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/auth/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/auth/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/auth/**").hasRole("ADMIN")
                 //                .antMatchers(HttpMethod.PUT, "/**").access("hasRole('ADMIN')")
                 //                .antMatchers(HttpMethod.DELETE, "/**").access("hasRole('ADMIN')")
                 //                .antMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")

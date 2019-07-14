@@ -1,0 +1,18 @@
+﻿INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('All');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Arts & Music');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Biographies');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Business');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Comics');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Computers & Tech');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Cooking');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Kids');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Hobbies & Crafts');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Edu & Reference');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Health & Fitness');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Literature & Fiction');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Medical');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Romance');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Science & Math');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Sci-Fi & Fantasy');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Self-Help');
+INSERT INTO `BookStore`.`categories` (`category_name`) VALUES ('Travel');
