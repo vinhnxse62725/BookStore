@@ -6,11 +6,13 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Book;
+import com.example.demo.entity.BookTop;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.entity.Order;
 import com.example.demo.entity.OrderDetail;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.OrderDetailRepository;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -118,7 +120,7 @@ public class OrderController {
     // get top 3 book in month
     @GetMapping("/orderbyMonth")
     @CrossOrigin(origins = "http://localhost:4200")
-    List<Book> getOrderbyMonth() {
+    List<BookTop> getOrderbyMonth() {
         LocalDateTime time = LocalDateTime.now();
         Date fromDate = new Date();
         Date toDate = new Date();
@@ -129,13 +131,19 @@ public class OrderController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return getBookByDate(fromDate, toDate);
+//        JSONObject obj = new JSONObject();
+//        List<Book> books = getBookByDate(fromDate, toDate);
+//        for (Book book : books) {
+//            obj.put("id", book.getId());
+//            
+//        }
+        return  getBookByDate(fromDate, toDate);
     }
 
     // get top 3 book in day
     @GetMapping("/orderbyDay")
     @CrossOrigin(origins = "http://localhost:4200")
-    List<Book> getOrderbyDay() {
+    List<BookTop> getOrderbyDay() {
         LocalDateTime time = LocalDateTime.now();
         Date Date = new Date();
         try {
@@ -150,7 +158,7 @@ public class OrderController {
 
     
     
-    private List<Book> getBookByDate(Date fromDate, Date toDate) {
+    private List<BookTop> getBookByDate(Date fromDate, Date toDate) {
 
         List<Order> orders = orderRepository.getOrderOrderBy(fromDate, toDate);
         List<OrderDetail> details = new ArrayList<OrderDetail>();
@@ -164,7 +172,7 @@ public class OrderController {
             System.out.println("orderDetail " + detail.getId());
             count[detail.getBook().getId()] += detail.getQuantity();
         }
-        List<Book> books = new ArrayList<>();
+        List<BookTop> books = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             int max = 0;
             int index = 0;
@@ -176,7 +184,8 @@ public class OrderController {
             }
             if (max != 0) {
                 System.out.println(index + "   " + max);
-                books.add(bookRepository.findById(index).get());
+                BookTop book = new BookTop(bookRepository.findById(index).get(), count[index]);
+                books.add(book);
                 count[index] = 0;
             } else {
                 break;
