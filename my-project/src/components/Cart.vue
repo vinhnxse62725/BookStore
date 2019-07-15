@@ -240,9 +240,6 @@ export default {
         this.$axios({
           method: "post",
           url: "api/order",
-          // headers: {
-          //   authorization: localStorage.getItem("access-token")
-          // },
           data: {
             user: { id: id },
             total: total,
@@ -265,9 +262,6 @@ export default {
               this.$axios({
                 method: "post",
                 url: "api/orderdetail",
-                // headers: {
-                //   authorization: localStorage.getItem("access-token")
-                // },
                 data: {
                   order: {
                     id: orderID

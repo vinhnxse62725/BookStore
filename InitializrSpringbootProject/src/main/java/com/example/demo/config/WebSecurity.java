@@ -20,6 +20,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 /**
  *
@@ -55,9 +57,46 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         JWTAuthenticationFilter authenticationFilter = new JWTAuthenticationFilter(authenticationManager());
         authenticationFilter.setFilterProcessesUrl("/auth/login");
 
-        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
-        http.csrf().disable().cors().and().authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
+//        http.csrf().and().cors().disable().authorizeRequests()
+//                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/book/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/api/book/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.PUT, "/api/book/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE, "/api/book/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.PUT, "/api/book").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE, "/api/book").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.GET, "/api/category/**").permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/order/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/api/order/**").permitAll()
+//                .antMatchers(HttpMethod.PUT, "/api/order/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE, "/api/order/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.GET, "/api/orderdetail/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/api/orderdetail/**").permitAll()
+//                .antMatchers(HttpMethod.PUT, "/api/orderdetail/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE, "/api/orderdetail/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.GET, "/auth/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
+//                .antMatchers(HttpMethod.PUT, "/auth/**").permitAll()
+//                .antMatchers(HttpMethod.DELETE, "/auth/**").hasRole("ADMIN")
+//                .antMatchers("/", "/static/**", "/**.{js,json,css}").permitAll()
+//                .anyRequest().authenticated()
+                //                .anyRequest().permitAll()
+//                .and()
+//                .addFilter(authenticationFilter)
+//                .addFilter(new JWTAuthorizationFilter(authenticationManager(), userRepository))
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        
+        
+        http
+                .cors()
+                .and()
+                .csrf()
+                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/book/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/book/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/book/**").hasRole("ADMIN")
@@ -78,12 +117,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/auth/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/auth/**").hasRole("ADMIN")
                 .antMatchers("/", "/static/**", "/**.{js,json,css}").permitAll()
-                .anyRequest().authenticated()
-                //                .anyRequest().permitAll()
-                .and()
-                .addFilter(authenticationFilter)
-                .addFilter(new JWTAuthorizationFilter(authenticationManager(), userRepository))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .anyRequest().authenticated();
+
+        http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JWTAuthorizationFilter(authenticationManager(), userRepository), 
+                BasicAuthenticationFilter.class);
 
     }
 

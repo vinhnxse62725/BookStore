@@ -17,21 +17,21 @@ public class ShoppingOnlineApplication {
     }
     private final long MAX_AGE_SECS = 3600;
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .exposedHeaders("x-requested-with, authorization")
-                        .allowedOrigins("*")
-                        .allowedMethods("POST, GET, OPTIONS, DELETE, PUT")
-                        .allowedHeaders("x-requested-with, authorization,Content-Type")
-                        .maxAge(MAX_AGE_SECS)
-                        .allowCredentials(true);;
-
-            }
-        };
-    }
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurerAdapter() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/**")
+//                        .allowedOrigins("*")
+//                        .exposedHeaders("x-requested-with, authorization")
+//                        .allowedOrigins("*")
+//                        .allowedMethods("*")
+//                        .allowedHeaders("x-requested-with, authorization,Content-Type")
+//                        .maxAge(MAX_AGE_SECS)
+//                        .allowCredentials(true);;
+//
+//            }
+//        };
+//    }
 }

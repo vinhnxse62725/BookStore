@@ -1,22 +1,22 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <h2 class="card-title">Top Selling Books In Month</h2>
+      <h2 class="card-title">Top 3 Selling Books In Month</h2>
     </div>
 
     <div class="card-img-bottom">
       <canvas id="fooCanvas" count="2" />
 
       <chartjs-bar
-        v-for="(item, index) in types"
+        v-for="(item, index) in books"
         :key="index"
-        :backgroundcolor="item.bgColor"
+        backgroundcolor="#de98ab"
         :beginzero="beginZero"
         :bind="true"
-        :bordercolor="item.borderColor"
-        :data="item.data"
-        :datalabel="item.dataLabel"
-        :labels="labels"
+        bordercolor="#0c0306"
+        :data="item.count"
+        :datalabel="item.book.bookName"
+        :labels="item.book.bookName"
         target="fooCanvas"
       />
     </div>
@@ -27,23 +27,18 @@
 export default {
   data() {
     return {
-      beginZero: true,
-      labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-      types: [
-        {
-          bgColor: "#de98ab",
-          borderColor: "0c0306",
-          data: [1, 3, 5, 7, 2, 4, 6],
-          dataLabel: "Bar"
-        },
-        {
-          bgColor: "#98ddde",
-          borderColor: "030c0c",
-          data: [1, 5, 2, 6, 3, 7, 4],
-          dataLabel: "Baz"
-        }
-      ],
-      books:[]
+      beginZero: true,     
+      // types: [
+      //   {
+      //     bgColor: "#de98ab",
+      //     borderColor: "0c0306",
+      //     // data: [1, 3, 5, 7, 2, 4, 6],
+      //     // dataLabel: "Bar"
+      //   }
+      // ],
+      books:[],
+      labels:[],
+      counts:[]
     };
   },
   mounted(){
@@ -52,14 +47,16 @@ export default {
       }
       this.$axios({
       method: "get",
-      url: "api/order/oderbyMonth",
-    //   headers: {
-    //     authorization: localStorage.getItem("access-token")
-    //   },
+      url: "api/order/orderbyMonth",
     })
       .then(rs => {
-        console.table(rs.data);
-        this.books = rs.data;
+        console.log(rs.data[i].book.bookName);
+        // for(let i=0; i<= rs.data.length;i++){
+        //   this.labels.add(rs.data.book.bookName);
+        //   this.counts.add(rs.data.count);
+        // }
+        alert(this.labels);
+        alert(this.counts);
       })
       .catch(error => {
         console.log(error);

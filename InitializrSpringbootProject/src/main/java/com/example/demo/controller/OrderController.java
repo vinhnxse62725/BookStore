@@ -119,8 +119,8 @@ public class OrderController {
 
     // get top 3 book in month
     @GetMapping("/orderbyMonth")
-    List<BookTop> getOrderbyMonth() {
     @CrossOrigin(origins = "http://localhost:8080")
+    List<BookTop> getOrderbyMonth() {
         LocalDateTime time = LocalDateTime.now();
         Date fromDate = new Date();
         Date toDate = new Date();
@@ -137,13 +137,13 @@ public class OrderController {
 //            obj.put("id", book.getId());
 //            
 //        }
-        return  getBookByDate(fromDate, toDate);
+        return getBookByDate(fromDate, toDate);
     }
 
     // get top 3 book in day
     @GetMapping("/orderbyDay")
-    List<BookTop> getOrderbyDay() {
     @CrossOrigin(origins = "http://localhost:8080")
+    List<BookTop> getOrderbyDay() {
         LocalDateTime time = LocalDateTime.now();
         Date Date = new Date();
         try {
@@ -156,8 +156,6 @@ public class OrderController {
         return getBookByDate(Date, Date);
     }
 
-    
-    
     private List<BookTop> getBookByDate(Date fromDate, Date toDate) {
 
         List<Order> orders = orderRepository.getOrderOrderBy(fromDate, toDate);

@@ -113,12 +113,10 @@ export default {
     showOrderDetail(order) {
       this.orderID = order.id;
       this.total = order.total;
+      
       this.$axios({
         method: "get",
         url: "api/orderdetail/" + order.id
-        // headers: {
-        //   authorization: localStorage.getItem("access-token")
-        // }
       })
         .then(rs => {
           console.log(rs.data);

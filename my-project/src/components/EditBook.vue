@@ -177,11 +177,8 @@ export default {
     updateBook() {
       this.$validator.validateAll().then(result => {
         if (result) {
-          this.$axios({
-            method: "put",
-            url: "api/book/update/",
-            withCredentials: true,
-            data: {
+          this.$axios
+            .put("api/book/update/" + this.bookDetail.id, {
               bookName: this.bookDetail.booktitle,
               description: this.bookDetail.description,
               status: this.bookDetail.status,
@@ -192,8 +189,24 @@ export default {
               category: {
                 id: this.bookDetail.category.id
               }
-            }
-          })
+            })
+            // this.$axios({
+            //   method: "put",
+            //   url: "api/book/update/"+ this.bookDetail.id,
+            //   // withCredentials: true,
+            //   data: {
+            //     bookName: this.bookDetail.booktitle,
+            //     description: this.bookDetail.description,
+            //     status: this.bookDetail.status,
+            //     price: this.bookDetail.price,
+            //     image: this.bookDetail.image,
+            //     quantity: this.bookDetail.quantity,
+            //     discount: this.bookDetail.discount,
+            //     category: {
+            //       id: this.bookDetail.category.id
+            //     }
+            //   }
+            // })
             .then(res => {
               this.$swal({
                 title: "Success",
@@ -205,10 +218,7 @@ export default {
               }).then(result => {
                 this.$axios({
                   method: "get",
-                  url: "api/book",
-                //   headers: {
-                //     authorization: localStorage.getItem("access-token")
-                //   }
+                  url: "api/book"
                 })
                   .then(rs => {
                     console.table(rs.data);
@@ -241,9 +251,6 @@ export default {
     this.$axios({
       method: "get",
       url: "api/book/getById",
-    //   headers: {
-    //     authorization: localStorage.getItem("access-token")
-    //   },
       params: {
         id: id
       }

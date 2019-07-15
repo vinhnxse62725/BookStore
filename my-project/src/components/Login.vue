@@ -72,18 +72,13 @@ export default {
             }
           })
             .then(res => {
-              console.log(res);
               var token = res.data;
+              console.log(token);
               localStorage.setItem("access-token", token);
-              this.$axios.defaults.headers.common[
-                "Authorization"
-              ] = localStorage.getItem("access-token");
+              this.$axios.defaults.headers['Authorization'] = token;
               this.$axios({
                 method: "get",
                 url: "auth/user/me"
-                // headers: {
-                //   authorization: localStorage.getItem("access-token")
-                // }
               }).then(rs => {
                 console.log(rs);
                 let profile = {

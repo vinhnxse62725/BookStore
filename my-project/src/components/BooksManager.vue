@@ -258,9 +258,6 @@ export default {
           this.$axios({
             method: "post",
             url: "api/book/",
-            // headers: {
-            //   authorization: localStorage.getItem("access-token")
-            // },
             data: {
               bookName: this.booktitle,
               description: this.description,
@@ -286,9 +283,6 @@ export default {
                 this.$axios({
                   method: "get",
                   url: "api/book"
-                  // headers: {
-                  //   authorization: localStorage.getItem("access-token")
-                  // }
                 })
                   .then(rs => {
                     console.table(rs.data);
@@ -316,7 +310,7 @@ export default {
     },
     removeBook() {
       this.$axios({
-        method: "delete",
+        method: "DELETE",
         url: "api/book/delete/",
         params: { id: 1 }
       })
@@ -362,9 +356,6 @@ export default {
     this.$axios({
       method: "get",
       url: "api/book"
-      // headers: {
-      //   authorization: localStorage.getItem("access-token")
-      // }
     })
       .then(rs => {
         this.desserts = rs.data;

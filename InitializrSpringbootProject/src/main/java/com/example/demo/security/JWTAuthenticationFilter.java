@@ -59,12 +59,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(("" + creds.isAdmin())));
 
-            return authenticationManager.authenticate(
+            Authentication authenticate = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getCustomerID(),
                             creds.getPassword(),
                             new ArrayList<>())
             );
+                    return authenticate;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
