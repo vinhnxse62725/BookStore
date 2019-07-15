@@ -66,6 +66,13 @@ public class UserController {
         return userService.findAllUser();
     }
 
+    @GetMapping("/user/checkPass")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public boolean checkPass(@RequestParam(value = "id", required = false) int id,
+    @RequestParam(value = "password", required = false) String password) {
+        return userService.checkPassword(id, password);
+    }
+    
     @PutMapping("/user/{id}")
     @CrossOrigin(origins = "http://localhost:4200")
     User update(@RequestBody User editedUser, @PathVariable int id) {
@@ -92,9 +99,9 @@ public class UserController {
 //        Iterable<User> result = userService.getUserByName(search);
 //        return result;
 //    }
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/user")
     @CrossOrigin(origins = "http://localhost:4200")
-    void delete(@PathVariable int id) {
+    void delete(@RequestParam(value = "id", required = false) int id) {
         try {
             User user = userService.findUserById(id).get();
             user.setActive(false);

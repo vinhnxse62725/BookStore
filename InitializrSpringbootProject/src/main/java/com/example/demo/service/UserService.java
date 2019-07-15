@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import com.auth0.jwt.algorithms.Algorithm;
+import java.io.UnsupportedEncodingException;
 
 @Service
 public class UserService {
@@ -112,5 +114,10 @@ public class UserService {
 
     public void deleteUser(int id) {
         userRepository.deleteById(id);
+    }
+
+    public boolean checkPassword(int id, String password) {
+        User dto = userRepository.findById(id).get();
+        return encoder.matches(password, dto.getPassword());
     }
 }
