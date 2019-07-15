@@ -179,7 +179,7 @@ export default {
         if (result) {
           this.$axios
             .put("api/book/update/" + this.bookDetail.id, {
-              bookName: this.bookDetail.booktitle,
+              bookName: this.bookDetail.bookName,
               description: this.bookDetail.description,
               status: this.bookDetail.status,
               price: this.bookDetail.price,

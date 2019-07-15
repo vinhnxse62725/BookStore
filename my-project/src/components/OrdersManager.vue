@@ -119,13 +119,12 @@ export default {
         url: "api/orderdetail/" + order.id
       })
         .then(rs => {
-          console.log(rs.data);
           this.orderDetails = rs.data;
+          document.getElementById("bottom-sheet").click();
         })
         .catch(er => {
           console.log(er);
         });
-      document.getElementById("bottom-sheet").click();
     }
   },
   mounted() {

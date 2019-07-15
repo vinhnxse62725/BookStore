@@ -19,12 +19,15 @@
         <td class="text-xs-center">{{ props.item.email }}</td>
         <td class="text-xs-center">{{ props.item.phone }}</td>
         <td class="text-xs-center">{{ props.item.address }}</td>
-        <td class="text-xs-center">{{ props.item.admin }}</td>
+        <td class="text-xs-center">
+          <v-icon v-if="props.item.admin" color="green">vpn_key</v-icon>
+          <v-icon v-if="!props.item.admin" color="grey">person</v-icon>
+        </td>
         <td class="text-xs-center">
           <v-btn fab small color="warning">
             <v-icon>edit</v-icon>
           </v-btn>
-          <v-btn fab small color="error">
+          <v-btn fab small color="error" :disabled="props.item.customerID == user.customerID">
             <v-icon>clear</v-icon>
           </v-btn>
         </td>
@@ -44,6 +47,7 @@
 export default {
   data() {
     return {
+      user: [],
       search: "",
       headers: [
         {
@@ -63,18 +67,19 @@ export default {
         { text: "Phone", value: "phone", align: "center" },
         { text: "Address", value: "address", align: "center" },
         { text: "isAdmin", value: "admin", align: "center" },
-        { text: "Actions", align: "center" }
+        { text: "Actions", align: "center", width: "15%" }
       ],
       desserts: []
     };
   },
   mounted() {
+    this.user = JSON.parse(localStorage.getItem("profile"));
     this.$axios({
       method: "get",
       url: "auth/user/getAll"
     })
       .then(rs => {
-        console.table(rs.data);
+        // console.table(rs.data);
         this.desserts = rs.data;
       })
       .catch(error => {

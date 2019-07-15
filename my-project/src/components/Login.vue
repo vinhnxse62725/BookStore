@@ -113,7 +113,7 @@ export default {
                 }).then(result => {
                   if (isAdmin) {
                     this.$store.commit("adminStatus", true);
-                    this.$router.push("/admin");
+                    this.$router.push("/chartsreport");
                   } else {
                     this.$router.push("/");
                   }

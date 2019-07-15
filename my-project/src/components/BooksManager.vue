@@ -1,5 +1,8 @@
 <template>
   <v-card>
+    <v-dialog persistent fullscreen v-model="loading">
+    <v-progress-linear :indeterminate="true"></v-progress-linear>
+    </v-dialog>
     <v-card-title>
       Users Manager
       <v-spacer></v-spacer>
@@ -187,7 +190,10 @@
         <td class="text-xs-center">{{ props.item.price }}</td>
         <td class="text-xs-center">{{ props.item.quantity }}</td>
         <td class="text-xs-center">{{ props.item.category.categoryName }}</td>
-        <td class="text-xs-center">{{ props.item.status }}</td>
+        <td class="text-xs-center">
+          <v-icon v-if="props.item.status" color="green">done</v-icon>
+          <v-icon v-if="!props.item.status" color="red">clear</v-icon>
+        </td>
         <td class="text-xs-center">
           <v-btn fab small color="warning" @click="editBook(props.item.id)">
             <v-icon>edit</v-icon>
@@ -214,6 +220,7 @@ export default {
   components: { VueCustomScrollbar },
   data() {
     return {
+      loading: true,
       settings: {
         maxScrollbarLength: 60
       },
@@ -236,7 +243,7 @@ export default {
         { text: "Quantity", value: "quantity", align: "center" },
         { text: "Category", value: "category", align: "center" },
         { text: "Status", value: "status", align: "center" },
-        { text: "Actions", align: "center" }
+        { text: "Actions", align: "center", width: "15%" }
       ],
       desserts: [],
       categories: [],
@@ -369,6 +376,7 @@ export default {
       })
         .then(res => {
           this.categories = res.data;
+          this.loading = false;
         })
         .catch(error => {
           console.log(error);

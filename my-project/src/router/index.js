@@ -5,7 +5,6 @@ import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Cart from '@/components/Cart'
 import History from '@/components/OrderHistory'
-import Admin from '@/components/Admin'
 import UsersManager from '@/components/UsersManager'
 import BooksManager from '@/components/BooksManager'
 import UserProfile from '@/components/UserProfile'
@@ -13,7 +12,6 @@ import EditBook from '@/components/EditBook'
 import OrdersManager from '@/components/OrdersManager'
 import Page403 from '@/components/Page403'
 import ChartsReport from '@/components/ChartsReport'
-import Dashboard from '@/components/Dashboard'
 
 Vue.use(Router)
 
@@ -51,11 +49,6 @@ export default new Router({
       component: UserProfile
     },
     {
-      path: '/admin',
-      name: 'Admin',
-      component: Admin
-    },
-    {
       path: '/usersmanager',
       name: 'UsersManager',
       component: UsersManager
@@ -84,11 +77,6 @@ export default new Router({
       path: '/chartsreport',
       name: 'ChartsReport',
       component: ChartsReport
-    },
-    {
-      path: '/dashboard',
-      name: 'Dashboard',
-      component: Dashboard
     },
   ],
 })
