@@ -37,13 +37,13 @@ public class BookController {
     CategoryRepository categoryRepository;
 
     @GetMapping("")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Iterable<Book> readAll() {
         return bookRepository.findAll();
     }
 
     @GetMapping("/searchByCategoryId")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Iterable<Book> getBookByCateId(@RequestParam(value = "searchValue", required = false) String searchValue,
             @RequestParam(value = "cateId", required = false) Integer cateId) {
         if (cateId == null || cateId == 1) {
@@ -55,7 +55,7 @@ public class BookController {
 
     //GET product by id
     @GetMapping("/getById")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Book read(@RequestParam(value = "id", required = false) int id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not found"));
@@ -63,7 +63,7 @@ public class BookController {
 
     //GET product by id /{page}/{searchValue}/{cateId}
     @GetMapping("/getPaging")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Page<Book> getPaging(@RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "searchValue", required = false) String searchValue,
             @RequestParam(value = "cateId", required = false) Integer cateId) {
@@ -81,14 +81,14 @@ public class BookController {
 
     // POST create product
     @PostMapping("")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Book create(@RequestBody Book newBook) {
         return bookRepository.save(newBook);
     }
 
     // PUT edit item
     @PutMapping("/update/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Book update(@RequestBody Book editedBook, @PathVariable int id) {
         return bookRepository.findById(id)
                 .map(book -> {
@@ -108,13 +108,13 @@ public class BookController {
 
 // DELETE remove item
     @DeleteMapping("/delete/")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     void delete(@RequestParam(value = "id", required = false) Integer id) {
         bookRepository.deleteById(id);
     }
 
 //    @GetMapping(value = "/searching")
-//    @CrossOrigin(origins = "http://localhost:4200")
+//    @CrossOrigin(origins = "http://localhost:8080")
 //    Iterable<Book> findAllBookAdmin(@RequestParam(value = "search", required = false) String search) {
 //        return bookRepository.findName(search);
 //    }

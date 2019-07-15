@@ -10,6 +10,10 @@ import UsersManager from '@/components/UsersManager'
 import BooksManager from '@/components/BooksManager'
 import UserProfile from '@/components/UserProfile'
 import EditBook from '@/components/EditBook'
+import OrdersManager from '@/components/OrdersManager'
+import Page403 from '@/components/Page403'
+import ChartsReport from '@/components/ChartsReport'
+import Dashboard from '@/components/Dashboard'
 
 Vue.use(Router)
 
@@ -65,6 +69,26 @@ export default new Router({
       path: '/editbook',
       name: 'EditBook',
       component: EditBook
+    },
+    {
+      path: '/ordersmanager',
+      name: 'OrdersManager',
+      component: OrdersManager
+    },
+    {
+      path: '/page403',
+      name: 'Page403',
+      component: Page403
+    },
+    {
+      path: '/chartsreport',
+      name: 'ChartsReport',
+      component: ChartsReport
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard
     },
   ],
 })

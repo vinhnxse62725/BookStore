@@ -26,7 +26,7 @@ public class CategoryController {
     private CategoryRepository categoryRepository;
 
     @GetMapping("")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Iterable<Category> readAll() {
         return categoryRepository.findAll();
     }

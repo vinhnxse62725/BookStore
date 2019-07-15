@@ -11,8 +11,10 @@ import axios from './plugins/axios.js'
 import VeeValidate from 'vee-validate';
 import VueSweetalert2 from 'vue-sweetalert2';
 import VueCustomScrollbar from "vue-custom-scrollbar";
-import CORS from "cors";
+import "chart.js";
+import "hchs-vue-charts";
 
+Vue.use(window.VueCharts);
 Vue.use(VueCustomScrollbar)
 Vue.use(VueSweetalert2)
 Vue.use(VeeValidate)

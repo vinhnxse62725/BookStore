@@ -40,7 +40,7 @@ public class UserController {
 
     //Get current user
     @RequestMapping(value = "user/me", method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     public ResponseEntity<User> getMe(Principal principal) {
         if (principal != null) {
             String name = principal.getName();
@@ -55,45 +55,45 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     User read(@PathVariable int id) {
         return userService.findUserById(id).get();
     }
 
     @GetMapping("/user/getAll")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     public Iterable<User> getAll() {
         return userService.findAllUser();
     }
 
     @PutMapping("/user/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     User update(@RequestBody User editedUser, @PathVariable int id) {
         return userService.update(id, editedUser);
     }
 
     @PostMapping("/sign-up")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     public ResponseEntity<User> signUp(@RequestBody User user) {
         User result = userService.createUser(user);
         return ResponseEntity.ok().body(result);
     }
 
     @PostMapping("/create")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     public ResponseEntity<User> createNewUser(@RequestBody User user) {
         User result = userService.createUserManage(user);
         return ResponseEntity.ok().body(result);
     }
 
 //    @GetMapping(value = "/admin/user/getAll")
-//    @CrossOrigin(origins = "http://localhost:4200")
+//    @CrossOrigin(origins = "http://localhost:8080")
 //    Iterable<User> findAllCategoryAdmin(@RequestParam(value = "search", required = false) String search) {
 //        Iterable<User> result = userService.getUserByName(search);
 //        return result;
 //    }
     @DeleteMapping("/user/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     void delete(@PathVariable int id) {
         try {
             User user = userService.findUserById(id).get();

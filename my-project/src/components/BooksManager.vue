@@ -192,7 +192,7 @@
           <v-btn fab small color="warning" @click="editBook(props.item.id)">
             <v-icon>edit</v-icon>
           </v-btn>
-          <v-btn fab small color="error" @click="removeBook(props.item.id)">
+          <v-btn fab small color="error" @click="removeBook()">
             <v-icon>clear</v-icon>
           </v-btn>
         </td>
@@ -314,11 +314,11 @@ export default {
         }
       });
     },
-    removeBook(id) {
+    removeBook() {
       this.$axios({
         method: "delete",
         url: "api/book/delete/",
-        data: { id: id }
+        params: { id: 1 }
       })
         .then(res => {
           this.$swal({
@@ -329,11 +329,6 @@ export default {
             timer: 3000,
             allowOutsideClick: false
           }).then(result => {
-            this.$axios.setHeader(
-              "Authorization",
-              localStorage.getItem("access-token"),
-              ["delete"]
-            );
             this.$axios({
               method: "get",
               url: "api/book"

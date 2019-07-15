@@ -46,14 +46,14 @@ public class OrderDetailController {
 
     // GET list items
     @GetMapping("")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Iterable<OrderDetail> readAll() {
         return orderDetailRepository.findAll();
     }
 
     // GET single item
     @GetMapping("/{orderid}")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     List<OrderDetail> read(@PathVariable int orderid) {
 
 //        Optional<Order> optionalOrder = orderRepository.findById(orderid);
@@ -73,14 +73,14 @@ public class OrderDetailController {
 
     // POST create item
     @PostMapping("")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     OrderDetail create(@RequestBody OrderDetail newOrderDetail) {
         return orderDetailRepository.save(newOrderDetail);
     }
 
     // PUT edit item
 //    @PutMapping("/{orderid}/{productid}")
-//    @CrossOrigin(origins = "http://localhost:4200")
+//    @CrossOrigin(origins = "http://localhost:8080")
 //    OrderDetail update(@RequestBody OrderDetail edittedOrderDetail, @PathVariable int orderid, @PathVariable int productid) {
 //        
 //        Optional<Order> optionalOrder = orderRepository.findById(orderid);
@@ -106,7 +106,7 @@ public class OrderDetailController {
 //    }
     // DELETE remove item
     @DeleteMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     void delete(@PathVariable int id) {
 
 //        Optional<Order> optionalOrder = orderRepository.findById(id);

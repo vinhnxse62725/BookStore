@@ -44,11 +44,11 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: "Home", icon: "dashboard", router: "Login" },
+        { title: "Home", icon: "dashboard", router: "Dashboard" },
         { title: "Users", icon: "supervisor_account", router: "UsersManager" },
         { title: "Books", icon: "book", router: "BooksManager" },
-        { title: "Orders", icon: "view_list", router: "Admin" },
-        { title: "Reports", icon: "trending_up", router: "Orders" }
+        { title: "Orders", icon: "view_list", router: "OrdersManager" },
+        { title: "Reports", icon: "trending_up", router: "ChartsReport" }
       ],
       mini: true,
       right: null

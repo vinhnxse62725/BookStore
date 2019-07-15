@@ -45,14 +45,14 @@ public class OrderController {
 
     // GET list orders
     @GetMapping("")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Iterable<Order> readAll() {
         return orderRepository.findAll();
     }
 
     // GET list orders by userID
     @GetMapping("/userid/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Iterable<Order> getOrderByUserID(@PathVariable int id) {
 
         List<Order> list = orderRepository.findAll();
@@ -67,7 +67,7 @@ public class OrderController {
 
     //GET order by id
     @GetMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Order read(@PathVariable int id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not found"));
@@ -75,7 +75,7 @@ public class OrderController {
 
     // POST create order
     @PostMapping("")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Order create(@RequestBody Order newOrder) {
 //            ,@RequestBody Map list) {
 //        orderRepository.save(newOrder);
@@ -91,7 +91,7 @@ public class OrderController {
 
     // PUT edit item
     @PutMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     Order update(@RequestBody Order editedOrder, @PathVariable int id) {
         return orderRepository.findById(id)
                 .map(order -> {
@@ -108,7 +108,7 @@ public class OrderController {
 
     // DELETE remove item
     @DeleteMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     void delete(@PathVariable int id) {
         List<OrderDetail> list = orderDetailRepository.search(id);
         for (OrderDetail orderDetail : list) {
@@ -118,7 +118,7 @@ public class OrderController {
     }
 
     @GetMapping("/oderbyMonth")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     List<Book> getOrderbyMonth() {
         LocalDateTime time = LocalDateTime.now();
         Date fromDate = new Date();
@@ -134,7 +134,7 @@ public class OrderController {
     }
 
     @GetMapping("/oderbyDay")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     List<Book> getOrderbyDay() {
         LocalDateTime time = LocalDateTime.now();
         Date Date = new Date();
