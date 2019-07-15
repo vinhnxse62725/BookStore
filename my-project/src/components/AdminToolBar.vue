@@ -63,6 +63,7 @@ export default {
       this.$store.commit("loginStatus", false);
       this.$store.commit("adminStatus", false);
       this.$store.commit("logoutStatus", true);
+      this.$axios.defaults.headers.common['Authorization'] = "";
       this.$router.push("/");
     }
   }

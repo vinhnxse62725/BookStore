@@ -107,9 +107,9 @@ export default {
       this.$axios({
         method: "get",
         url: "api/orderdetail/" + this.orderID,
-        headers: {
-          authorization: localStorage.getItem("access-token")
-        }
+        // headers: {
+        //   authorization: localStorage.getItem("access-token")
+        // }
       })
         .then(rs => {
           console.log(rs.data);
@@ -127,9 +127,9 @@ export default {
     this.$axios({
       method: "get",
       url: "api/order/userid/" + customerID,
-      headers: {
-        authorization: localStorage.getItem("access-token")
-      }
+      // headers: {
+      //   authorization: localStorage.getItem("access-token")
+      // }
     })
       .then(rs => {
         console.log(rs.data);

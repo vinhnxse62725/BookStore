@@ -9,6 +9,7 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JWTAuthenticationFilter;
 import com.example.demo.security.JWTAuthorizationFilter;
 import com.example.demo.service.UserDetailsServiceImpl;
+import java.util.Arrays;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,7 +22,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
-
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 /**
  *
  * @author edu-boot
@@ -57,12 +59,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         authenticationFilter.setFilterProcessesUrl("/auth/login");
 
         http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
-        http.cors().and().csrf().disable().authorizeRequests()
+        http.csrf().disable().cors().and().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/book/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/book/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/book/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/book/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/book").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/book").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/category/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/order/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/order/**").permitAll()
@@ -76,14 +80,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
                 .antMatchers(HttpMethod.PUT, "/auth/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/auth/**").hasRole("ADMIN")
-                //                .antMatchers(HttpMethod.PUT, "/**").access("hasRole('ADMIN')")
-                //                .antMatchers(HttpMethod.DELETE, "/**").access("hasRole('ADMIN')")
-                //                .antMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
-                //                .antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
-                //                .antMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
-                //                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
-                //                .antMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/auth/user/**", "/api/user/product/cart").permitAll()
                 .antMatchers("/", "/static/**", "/**.{js,json,css}").permitAll()
                 .anyRequest().authenticated()
                 //                .anyRequest().permitAll()
@@ -98,5 +94,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
-
+//    
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(Arrays.asList("*"));
+//        configuration.setAllowedMethods(Arrays.asList("*"));
+//        configuration.setAllowedHeaders(Arrays.asList("*"));
+//        configuration.setAllowCredentials(true);
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 }
