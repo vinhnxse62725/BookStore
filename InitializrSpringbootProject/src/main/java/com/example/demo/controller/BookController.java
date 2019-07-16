@@ -110,7 +110,9 @@ public class BookController {
     @DeleteMapping("/delete/")
     @CrossOrigin(origins = "http://localhost:4200")
     void delete(@RequestParam(value = "id", required = false) Integer id) {
-        bookRepository.deleteById(id);
+        Book dto = bookRepository.findById(id).get();
+        dto.setStatus(false);
+        bookRepository.save(dto);
     }
 
 //    @GetMapping(value = "/searching")
