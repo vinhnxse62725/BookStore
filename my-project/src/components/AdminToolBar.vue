@@ -16,7 +16,10 @@
           <v-toolbar-side-icon @click.stop="mini = !mini"></v-toolbar-side-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title style="font-size:16px;">Bookstore Manager</v-list-tile-title>
+          <v-list-tile-title class="text-uppercase black--text">
+              <span class="font-weight-light" style="font-size: 16px;">Bookstore</span>
+              <span style="font-size: 16px;">Manager</span>
+          </v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile v-for="item in items" :key="item.title" router :to="item.router">
@@ -24,7 +27,7 @@
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          <v-list-tile-title class="font-weight-light">{{ item.title }}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile v-on:click="logout()">
@@ -32,7 +35,7 @@
           <v-icon>logout</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title >Logout</v-list-tile-title>
+          <v-list-tile-title class="font-weight-light">Logout</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -44,7 +47,6 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: "Home", icon: "dashboard", router: "Dashboard" },
         { title: "Users", icon: "supervisor_account", router: "UsersManager" },
         { title: "Books", icon: "book", router: "BooksManager" },
         { title: "Orders", icon: "view_list", router: "OrdersManager" },
@@ -54,7 +56,7 @@ export default {
       right: null
     };
   },
-  methods:{
+  methods: {
     logout() {
       localStorage.removeItem("access-token");
       localStorage.removeItem("profile");

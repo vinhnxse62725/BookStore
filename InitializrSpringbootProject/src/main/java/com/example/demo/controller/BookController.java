@@ -99,6 +99,7 @@ public class BookController {
                     book.setStatus(editedBook.isStatus());
                     book.setDiscount(editedBook.getDiscount());
                     book.setCategory(editedBook.getCategory());
+                    book.setImage(editedBook.getImage());
                     return bookRepository.save(book);
                 })
                 .orElseGet(() -> {
@@ -110,7 +111,11 @@ public class BookController {
     @DeleteMapping("/delete/")
     @CrossOrigin(origins = "http://localhost:8080")
     void delete(@RequestParam(value = "id", required = false) Integer id) {
-        bookRepository.deleteById(id);
+        bookRepository.findById(id)
+                .map(book -> {
+                    book.setStatus(false);
+                    return bookRepository.save(book);
+                });
     }
 
 //    @GetMapping(value = "/searching")

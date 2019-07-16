@@ -37,6 +37,7 @@ public class UserService {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "This account exist!");
         } else {
+            user.setActive(true);
             user.setAdmin(false);
             user.setFullname(user.getFullname());
             user.setEmail((user.getEmail()));

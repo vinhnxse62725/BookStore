@@ -1,10 +1,15 @@
 <template>
   <v-card>
-    <v-dialog persistent fullscreen v-model="loading">
-    <v-progress-linear :indeterminate="true"></v-progress-linear>
-    </v-dialog>
+    <v-progress-linear
+      :indeterminate="true"
+      :active="loading"
+      style="position:absolute; margin-top:0px;"
+    ></v-progress-linear>
     <v-card-title>
-      Users Manager
+      <div class="text-uppercase black--text" id="menulogo">
+      <span class="font-weight-light" style="font-size: 20px;">Books</span>
+      <span style="font-size: 20px;">Manager</span>
+      </div >
       <v-spacer></v-spacer>
       <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
       <v-spacer></v-spacer>
@@ -122,7 +127,7 @@
                         placeholder="Type % discount"
                         v-model="discount"
                         name="discount"
-                        v-validate="'required|between:1,100'"
+                        v-validate="'required|between:0,100'"
                       />
                       <p
                         class="help-block alert alert-danger animated bounceIn"
@@ -195,12 +200,14 @@
           <v-icon v-if="!props.item.status" color="red">clear</v-icon>
         </td>
         <td class="text-xs-center">
-          <v-btn fab small color="warning" @click="editBook(props.item.id)">
+          <v-layout block>
+          <v-btn  fab small color="warning" @click="editBook(props.item.id)">
             <v-icon>edit</v-icon>
           </v-btn>
-          <v-btn fab small color="error" @click="removeBook()">
+          <v-btn  fab small color="error" @click="removeBook(props.item.id)">
             <v-icon>clear</v-icon>
           </v-btn>
+          </v-layout>
         </td>
       </template>
       <template v-slot:no-results>
@@ -315,11 +322,11 @@ export default {
         }
       });
     },
-    removeBook() {
+    removeBook(id) {
       this.$axios({
         method: "DELETE",
         url: "api/book/delete/",
-        params: { id: 1 }
+        params: { id: id }
       })
         .then(res => {
           this.$swal({
@@ -385,6 +392,11 @@ export default {
 };
 </script>
 <style scoped>
+#menulogo{
+    border: solid 2px;
+    border-color: black;
+    padding: 2px;
+}
 .scroll-area {
   position: relative;
   margin: auto;

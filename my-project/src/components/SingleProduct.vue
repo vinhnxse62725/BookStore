@@ -1,6 +1,6 @@
 <template>
-  <v-layout>
-    <v-flex>
+  <v-layout justify-center mb-5>
+    <!-- <v-flex> -->
       <v-badge color="orange" class="tool-tip">
         <template v-slot:badge>
           <span>-{{product.discount}}%</span>
@@ -53,12 +53,12 @@
               >{{priceAfterDiscount}} ₫</span>
             </div>
             <div class="col-md-7">
+              <v-layout>
               <v-btn
-                flat
-                class="editButton"
                 color="success"
                 v-on:click="addToCard(product)"
-              >Mua ngay</v-btn>
+              >Buy Now</v-btn>
+              </v-layout>
             </div>
           </v-card-actions>
           <v-card-actions v-if="!product.status">
@@ -81,12 +81,14 @@
               >{{priceAfterDiscount}} ₫</span>
             </div>
             <div class="col-md-7">
-              <v-btn flat class="editButton" disabled>Hết Hàng</v-btn>
+              <v-layout block>
+              <v-btn flat disabled>Out Stock</v-btn>
+              </v-layout>
             </div>
           </v-card-actions>
         </v-card>
       </v-badge>
-    </v-flex>
+    <!-- </v-flex> -->
   </v-layout>
 </template>
 <script>
@@ -171,12 +173,7 @@ export default {
   padding-left: 15px;
   margin-bottom: 50px;
 }
->>> .v-btn.editButton {
-  min-width: 0px;
-  padding: 5px;
-  /* width: 50px;
-  font-size: 8px; */
-}
+
 .tool-tip {
   position: relative;
   display: inline-block;

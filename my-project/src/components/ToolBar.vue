@@ -12,10 +12,12 @@
       </v-list>
     </v-menu>
 
-    <v-toolbar-title class="text-uppercase black--text">
+    <v-toolbar-title>
       <router-link to="/" exact class="activeRouter">
-        <span class="font-weight-light">Book</span>
-        <span>Store</span>
+        <div class="text-uppercase black--text">
+          <span class="font-weight-light">Book</span>
+          <span>Store</span>
+        </div>
       </router-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
@@ -27,7 +29,7 @@
             placeholder="Nhập tên sách bạn cần tìm?"
             v-model="searchValue"
             v-on:keyup.enter.prevent="search()"
-          >
+          />
           <v-icon class="searchIcon" @click="changeSearchBar()">search</v-icon>
         </form>
       </v-btn>
@@ -172,6 +174,9 @@ export default {
 };
 </script>
 <style scoped>
+.v-menu__content{
+background-color: white !important;
+}
 .activeRouter.v-btn:hover::before {
   background-color: transparent;
 }
@@ -221,8 +226,8 @@ export default {
 >>> .v-badge__badge {
   right: -18px;
 }
-@media screen and (min-width: 960px) {
-  .menu .v-menu__content.theme--light {
+/* @media screen and (min-width: 960px) {
+ >>> .menu .v-menu__content.theme--light {
     min-width: 400px !important;
     top: 64px !important;
     left: 0px !important;
@@ -231,7 +236,7 @@ export default {
   }
 }
 @media screen and (min-width: 648px) and (max-width: 960px) {
-  .menu .v-menu__content.theme--light {
+ >>> .menu .v-menu__content.theme--light {
     min-width: 400px !important;
     top: 49px !important;
     left: 0px !important;
@@ -240,14 +245,14 @@ export default {
   }
 }
 @media screen and (max-width: 647px) {
-  .menu .v-menu__content.theme--light {
+ >>> .menu .v-menu__content.theme--light {
     min-width: 400px !important;
     top: 56px !important;
     left: 0px !important;
     z-index: 999 !important;
     background: white !important;
-  }
-}
+  } 
+}*/
 
 /* search bar*/
 form {

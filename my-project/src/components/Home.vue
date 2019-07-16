@@ -4,10 +4,9 @@
       <br />
       <app-slide></app-slide>
       <v-layout wrap style="margin-top:50px;">
-        <!-- <div class="col-md-3" v-for="n  in 20 " :key="n"> -->
-        <div class="col-md-3" v-for="product in $store.getters.getPaginationProducts">
+        <v-flex lg3 md4 sm6 wrap v-for="product in $store.getters.getPaginationProducts" :key="product.id">
           <single-product :product="product"></single-product>
-        </div>
+        </v-flex>
       </v-layout>
     </v-container>
     <div class="text-xs-center" style="margin-bottom: 50px">

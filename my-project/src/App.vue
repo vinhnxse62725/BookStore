@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app style="background-color: white;">
     <v-content>
       <app-toolbar v-if="!$store.state.isAdmin"></app-toolbar>
       <app-admin-toolbar v-if="$store.state.isAdmin"></app-admin-toolbar>
@@ -26,3 +26,4 @@ export default {
   }
 };
 </script>
+

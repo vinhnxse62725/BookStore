@@ -1,7 +1,15 @@
 <template>
   <v-card>
+    <v-progress-linear
+      :indeterminate="true"
+      :active="loading"
+      style="position:absolute; margin-top:0px;"
+    ></v-progress-linear>
     <v-card-title>
-      Users Manager
+      <div class="text-uppercase black--text" id="menulogo">
+        <span class="font-weight-light" style="font-size: 20px;">Users</span>
+        <span style="font-size: 20px;">Manager</span>
+      </div>
       <v-spacer></v-spacer>
       <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
       <!-- <v-spacer></v-spacer>
@@ -24,12 +32,18 @@
           <v-icon v-if="!props.item.admin" color="grey">person</v-icon>
         </td>
         <td class="text-xs-center">
-          <v-btn fab small color="warning">
-            <v-icon>edit</v-icon>
-          </v-btn>
-          <v-btn fab small color="error" :disabled="props.item.customerID == user.customerID">
-            <v-icon>clear</v-icon>
-          </v-btn>
+          <v-icon v-if="props.item.active" color="green">done</v-icon>
+          <v-icon v-if="!props.item.active" color="red">clear</v-icon>
+        </td>
+        <td class="text-xs-center">
+          <v-layout block>
+            <v-btn fab small color="warning" @click="editUser(props.item.id)">
+              <v-icon>edit</v-icon>
+            </v-btn>
+            <v-btn fab small color="error" :disabled="props.item.customerID == user.customerID" @click="removeUser(props.item.id)">
+              <v-icon>clear</v-icon>
+            </v-btn>
+          </v-layout>
         </td>
       </template>
       <template v-slot:no-results>
@@ -47,6 +61,7 @@
 export default {
   data() {
     return {
+      loading:true,
       user: [],
       search: "",
       headers: [
@@ -67,10 +82,57 @@ export default {
         { text: "Phone", value: "phone", align: "center" },
         { text: "Address", value: "address", align: "center" },
         { text: "isAdmin", value: "admin", align: "center" },
+        { text: "isActive", value: "active", align: "center" },
         { text: "Actions", align: "center", width: "15%" }
       ],
       desserts: []
     };
+  },
+  methods: {
+    editUser(id){
+      localStorage.setItem("editUserID", id);
+      this.$router.push("/edituser");
+    },
+    removeUser(id) {
+      this.$axios({
+        method: "DELETE",
+        url: "auth/user/" + id
+      })
+        .then(res => {
+          this.$swal({
+            title: "Success",
+            text: "User has disable successful !",
+            type: "success",
+            confirmButtonText: "OK",
+            timer: 3000,
+            allowOutsideClick: false
+          }).then(result => {
+            this.loading = true;
+            this.$axios({
+              method: "get",
+              url: "auth/user/getAll"
+            })
+              .then(rs => {
+                // console.table(rs.data);
+                this.desserts = rs.data;
+                this.loading = false;
+              })
+              .catch(error => {
+                console.log(error);
+              });
+            this.$router.push("/usersmanager");
+          });
+        })
+        .catch(er => {
+          console.log(er);
+          this.$swal({
+            title: "Error!",
+            text: "Something Wrong!",
+            type: "error",
+            confirmButtonText: "OK"
+          });
+        });
+    }
   },
   mounted() {
     this.user = JSON.parse(localStorage.getItem("profile"));
@@ -79,8 +141,9 @@ export default {
       url: "auth/user/getAll"
     })
       .then(rs => {
-        // console.table(rs.data);
+        console.table(rs.data);
         this.desserts = rs.data;
+        this.loading = false;
       })
       .catch(error => {
         console.log(error);
@@ -88,3 +151,10 @@ export default {
   }
 };
 </script>
+<style scoped>
+#menulogo {
+  border: solid 2px;
+  border-color: black;
+  padding: 2px;
+}
+</style>

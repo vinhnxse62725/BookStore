@@ -1,7 +1,15 @@
 <template>
   <v-card>
+    <v-progress-linear
+      :indeterminate="true"
+      :active="loading"
+      style="position:absolute; margin-top:0px;"
+    ></v-progress-linear>
     <v-card-title>
-      Users Manager
+      <div class="text-uppercase black--text" id="menulogo">
+        <span class="font-weight-light" style="font-size: 20px;">Orders</span>
+        <span style="font-size: 20px;">Manager</span>
+      </div>
       <v-spacer></v-spacer>
       <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
       <!-- <v-spacer></v-spacer>
@@ -17,15 +25,17 @@
         <td class="text-xs-center">{{ props.item.status }}</td>
         <td class="text-xs-center">{{ props.item.user.customerID }}</td>
         <td class="text-xs-center">
-          <v-btn fab small color="success" v-on:click="showOrderDetail(props.item)">
-            <v-icon>remove_red_eye</v-icon>
-          </v-btn>
-          <v-btn fab small color="warning">
-            <v-icon>edit</v-icon>
-          </v-btn>
-          <v-btn fab small color="error">
-            <v-icon>clear</v-icon>
-          </v-btn>
+          <v-layout block>
+            <v-btn fab small color="success" v-on:click="showOrderDetail(props.item)">
+              <v-icon>remove_red_eye</v-icon>
+            </v-btn>
+            <v-btn fab small color="warning">
+              <v-icon>edit</v-icon>
+            </v-btn>
+            <v-btn fab small color="error">
+              <v-icon>clear</v-icon>
+            </v-btn>
+          </v-layout>
         </td>
       </template>
       <template v-slot:no-results>
@@ -80,6 +90,7 @@
 export default {
   data() {
     return {
+      loading: true,
       search: "",
       headers: [
         { text: "Id", value: "id", align: "center" },
@@ -113,7 +124,7 @@ export default {
     showOrderDetail(order) {
       this.orderID = order.id;
       this.total = order.total;
-      
+
       this.$axios({
         method: "get",
         url: "api/orderdetail/" + order.id
@@ -135,6 +146,7 @@ export default {
       .then(rs => {
         console.table(rs.data);
         this.desserts = rs.data;
+        this.loading = false;
       })
       .catch(error => {
         console.log(error);
@@ -142,3 +154,10 @@ export default {
   }
 };
 </script>
+<style scoped>
+#menulogo {
+  border: solid 2px;
+  border-color: black;
+  padding: 2px;
+}
+</style>
