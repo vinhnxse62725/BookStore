@@ -104,5 +104,12 @@ public class UserController {
         }
 
     }
+    
+    @GetMapping("/user/checkPass")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public boolean checkPass(@RequestParam(value = "id", required = false) int id,
+    @RequestParam(value = "password", required = false) String password) {
+        return userService.checkPassword(id, password);
+    }
 
 }

@@ -75,13 +75,15 @@ export default {
               var token = res.data;
               console.log(token);
               localStorage.setItem("access-token", token);
-              this.$axios.defaults.headers['Authorization'] = token;
+              this.$axios.defaults.headers["Authorization"] = token;
               this.$axios({
                 method: "get",
                 url: "auth/user/me"
               }).then(rs => {
                 console.log(rs);
+                let active = rs.data.active
                 let profile = {
+                  active: rs.data.active,
                   address: rs.data.address,
                   admin: rs.data.admin,
                   age: rs.data.age,
@@ -92,32 +94,45 @@ export default {
                   id: rs.data.id,
                   phone: rs.data.phone
                 };
-                console.log("++++++++++++++++++++++++++++++++++++++++++++");
-                localStorage.setItem("profile", JSON.stringify(profile));
-                localStorage.setItem("user-role", rs.data.admin);
-                let isAdmin = rs.data.admin;
-                localStorage.setItem("sign-in", true);
-                localStorage.removeItem("sign-out");
-                this.$store.commit("loginStatus", true);
-                this.$store.commit("logoutStatus", false);
-                // let something = JSON.parse(localStorage.getItem("profile"));
-                // alert(something.email);
-                this.$emit("logined", true);
-                this.$swal({
-                  title: "Success",
-                  text: "Login successfully !",
-                  type: "success",
-                  confirmButtonText: "OK",
-                  timer: 3000,
-                  allowOutsideClick: false
-                }).then(result => {
-                  if (isAdmin) {
-                    this.$store.commit("adminStatus", true);
-                    this.$router.push("/chartsreport");
-                  } else {
-                    this.$router.push("/");
-                  }
-                });
+                if (active) {
+                  console.log("++++++++++++++++++++++++++++++++++++++++++++");
+                  localStorage.setItem("profile", JSON.stringify(profile));
+                  localStorage.setItem("user-role", rs.data.admin);
+                  let isAdmin = rs.data.admin;
+                  localStorage.setItem("sign-in", true);
+                  localStorage.removeItem("sign-out");
+                  this.$store.commit("loginStatus", true);
+                  this.$store.commit("logoutStatus", false);
+                  // let something = JSON.parse(localStorage.getItem("profile"));
+                  // alert(something.email);
+                  this.$emit("logined", true);
+                  this.$swal({
+                    title: "Success",
+                    text: "Login successfully !",
+                    type: "success",
+                    confirmButtonText: "OK",
+                    timer: 3000,
+                    allowOutsideClick: false
+                  }).then(result => {
+                    if (isAdmin) {
+                      this.$store.commit("adminStatus", true);
+                      this.$router.push("/chartsreport");
+                    } else {
+                      this.$router.push("/");
+                    }
+                  });
+                } else {
+                  this.$swal({
+                    title: "Error",
+                    text: "Account has banned!",
+                    type: "error",
+                    confirmButtonText: "OK",
+                    timer: 3000,
+                    allowOutsideClick: false
+                  }).then(result => {
+                    localStorage.removeItem("access-token");
+                  });
+                }
               });
             })
             .catch(er => {

@@ -227,20 +227,25 @@ export default {
     }
   },
   mounted() {
-    let id = localStorage.getItem("editUserID");
-    localStorage.removeItem("editUserID");
-    this.$axios({
-      method: "get",
-      url: "auth/user/" + id
-    })
-      .then(rs => {
-        console.table(rs.data);
-        this.user = rs.data;
-        this.loading = false;
+    let isAdmin = localStorage.getItem("user-role") === "true" ? true : false;
+    if (!isAdmin) {
+      this.$router.push("/page403");
+    } else {
+      let id = localStorage.getItem("editUserID");
+      localStorage.removeItem("editUserID");
+      this.$axios({
+        method: "get",
+        url: "auth/user/" + id
       })
-      .catch(error => {
-        console.log(error);
-      });
+        .then(rs => {
+          console.table(rs.data);
+          this.user = rs.data;
+          this.loading = false;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 };
 </script>

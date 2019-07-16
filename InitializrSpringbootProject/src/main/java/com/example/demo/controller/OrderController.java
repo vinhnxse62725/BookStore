@@ -155,20 +155,24 @@ public class OrderController {
         return getBookByDate(fromDate, toDate);
     }
 
-    // get top 3 book in day
+// get top 3 book in day
     @GetMapping("/orderbyDay")
     @CrossOrigin(origins = "http://localhost:8080")
     List<BookTop> getOrderbyDay() {
         LocalDateTime time = LocalDateTime.now();
-        Date Date = new Date();
+        Date fromDate = new Date();
+        Date toDate = new Date();
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date = format.parse(time.getYear() + "-" + time.getMonthValue() + "-" + time.getDayOfMonth());
+            fromDate = format.parse(time.getYear() + "-" + time.getMonthValue() + "-" + time.getDayOfMonth());
+            toDate = format.parse(time.getYear() + "-" + time.getMonthValue() + "-" + time.getDayOfMonth());
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        System.out.println(Date);
-        return getBookByDate(Date, Date);
+        toDate.setHours(24);
+        fromDate.setHours(0);
+        System.out.println(fromDate + "           " + toDate);
+        return getBookByDate(fromDate, toDate);
     }
 
     private List<BookTop> getBookByDate(Date fromDate, Date toDate) {

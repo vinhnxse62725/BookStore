@@ -62,30 +62,30 @@
                 v-show="errors.has('url_image')"
               >{{errors.first('url_image')}}</p>
             </div>
-            
+
             <div class="form-group">
-                <label for="category">
-                  <b>Category</b>
-                </label>
-                <select
-                  class="form-control"
-                  id="cate"
-                  v-model="cateId"
-                  name="cate"
-                  v-validate="'required'"
-                >
-                  <option disabled selected>Select Category</option>
-                  <option
-                    v-for="(item, i) in bookCategories"
-                    :key="i"
-                    v-if="item.id!=1"
-                    :value="item.id"
-                  >{{item.categoryName}}</option>
-                </select>
-                <p
-                  class="help-block alert alert-danger animated bounceIn"
-                  v-show="errors.has('cate')"
-                >{{errors.first('cate')}}</p>
+              <label for="category">
+                <b>Category</b>
+              </label>
+              <select
+                class="form-control"
+                id="cate"
+                v-model="cateId"
+                name="cate"
+                v-validate="'required'"
+              >
+                <option disabled selected>Select Category</option>
+                <option
+                  v-for="(item, i) in bookCategories"
+                  :key="i"
+                  v-if="item.id!=1"
+                  :value="item.id"
+                >{{item.categoryName}}</option>
+              </select>
+              <p
+                class="help-block alert alert-danger animated bounceIn"
+                v-show="errors.has('cate')"
+              >{{errors.first('cate')}}</p>
             </div>
           </div>
           <div class="col-md-6">
@@ -159,7 +159,7 @@
             </div>
           </div>
         </div>
-        <v-layout justify-center block >
+        <v-layout justify-center block>
           <v-btn color="warning" @click="cancle()">Close</v-btn>
           <v-btn color="success" @click="updateBook()" :disabled="loading">Update</v-btn>
         </v-layout>
@@ -175,11 +175,11 @@ export default {
       id: null,
       bookDetail: [],
       bookCategories: [],
-      cateId: 1,
+      cateId: 1
     };
   },
   methods: {
-    cancle(){
+    cancle() {
       this.$router.push("/booksmanager");
     },
     updateBook() {
@@ -237,33 +237,38 @@ export default {
     }
   },
   mounted() {
-    let id = localStorage.getItem("editBookID");
-    localStorage.removeItem("editBookID");
-    this.$axios({
-      method: "get",
-      url: "api/book/getById",
-      params: {
-        id: id
-      }
-    })
-      .then(rs => {
-        this.bookDetail = rs.data;
-        this.cateId = rs.data.category.id;
-        this.loading = false;
-      })
-      .catch(error => {
-        console.log(error);
-      }),
+    let isAdmin = localStorage.getItem("user-role") === "true" ? true : false;
+    if (!isAdmin) {
+      this.$router.push("/page403");
+    } else {
+      let id = localStorage.getItem("editBookID");
+      localStorage.removeItem("editBookID");
       this.$axios({
         method: "get",
-        url: "api/category"
+        url: "api/book/getById",
+        params: {
+          id: id
+        }
       })
-        .then(res => {
-          this.bookCategories = res.data;
+        .then(rs => {
+          this.bookDetail = rs.data;
+          this.cateId = rs.data.category.id;
+          this.loading = false;
         })
         .catch(error => {
           console.log(error);
-        });
+        }),
+        this.$axios({
+          method: "get",
+          url: "api/category"
+        })
+          .then(res => {
+            this.bookCategories = res.data;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    }
   }
 };
 </script>

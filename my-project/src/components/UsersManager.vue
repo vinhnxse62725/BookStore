@@ -40,7 +40,13 @@
             <v-btn fab small color="warning" @click="editUser(props.item.id)">
               <v-icon>edit</v-icon>
             </v-btn>
-            <v-btn fab small color="error" :disabled="props.item.customerID == user.customerID" @click="removeUser(props.item.id)">
+            <v-btn
+              fab
+              small
+              color="error"
+              :disabled="props.item.customerID == user.customerID"
+              @click="removeUser(props.item.id)"
+            >
               <v-icon>clear</v-icon>
             </v-btn>
           </v-layout>
@@ -61,7 +67,7 @@
 export default {
   data() {
     return {
-      loading:true,
+      loading: true,
       user: [],
       search: "",
       headers: [
@@ -89,7 +95,7 @@ export default {
     };
   },
   methods: {
-    editUser(id){
+    editUser(id) {
       localStorage.setItem("editUserID", id);
       this.$router.push("/edituser");
     },
@@ -136,18 +142,23 @@ export default {
   },
   mounted() {
     this.user = JSON.parse(localStorage.getItem("profile"));
-    this.$axios({
-      method: "get",
-      url: "auth/user/getAll"
-    })
-      .then(rs => {
-        console.table(rs.data);
-        this.desserts = rs.data;
-        this.loading = false;
+    let isAdmin = localStorage.getItem("user-role") === 'true' ? true : false;
+    if (!isAdmin) {
+      this.$router.push("/page403");
+    } else {
+      this.$axios({
+        method: "get",
+        url: "auth/user/getAll"
       })
-      .catch(error => {
-        console.log(error);
-      });
+        .then(rs => {
+          console.table(rs.data);
+          this.desserts = rs.data;
+          this.loading = false;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 };
 </script>

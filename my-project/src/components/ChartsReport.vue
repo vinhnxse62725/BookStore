@@ -40,52 +40,54 @@ export default {
     };
   },
   mounted() {
-    if (!localStorage.getItem("user-role")) {
+    let isAdmin = localStorage.getItem("user-role") === "true" ? true : false;
+    if (!isAdmin) {
       this.$router.push("/page403");
+    } else {
+      this.$axios({
+        method: "get",
+        url: "api/order/orderbyMonth"
+      })
+        .then(rs => {
+          let result = rs.data;
+          let counts = result.map(book => {
+            return book.count;
+          });
+          this.dataMonth.push({
+            data: counts,
+            backgroundColor: ["#f36e60", "#ffdb3b", "#185190"],
+            hoverBackgroundColor: ["#fbd2cd", "#fef5c9", "#d1e3f7"]
+          });
+          this.labelsMonth = result.map(book => {
+            return book.book.bookName;
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      /*Day top 3 */
+      this.$axios({
+        method: "get",
+        url: "api/order/orderbyDay"
+      })
+        .then(rs => {
+          let result = rs.data;
+          let counts = result.map(book => {
+            return book.count;
+          });
+          this.dataDay.push({
+            data: counts,
+            backgroundColor: ["#f36e60", "#ffdb3b", "#185190"],
+            hoverBackgroundColor: ["#fbd2cd", "#fef5c9", "#d1e3f7"]
+          });
+          this.labelsDay = result.map(book => {
+            return book.book.bookName;
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
-    this.$axios({
-      method: "get",
-      url: "api/order/orderbyMonth"
-    })
-      .then(rs => {
-        let result = rs.data;
-        let counts = result.map(book => {
-          return book.count;
-        });
-        this.dataMonth.push({
-          data: counts,
-          backgroundColor: ["#f36e60", "#ffdb3b", "#185190"],
-          hoverBackgroundColor: ["#fbd2cd", "#fef5c9", "#d1e3f7"]
-        });
-        this.labelsMonth = result.map(book => {
-          return book.book.bookName;
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    /*Day top 3 */
-    this.$axios({
-      method: "get",
-      url: "api/order/orderbyDay"
-    })
-      .then(rs => {
-        let result = rs.data;
-        let counts = result.map(book => {
-          return book.count;
-        });
-        this.dataDay.push({
-          data: counts,
-          backgroundColor: ["#f36e60", "#ffdb3b", "#185190"],
-          hoverBackgroundColor: ["#fbd2cd", "#fef5c9", "#d1e3f7"]
-        });
-        this.labelsDay = result.map(book => {
-          return book.book.bookName;
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }
 };
 </script>

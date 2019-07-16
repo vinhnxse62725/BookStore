@@ -141,8 +141,8 @@ export default {
       this.$axios({
         method: "put",
         url: "api/order/status/" + order.id,
-        data:{
-          status : !order.status
+        data: {
+          status: !order.status
         }
       })
         .then(res => {
@@ -181,18 +181,23 @@ export default {
     }
   },
   mounted() {
-    this.$axios({
-      method: "get",
-      url: "/api/order"
-    })
-      .then(rs => {
-        console.table(rs.data);
-        this.desserts = rs.data;
-        this.loading = false;
+    let isAdmin = localStorage.getItem("user-role") === "true" ? true : false;
+    if (!isAdmin) {
+      this.$router.push("/page403");
+    } else {
+      this.$axios({
+        method: "get",
+        url: "/api/order"
       })
-      .catch(error => {
-        console.log(error);
-      });
+        .then(rs => {
+          console.table(rs.data);
+          this.desserts = rs.data;
+          this.loading = false;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 };
 </script>
