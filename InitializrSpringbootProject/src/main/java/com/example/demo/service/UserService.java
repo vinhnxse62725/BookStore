@@ -70,26 +70,15 @@ public class UserService {
     }
 
     public User update(int id, User user) {
-        return userRepository.findById(id).map(users -> {
-            user.setFullname(user.getFullname());
-            user.setEmail((user.getEmail()));
-            user.setAdmin(user.isAdmin());
-            user.setAge(user.getAge());
-            user.setGender(user.getGender());
-            user.setPhone(user.getPhone());
-            user.setAddress(user.getAddress());
-            if (users.getPassword().equals(user.getPassword())) {
-                user.setPassword(user.getPassword());
-            } else {
-                user.setPassword(encoder.encode(user.getPassword()));
-            }
-            return userRepository.save(user);
-        })
-                .orElseGet(() -> {
-                    user.setId(id);
-                    return userRepository.save(user);
-                });
-
+        User dto = userRepository.findById(id).get();
+        dto.setAddress(user.getAddress());
+        dto.setAge(user.getAge());
+        dto.setEmail(user.getEmail());
+        dto.setFullname(user.getFullname());
+        dto.setGender(user.getGender());
+        dto.setPhone(user.getPhone());
+        
+        return userRepository.save(dto);
     }
 
     public User getUserByUserName(String name) {
