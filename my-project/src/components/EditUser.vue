@@ -176,6 +176,7 @@ export default {
     updateUserInfo() {
       this.$validator.validateAll().then(result => {
         if (result) {
+          console.table(this.user);
           this.$axios
             .put("auth/user/" + this.user.id, {
               email: this.user.email,

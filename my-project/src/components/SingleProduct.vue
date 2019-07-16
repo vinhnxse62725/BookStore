@@ -6,7 +6,7 @@
           <span>-{{product.discount}}%</span>
         </template>
         <v-card>
-          <v-img class="white--text" :aspect-ratio="20/32" :src="product.image">
+          <v-img class="white--text" :aspect-ratio="195/300" :src="product.image" >
             <v-container fill-height fluid>
               <v-layout fill-height>
                 <v-flex xs12 align-end flexbox>

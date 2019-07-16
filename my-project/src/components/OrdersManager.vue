@@ -19,21 +19,21 @@
     </v-card-title>
     <v-data-table :headers="headers" :items="desserts" :search="search">
       <template v-slot:items="props">
-        <td>{{ props.item.id }}</td>
+        <td class="text-xs-center">{{ props.item.id }}</td>
         <td class="text-xs-center">{{ props.item.orderdate }}</td>
         <td class="text-xs-center">{{ props.item.total }}</td>
-        <td class="text-xs-center">{{ props.item.status }}</td>
+        <td class="text-xs-center">
+          <v-icon v-if="props.item.status" color="green">done</v-icon>
+          <v-icon v-if="!props.item.status" color="red">clear</v-icon>
+        </td>
         <td class="text-xs-center">{{ props.item.user.customerID }}</td>
         <td class="text-xs-center">
-          <v-layout block>
-            <v-btn fab small color="success" v-on:click="showOrderDetail(props.item)">
+          <v-layout justify-center block>
+            <v-btn fab small color="success" @click="showOrderDetail(props.item)">
               <v-icon>remove_red_eye</v-icon>
             </v-btn>
-            <v-btn fab small color="warning">
-              <v-icon>edit</v-icon>
-            </v-btn>
-            <v-btn fab small color="error">
-              <v-icon>clear</v-icon>
+            <v-btn fab small color="error" @click="changeStatusOrders(props.item)">
+              <v-icon>cached</v-icon>
             </v-btn>
           </v-layout>
         </td>
@@ -95,8 +95,8 @@ export default {
       headers: [
         { text: "Id", value: "id", align: "center" },
         { text: "Order date", value: "orderdate", align: "center" },
-        { text: "Status", value: "status", align: "center" },
         { text: "Total", value: "total", align: "center" },
+        { text: "Status", value: "status", align: "center" },
         { text: "CustomerID", value: "user", align: "center" },
         { text: "Action", value: "", align: "center" }
       ],
@@ -135,6 +135,48 @@ export default {
         })
         .catch(er => {
           console.log(er);
+        });
+    },
+    changeStatusOrders(order) {
+      this.$axios({
+        method: "put",
+        url: "api/order/status/" + order.id,
+        data:{
+          status : !order.status
+        }
+      })
+        .then(res => {
+          this.$swal({
+            title: "Success",
+            text: "Order has change status successful !",
+            type: "success",
+            confirmButtonText: "OK",
+            timer: 3000,
+            allowOutsideClick: false
+          }).then(result => {
+            this.loading = true;
+            this.$axios({
+              method: "get",
+              url: "api/order"
+            })
+              .then(rs => {
+                this.desserts = rs.data;
+                this.loading = false;
+              })
+              .catch(error => {
+                console.log(error);
+              });
+            this.$router.push("/ordersmanager");
+          });
+        })
+        .catch(er => {
+          console.log(er);
+          this.$swal({
+            title: "Error!",
+            text: "Something Wrong!",
+            type: "error",
+            confirmButtonText: "OK"
+          });
         });
     }
   },

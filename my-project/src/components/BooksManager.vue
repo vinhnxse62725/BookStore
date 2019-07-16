@@ -185,7 +185,7 @@
     </v-card-title>
     <v-data-table :headers="headers" :items="desserts" :search="search">
       <template v-slot:items="props">
-        <td>{{ props.item.id }}</td>
+        <td class="text-xs-center">{{ props.item.id }}</td>
         <td class="text-xs-center">{{ props.item.bookName }}</td>
         <td class="text-xs-center">
           <img :src="props.item.image" style="margin:10px; width: 70px;
@@ -200,7 +200,7 @@
           <v-icon v-if="!props.item.status" color="red">clear</v-icon>
         </td>
         <td class="text-xs-center">
-          <v-layout block>
+          <v-layout justify-center block>
           <v-btn  fab small color="warning" @click="editBook(props.item.id)">
             <v-icon>edit</v-icon>
           </v-btn>

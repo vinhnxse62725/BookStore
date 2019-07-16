@@ -108,6 +108,21 @@ public class OrderController {
                 });
     }
 
+        // PUT edit item
+    @PutMapping("/status/{id}")
+    @CrossOrigin(origins = "http://localhost:8080")
+    Order updateStatus(@RequestBody Order editedOrder, @PathVariable int id) {
+        return orderRepository.findById(id)
+                .map(order -> {
+                    order.setStatus(editedOrder.isStatus());
+                    return orderRepository.save(order);
+                })
+                .orElseGet(() -> {
+                    return orderRepository.save(editedOrder);
+                });
+    }
+
+    
     // DELETE remove item
     @DeleteMapping("/{id}")
     @CrossOrigin(origins = "http://localhost:8080")
