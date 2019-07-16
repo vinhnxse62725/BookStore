@@ -66,6 +66,13 @@ public class UserController {
         return userService.findAllUser();
     }
 
+    @GetMapping("/user/checkPass")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public boolean checkPass(@RequestParam(value = "id", required = false) int id,
+    @RequestParam(value = "password", required = false) String password) {
+        return userService.checkPassword(id, password);
+    }
+    
     @PutMapping("/user/{id}")
     @CrossOrigin(origins = "http://localhost:8080")
     User update(@RequestBody User editedUser, @PathVariable int id) {

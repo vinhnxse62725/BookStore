@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import com.auth0.jwt.algorithms.Algorithm;
+import java.io.UnsupportedEncodingException;
 
 @Service
 public class UserService {
@@ -69,27 +71,16 @@ public class UserService {
     }
 
     public User update(int id, User user) {
-        return userRepository.findById(id).map(users -> {
-            user.setFullname(user.getFullname());
-            user.setEmail((user.getEmail()));
-            user.setAdmin(user.isAdmin());
-            user.setActive(user.isActive());
-            user.setAge(user.getAge());
-            user.setGender(user.getGender());
-            user.setPhone(user.getPhone());
-            user.setAddress(user.getAddress());
-            if (users.getPassword().equals(user.getPassword())) {
-                user.setPassword(user.getPassword());
-            } else {
-                user.setPassword(encoder.encode(user.getPassword()));
-            }
-            return userRepository.save(user);
-        })
-                .orElseGet(() -> {
-                    user.setId(id);
-                    return userRepository.save(user);
-                });
-
+        User dto = userRepository.findById(id).get();
+        dto.setAddress(user.getAddress());
+        dto.setAge(user.getAge());
+        dto.setEmail(user.getEmail());
+        dto.setFullname(user.getFullname());
+        dto.setGender(user.getGender());
+        dto.setPhone(user.getPhone());
+        dto.setAdmin(user.isAdmin());
+        return userRepository.save(dto);
+        
     }
 
     public User getUserByUserName(String name) {
@@ -114,10 +105,5 @@ public class UserService {
 
     public void deleteUser(int id) {
         userRepository.deleteById(id);
-    }
-    
-    public boolean checkPassword(int id, String password) {
-        User dto = userRepository.findById(id).get();
-        return encoder.matches(password, dto.getPassword());
     }
 }
