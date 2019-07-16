@@ -14,17 +14,7 @@
               <label for="username">
                 <b>Username</b>
               </label>
-              <input
-                type="text"
-                placeholder="Type your Username"
-                v-model="user.customerID"
-                name="username"
-                v-validate="'required|min:5|alpha_dash'"
-              />
-              <p
-                class="help-block alert alert-danger animated bounceIn"
-                v-show="errors.has('username')"
-              >{{errors.first('username')}}</p>
+              <input type="text" v-model="user.customerID" name="username" disabled />
             </div>
 
             <div class="form-group">
@@ -156,6 +146,72 @@
       <v-layout justify-center block>
         <v-btn color="warning" type="button" @click="cancle()">Cancel</v-btn>
         <v-btn color="primary" type="button" @click="updateUserInfo()" :disabled="loading">Update</v-btn>
+        <v-dialog v-model="dialog" width="500">
+          <template v-slot:activator="{ on }">
+            <v-btn color="error" type="button" v-on="on">Update</v-btn>
+          </template>
+
+          <v-card>
+            <v-card-title class="headline grey lighten-2" primary-title>Change Password</v-card-title>
+            <v-container>
+              <div class="form-group">
+                <label for="oldpassword">
+                  <b>Old Password</b>
+                </label>
+                <input
+                  type="password"
+                  placeholder="Type your Old password"
+                  v-model="oldpassword"
+                  name="oldpassword"
+                  v-validate="'required|min:6'"
+                  ref="oldpassword"
+                />
+                <p
+                  class="help-block alert alert-danger animated bounceIn"
+                  v-show="errors.has('oldpassword')"
+                >{{errors.first('oldpassword')}}</p>
+              </div>
+              <div class="form-group">
+                <label for="password">
+                  <b>New Password</b>
+                </label>
+                <input
+                  type="password"
+                  placeholder="Type your New Password"
+                  v-model="password"
+                  name="password"
+                  v-validate="'required|min:6'"
+                  ref="password"
+                />
+                <p
+                  class="help-block alert alert-danger animated bounceIn"
+                  v-show="errors.has('password')"
+                >{{errors.first('password')}}</p>
+              </div>
+              <div class="form-group">
+                <label for="password_confirmation">
+                  <b>Confirm New Password</b>
+                </label>
+                <input
+                  type="password"
+                  placeholder="Type your Confirm New Password"
+                  name="password_confirmation"
+                  v-validate="'required|confirmed:password'"
+                  data-vv-as="password"
+                />
+                <p
+                  class="help-block alert alert-danger animated bounceIn"
+                  v-show="errors.has('password_confirmation')"
+                >{{errors.first('password_confirmation')}}</p>
+              </div>
+            </v-container>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="warning" flat @click="dialog = false">Cancle</v-btn>
+              <v-btn color="primary" flat @click="changePassword">Confirm</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-layout>
     </v-container>
   </v-layout>
@@ -164,12 +220,50 @@
 export default {
   data() {
     return {
+      dialog: false,
       loading: true,
       id: null,
-      user: []
+      user: [],
+      oldpassword: "",
+      password: ""
     };
   },
   methods: {
+    changePassword() {
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.$axios({
+            method: "get",
+            url: "auth/user/checkPass",
+            params: {
+              id: this.user.id,
+              password: this.oldpassword
+            }
+          })
+            .then(res => {
+              if (res.data) {
+                this.$axios({
+                  method: "get",
+                  url: "auth/user/checkPass",
+                  params: {
+                    id: this.user.id,
+                    password: this.oldpassword
+                  }
+                });
+              }
+            })
+            .catch(er => {
+              console.log(er);
+              this.$swal({
+                title: "Error!",
+                text: "Something Wrong!",
+                type: "error",
+                confirmButtonText: "OK"
+              });
+            });
+        }
+      });
+    },
     cancle() {
       this.$router.push("/usersmanager");
     },

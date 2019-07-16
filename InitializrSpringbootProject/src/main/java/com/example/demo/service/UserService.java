@@ -106,4 +106,9 @@ public class UserService {
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
+    
+    public boolean checkPassword(int id, String password) {
+        User dto = userRepository.findById(id).get();
+        return encoder.matches(password, dto.getPassword());
+    }
 }

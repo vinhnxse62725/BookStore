@@ -10,6 +10,7 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import java.security.Principal;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,6 +38,8 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+    @Autowired
+    private UserRepository userRepository;
 
     //Get current user
     @RequestMapping(value = "user/me", method = RequestMethod.GET)
@@ -66,17 +69,23 @@ public class UserController {
         return userService.findAllUser();
     }
 
-    @GetMapping("/user/checkPass")
-    @CrossOrigin(origins = "http://localhost:4200")
-    public boolean checkPass(@RequestParam(value = "id", required = false) int id,
-    @RequestParam(value = "password", required = false) String password) {
-        return userService.checkPassword(id, password);
-    }
-    
     @PutMapping("/user/{id}")
     @CrossOrigin(origins = "http://localhost:8080")
     User update(@RequestBody User editedUser, @PathVariable int id) {
         return userService.update(id, editedUser);
+    }
+
+    @PutMapping("/user/active/{id}")
+    @CrossOrigin(origins = "http://localhost:8080")
+    User updateStatus(@RequestBody User editedUser, @PathVariable int id) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setActive(editedUser.isActive());
+                    return userRepository.save(user);
+                })
+                .orElseGet(() -> {
+                    return userRepository.save(editedUser);
+                });
     }
 
     @PostMapping("/sign-up")
@@ -111,11 +120,11 @@ public class UserController {
         }
 
     }
-    
+
     @GetMapping("/user/checkPass")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "http://localhost:8080")
     public boolean checkPass(@RequestParam(value = "id", required = false) int id,
-    @RequestParam(value = "password", required = false) String password) {
+            @RequestParam(value = "password", required = false) String password) {
         return userService.checkPassword(id, password);
     }
 

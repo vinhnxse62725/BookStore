@@ -45,7 +45,7 @@
               small
               color="error"
               :disabled="props.item.customerID == user.customerID"
-              @click="removeUser(props.item.id)"
+              @click="changeActive(props.item)"
             >
               <v-icon>clear</v-icon>
             </v-btn>
@@ -99,15 +99,18 @@ export default {
       localStorage.setItem("editUserID", id);
       this.$router.push("/edituser");
     },
-    removeUser(id) {
+    changeActive(user) {
       this.$axios({
-        method: "DELETE",
-        url: "auth/user/" + id
+        method: "put",
+        url: "auth/user/active/" + user.id,
+        data: {
+          active: !user.active
+        }
       })
         .then(res => {
           this.$swal({
             title: "Success",
-            text: "User has disable successful !",
+            text: "User has changed active successful !",
             type: "success",
             confirmButtonText: "OK",
             timer: 3000,
