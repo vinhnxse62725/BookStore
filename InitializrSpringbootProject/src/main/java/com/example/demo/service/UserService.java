@@ -109,4 +109,9 @@ public class UserService {
         User dto = userRepository.findById(id).get();
         return encoder.matches(password, dto.getPassword());
     }
+    public void changePassword(int id, String password) {
+        User dto = userRepository.findById(id).get();
+        dto.setPassword(encoder.encode(password));
+        userRepository.save(dto);
+    }
 }
