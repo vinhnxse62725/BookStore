@@ -108,7 +108,7 @@ export default {
         url: "api/category"
       })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.categories = res.data;
         })
         .catch(er => {
@@ -153,7 +153,6 @@ export default {
       }
     },
     search() {
-      console.log("lan 1");
       this.$axios({
         method: "get",
         url: "api/book/searchByCategoryId",

@@ -109,7 +109,7 @@ export default {
         url: "api/orderdetail/" + this.orderID,
       })
         .then(rs => {
-          console.log(rs.data);
+          // console.log(rs.data);
           this.orderDetails = rs.data;
         })
         .catch(er => {
@@ -126,7 +126,7 @@ export default {
       url: "api/order/userid/" + customerID,
     })
       .then(rs => {
-        console.log(rs.data);
+        // console.log(rs.data);
         this.orderHistory = rs.data;
       })
       .catch(er => {

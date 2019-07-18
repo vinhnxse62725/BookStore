@@ -27,6 +27,7 @@
                 v-model="user.fullname"
                 name="fullname"
                 v-validate="'required|alpha_spaces'"
+                data-vv-scope="edit"
               />
               <p
                 class="help-block alert alert-danger animated bounceIn"
@@ -43,6 +44,7 @@
                 v-model="user.email"
                 name="email"
                 v-validate="'required|email'"
+                data-vv-scope="edit"
               />
               <p
                 class="help-block alert alert-danger animated bounceIn"
@@ -59,6 +61,7 @@
                 v-model="user.gender"
                 name="gender"
                 v-validate="'required'"
+                data-vv-scope="edit"
               >
                 <option value disabled selected>Select your Gender</option>
                 <option>Male</option>
@@ -82,6 +85,7 @@
                 placeholder="Type your Age"
                 name="age"
                 v-validate="'required|between:1,100'"
+                data-vv-scope="edit"
               />
               <p
                 class="help-block alert alert-danger animated bounceIn"
@@ -98,6 +102,7 @@
                 v-model="user.address"
                 name="address"
                 v-validate="'required'"
+                data-vv-scope="edit"
               />
               <p
                 class="help-block alert alert-danger animated bounceIn"
@@ -114,6 +119,7 @@
                 v-model="user.phone"
                 name="phone"
                 v-validate="'required|digits:10'"
+                data-vv-scope="edit"
               />
               <p
                 class="help-block alert alert-danger animated bounceIn"
@@ -130,6 +136,7 @@
                 v-model="user.admin"
                 name="role"
                 v-validate="'required'"
+                data-vv-scope="edit"
               >
                 <option value disabled selected>Select Role</option>
                 <option value="true">Admin</option>
@@ -148,7 +155,7 @@
         <v-btn color="primary" type="button" @click="updateUserInfo()" :disabled="loading">Update</v-btn>
         <v-dialog v-model="dialog" width="500">
           <template v-slot:activator="{ on }">
-            <v-btn color="error" type="button" v-on="on">Update</v-btn>
+            <v-btn color="error" type="button" v-on="on">Change Password</v-btn>
           </template>
 
           <v-card>
@@ -165,6 +172,7 @@
                   name="oldpassword"
                   v-validate="'required|min:6'"
                   ref="oldpassword"
+                  data-vv-scope="changePassword"
                 />
                 <p
                   class="help-block alert alert-danger animated bounceIn"
@@ -182,6 +190,7 @@
                   name="password"
                   v-validate="'required|min:6'"
                   ref="password"
+                  data-vv-scope="changePassword"
                 />
                 <p
                   class="help-block alert alert-danger animated bounceIn"
@@ -198,6 +207,7 @@
                   name="password_confirmation"
                   v-validate="'required|confirmed:password'"
                   data-vv-as="password"
+                  data-vv-scope="changePassword"
                 />
                 <p
                   class="help-block alert alert-danger animated bounceIn"
@@ -230,7 +240,7 @@ export default {
   },
   methods: {
     changePassword() {
-      this.$validator.validateAll().then(result => {
+      this.$validator.validateAll('changePassword').then(result => {
         if (result) {
           this.$axios({
             method: "get",
@@ -243,12 +253,40 @@ export default {
             .then(res => {
               if (res.data) {
                 this.$axios({
-                  method: "get",
-                  url: "auth/user/checkPass",
+                  method: "put",
+                  url: "auth/user/changePassword",
                   params: {
                     id: this.user.id,
-                    password: this.oldpassword
+                    password: this.password
                   }
+                })
+                  .then(res => {
+                    this.$swal({
+                      title: "Success",
+                      text: "Update Password successful !",
+                      type: "success",
+                      confirmButtonText: "OK",
+                      timer: 3000,
+                      allowOutsideClick: false
+                    }).then(result => {
+                      this.$router.push("/usersmanager");
+                    });
+                  })
+                  .catch(er => {
+                    console.log(er);
+                    this.$swal({
+                      title: "Error!",
+                      text: "Something Wrong!",
+                      type: "error",
+                      confirmButtonText: "OK"
+                    });
+                  });
+              } else {
+                this.$swal({
+                  title: "Error!",
+                  text: "Wrong old password!",
+                  type: "error",
+                  confirmButtonText: "OK"
                 });
               }
             })
@@ -268,9 +306,9 @@ export default {
       this.$router.push("/usersmanager");
     },
     updateUserInfo() {
-      this.$validator.validateAll().then(result => {
+      this.$validator.validateAll('edit').then(result => {
         if (result) {
-          console.table(this.user);
+          // console.table(this.user);
           this.$axios
             .put("auth/user/" + this.user.id, {
               email: this.user.email,
@@ -332,7 +370,7 @@ export default {
         url: "auth/user/" + id
       })
         .then(rs => {
-          console.table(rs.data);
+          // console.table(rs.data);
           this.user = rs.data;
           this.loading = false;
         })

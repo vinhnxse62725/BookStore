@@ -154,7 +154,7 @@ export default {
         url: "auth/user/getAll"
       })
         .then(rs => {
-          console.table(rs.data);
+          // console.table(rs.data);
           this.desserts = rs.data;
           this.loading = false;
         })

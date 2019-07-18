@@ -299,7 +299,7 @@ export default {
                   url: "api/book"
                 })
                   .then(rs => {
-                    console.table(rs.data);
+                    // console.table(rs.data);
                     this.desserts = rs.data;
                   })
                   .catch(error => {
@@ -342,7 +342,7 @@ export default {
               url: "api/book"
             })
               .then(rs => {
-                console.table(rs.data);
+                // console.table(rs.data);
                 this.desserts = rs.data;
               })
               .catch(error => {

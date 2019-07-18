@@ -16,7 +16,7 @@
         <td class="text-md-center">{{ props.item.price }}</td>
         <td class="text-md-center">{{ props.item.discount }} %</td>
         <td class="text-md-center">
-          <div class="cols-md-12">
+            <v-layout justify-center block>
             <v-btn flat fab small v-on:click="removeQuantity(props.item)">
               <v-icon>remove</v-icon>
             </v-btn>
@@ -35,7 +35,7 @@
             <v-btn flat fab small v-on:click="addQuantity(props.item)">
               <v-icon>add</v-icon>
             </v-btn>
-          </div>
+            </v-layout>
         </td>
         <td class="text-md-center">
           <v-btn flat fab small color="red" v-on:click="removeProduct(props.item)">

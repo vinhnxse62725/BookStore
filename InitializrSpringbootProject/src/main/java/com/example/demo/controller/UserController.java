@@ -127,5 +127,12 @@ public class UserController {
             @RequestParam(value = "password", required = false) String password) {
         return userService.checkPassword(id, password);
     }
-
+    @PutMapping("/user/changePassword") 
+    @CrossOrigin(origins = "http://localhost:8080") 
+    void changePassword(@RequestParam(value = "id", required = false) int id,
+            @RequestParam(value = "password", required = false) String password
+            ) { 
+        userService.changePassword(id, password); 
+    } 
+ 
 }

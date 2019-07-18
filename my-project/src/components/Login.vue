@@ -73,14 +73,14 @@ export default {
           })
             .then(res => {
               var token = res.data;
-              console.log(token);
+              // console.log(token);
               localStorage.setItem("access-token", token);
               this.$axios.defaults.headers["Authorization"] = token;
               this.$axios({
                 method: "get",
                 url: "auth/user/me"
               }).then(rs => {
-                console.log(rs);
+                // console.log(rs);
                 let active = rs.data.active
                 let profile = {
                   active: rs.data.active,
@@ -95,7 +95,7 @@ export default {
                   phone: rs.data.phone
                 };
                 if (active) {
-                  console.log("++++++++++++++++++++++++++++++++++++++++++++");
+                  // console.log("++++++++++++++++++++++++++++++++++++++++++++");
                   localStorage.setItem("profile", JSON.stringify(profile));
                   localStorage.setItem("user-role", rs.data.admin);
                   let isAdmin = rs.data.admin;

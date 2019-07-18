@@ -190,7 +190,7 @@ export default {
         url: "/api/order"
       })
         .then(rs => {
-          console.table(rs.data);
+          // console.table(rs.data);
           this.desserts = rs.data;
           this.loading = false;
         })

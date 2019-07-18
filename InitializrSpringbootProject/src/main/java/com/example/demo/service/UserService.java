@@ -80,7 +80,7 @@ public class UserService {
         dto.setPhone(user.getPhone());
         dto.setAdmin(user.isAdmin());
         return userRepository.save(dto);
-        
+
     }
 
     public User getUserByUserName(String name) {
@@ -106,9 +106,15 @@ public class UserService {
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
-    
+
     public boolean checkPassword(int id, String password) {
         User dto = userRepository.findById(id).get();
         return encoder.matches(password, dto.getPassword());
+    }
+
+    public void changePassword(int id, String password) {
+        User dto = userRepository.findById(id).get();
+        dto.setPassword(encoder.encode(password));
+        userRepository.save(dto);
     }
 }
