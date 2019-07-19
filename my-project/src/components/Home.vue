@@ -15,8 +15,6 @@
         :length="$store.state.totalPages"
         :total-visible="7"
         @input="onClickPage"
-        @next="onClickNextPage"
-        @previous="onClickPreviousPage"
         next=":disabled='isInLastPage'"
         previous=":disabled='isInFirstPage'"
       ></v-pagination>
@@ -47,18 +45,18 @@ export default {
     }
   },
   methods: {
-    onClickPreviousPage() {
-      // this.$emit('pagechanged', this.currentPage - 1);
-      this.$store.commit("setPrevSelectedPage", null);
-    },
+    // onClickPreviousPage() {
+    //   // this.$emit('pagechanged', this.currentPage - 1);
+    //   this.$store.commit("setPrevSelectedPage", null);
+    // },
     onClickPage(selectedPage) {
       // this.$emit('pagechanged', currentPage);
       this.$store.commit("setCurrentSelectedPage", selectedPage);
     },
-    onClickNextPage() {
-      // this.$emit('pagechanged', this.currentPage + 1);
-      this.$store.commit("setNextSelectedPage", null);
-    }
+    // onClickNextPage() {
+    //   // this.$emit('pagechanged', this.currentPage + 1);
+    //   this.$store.commit("setNextSelectedPage", null);
+    // }
   }
 };
 </script>

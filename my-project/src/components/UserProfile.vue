@@ -131,7 +131,6 @@
         </div>
       </v-container>
       <v-layout justify-center block>
-        <v-btn color="warning" type="button" @click="cancle()">Cancel</v-btn>
         <v-btn color="primary" type="button" @click="updateUserInfo()" :disabled="loading">Update</v-btn>
         <v-dialog v-model="dialog" width="500">
           <template v-slot:activator="{ on }">
@@ -197,7 +196,7 @@
             </v-container>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="warning" flat @click="dialog = false">Cancle</v-btn>
+              <v-btn color="warning" flat @click="dialog = false">Cancel</v-btn>
               <v-btn color="primary" flat @click="changePassword">Confirm</v-btn>
             </v-card-actions>
           </v-card>
@@ -282,9 +281,6 @@ export default {
             });
         }
       });
-    },
-    cancle() {
-      this.$router.push("/usersmanager");
     },
     updateUserInfo() {
       this.$validator.validateAll('profile').then(result => {
