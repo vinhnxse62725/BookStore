@@ -13,12 +13,12 @@
     </v-menu>
 
     <v-toolbar-title>
-      <router-link to="/" exact class="activeRouter">
+      <a router-link @click="home" exact class="activeRouter">
         <div class="text-uppercase black--text">
           <span class="font-weight-light">Book</span>
           <span>Store</span>
         </div>
-      </router-link>
+      </a>
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items>
@@ -28,6 +28,7 @@
             type="text"
             placeholder="Nhập tên sách bạn cần tìm?"
             v-model="searchValue"
+            id="searchInput"
             v-on:keyup.enter.prevent="search()"
           />
           <v-icon class="searchIcon" @click="changeSearchBar()">search</v-icon>
@@ -132,6 +133,17 @@ export default {
         .catch(er => {
           console.log(er);
         });
+    },
+    home(){
+      this.$axios({
+      method: "get",
+      url: "api/book",
+      }).then(rs => {
+      this.$store.commit("setPaginationData", rs.data);
+      });
+        let searchbar = document.getElementById("searchInput");
+        searchbar.value ="";
+      this.$router.push("/");
     },
     logout() {
       localStorage.removeItem("access-token");

@@ -217,7 +217,7 @@
             </v-container>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="warning" flat @click="dialog = false">Cancle</v-btn>
+              <v-btn color="warning" flat @click="dialog = false">Cancel</v-btn>
               <v-btn color="primary" flat @click="changePassword">Confirm</v-btn>
             </v-card-actions>
           </v-card>
